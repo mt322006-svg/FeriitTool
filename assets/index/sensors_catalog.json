@@ -1,0 +1,119 @@
+{
+  "source": "base.apk / com.axsoft.kip / ActTempSensors",
+  "categories": [
+    {
+      "id": "rtd_platinum_alpha_391",
+      "title": "ТСП · alpha 0.00391",
+      "subtitle": "Платиновые термосопротивления",
+      "type": "RTD",
+      "items": [
+        { "title": "ТСП - 10П", "group": 1, "item_id": 0 },
+        { "title": "ТСП - 50П", "group": 1, "item_id": 1 },
+        { "title": "ТСП - 100П", "group": 1, "item_id": 2 },
+        { "title": "ТСП - 500П", "group": 1, "item_id": 3 },
+        { "title": "ТСП - 1000П", "group": 1, "item_id": 4 }
+      ]
+    },
+    {
+      "id": "rtd_pt_alpha_385",
+      "title": "Pt · alpha 0.00385",
+      "subtitle": "Платиновые датчики Pt",
+      "type": "RTD",
+      "items": [
+        { "title": "ТСП - Pt10", "group": 1, "item_id": 5 },
+        { "title": "ТСП - Pt50", "group": 1, "item_id": 6 },
+        { "title": "ТСП - Pt100", "group": 1, "item_id": 7 },
+        { "title": "ТСП - Pt500", "group": 1, "item_id": 8 },
+        { "title": "ТСП - Pt1000", "group": 1, "item_id": 9 }
+      ]
+    },
+    {
+      "id": "rtd_copper_alpha_428",
+      "title": "ТСМ · alpha 0.00428",
+      "subtitle": "Медные термосопротивления",
+      "type": "RTD",
+      "items": [
+        { "title": "ТСМ - 10М", "group": 1, "item_id": 10 },
+        { "title": "ТСМ - 50М", "group": 1, "item_id": 11 },
+        { "title": "ТСМ - 100М", "group": 1, "item_id": 12 }
+      ]
+    },
+    {
+      "id": "rtd_copper_alpha_426",
+      "title": "ТСМ · alpha 0.00426",
+      "subtitle": "Медные термосопротивления",
+      "type": "RTD",
+      "items": [
+        { "title": "ТСМ - 10М", "group": 1, "item_id": 13 },
+        { "title": "ТСМ - 50М", "group": 1, "item_id": 14 },
+        { "title": "ТСМ - 100М", "group": 1, "item_id": 15 }
+      ]
+    },
+    {
+      "id": "rtd_nickel",
+      "title": "ТСН · alpha 0.00617",
+      "subtitle": "Никелевые термосопротивления",
+      "type": "RTD",
+      "items": [
+        { "title": "ТСН - 50Н", "group": 1, "item_id": 16 },
+        { "title": "ТСН - 100Н", "group": 1, "item_id": 17 },
+        { "title": "ТСН - 500Н", "group": 1, "item_id": 23 },
+        { "title": "ТСН - 1000Н", "group": 1, "item_id": 24 }
+      ]
+    },
+    {
+      "id": "archived_groups",
+      "title": "Архивные",
+      "subtitle": "Исторические группы датчиков",
+      "type": "Archive",
+      "items": [
+        { "title": "ТСП - Гр. 20", "group": 2, "item_id": 18 },
+        { "title": "ТСП - Гр. 21", "group": 2, "item_id": 19 },
+        { "title": "ТСП - Гр. 22", "group": 2, "item_id": 20 },
+        { "title": "ТСМ - Гр. 23", "group": 2, "item_id": 21 },
+        { "title": "ТСМ - Гр. 24", "group": 2, "item_id": 22 }
+      ]
+    },
+    {
+      "id": "thermocouples_intl",
+      "title": "Термопары · ГОСТ / ASTM / IEC",
+      "subtitle": "Международные типы термопар",
+      "type": "Thermocouple",
+      "items": [
+        { "title": "ТПП13 (R)", "group": 3, "item_id": 200 },
+        { "title": "ТПП10 (S)", "group": 3, "item_id": 201 },
+        { "title": "ТПР (B)", "group": 3, "item_id": 202 },
+        { "title": "ТЖК (J)", "group": 3, "item_id": 203 },
+        { "title": "ТМКн (T)", "group": 3, "item_id": 204 },
+        { "title": "ТХКн (E)", "group": 3, "item_id": 205 },
+        { "title": "ТХА (K)", "group": 3, "item_id": 206 },
+        { "title": "ТНН (N)", "group": 3, "item_id": 207 }
+      ]
+    },
+    {
+      "id": "thermocouples_gost",
+      "title": "Термопары · ГОСТ",
+      "subtitle": "Советские и российские типы",
+      "type": "Thermocouple",
+      "items": [
+        { "title": "ТВР-1 (A-1)", "group": 3, "item_id": 208 },
+        { "title": "ТВР-2 (A-2)", "group": 3, "item_id": 209 },
+        { "title": "ТВР-3 (A-3)", "group": 3, "item_id": 210 },
+        { "title": "ТХК (L)", "group": 3, "item_id": 211 },
+        { "title": "ТМК (М)", "group": 3, "item_id": 212 }
+      ]
+    },
+    {
+      "id": "ntc_thermistors",
+      "title": "NTC Термисторы",
+      "subtitle": "Готовые и пользовательские варианты",
+      "type": "NTC",
+      "items": [
+        { "title": "1K B(25/100) 3950", "group": 4, "item_id": 300 },
+        { "title": "10K B(25/100) 3950", "group": 4, "item_id": 301 },
+        { "title": "100K B(25/100) 3950", "group": 4, "item_id": 302 },
+        { "title": "Пользовательский NTC Термистор", "group": 4, "item_id": 500 }
+      ]
+    }
+  ]
+}

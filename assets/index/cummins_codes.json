@@ -1,0 +1,798 @@
+{
+  "schema_version": "1.0.0",
+  "engine": "Cummins QSM11",
+  "codes": [
+    {
+      "fault_code": 111,
+      "spn": 629,
+      "description": "Engine Control Module – Critical internal failure",
+      "lamp": "(Red)",
+      "fmi": 12,
+      "model_flag": "X"
+    },
+    {
+      "fault_code": 115,
+      "spn": 190,
+      "description": "Engine Speed/Position Sensor Circuit - lost both of two signals from the magnetic pickup sensor",
+      "lamp": "(Red)",
+      "fmi": 2,
+      "model_flag": "X"
+    },
+    {
+      "fault_code": 121,
+      "spn": 190,
+      "description": "Engine Speed/Position Sensor Circuit - lost one of two signals from the magnetic pickup sensor",
+      "lamp": "(Yellow)",
+      "fmi": 10,
+      "model_flag": "X"
+    },
+    {
+      "fault_code": 122,
+      "spn": 102,
+      "description": "Intake Manifold Pressure Sensor #1 Circuit - shorted high",
+      "lamp": "(Yellow)",
+      "fmi": 3,
+      "model_flag": "X"
+    },
+    {
+      "fault_code": 123,
+      "spn": 102,
+      "description": "Intake Manifold Pressure Sensor #1 Circuit - shorted low",
+      "lamp": "(Yellow)",
+      "fmi": 4,
+      "model_flag": "X"
+    },
+    {
+      "fault_code": 131,
+      "spn": 91,
+      "description": "Accelerator Pedal Position Sensor Circuit - shorted high",
+      "lamp": "(Red)",
+      "fmi": 3,
+      "model_flag": "X"
+    },
+    {
+      "fault_code": 132,
+      "spn": 91,
+      "description": "Accelerator Pedal Position Sensor Circuit - shorted low",
+      "lamp": "(Red)",
+      "fmi": 4,
+      "model_flag": "X"
+    },
+    {
+      "fault_code": 133,
+      "spn": 974,
+      "description": "Remote Accelerator Pedal Position Sensor Circuit - shorted high",
+      "lamp": "(Red)",
+      "fmi": 3,
+      "model_flag": "X"
+    },
+    {
+      "fault_code": 134,
+      "spn": 974,
+      "description": "Remote Accelerator Pedal Position Sensor Circuit - shorted low",
+      "lamp": "(Red)",
+      "fmi": 4,
+      "model_flag": "X"
+    },
+    {
+      "fault_code": 135,
+      "spn": 100,
+      "description": "Engine Oil Pressure Sensor Circuit - shorted high",
+      "lamp": "(Yellow)",
+      "fmi": 3,
+      "model_flag": "X"
+    },
+    {
+      "fault_code": 141,
+      "spn": 100,
+      "description": "Engine Oil Pressure Sensor Circuit - shorted low",
+      "lamp": "(Yellow)",
+      "fmi": 4,
+      "model_flag": "X"
+    },
+    {
+      "fault_code": 143,
+      "spn": 100,
+      "description": "Engine Oil Pressure Low – Warning",
+      "lamp": "(Yellow)",
+      "fmi": 18,
+      "model_flag": "X"
+    },
+    {
+      "fault_code": 144,
+      "spn": 110,
+      "description": "Engine Coolant Temperature Sensor Circuit - shorted high",
+      "lamp": "(Yellow)",
+      "fmi": 3,
+      "model_flag": "X"
+    },
+    {
+      "fault_code": 145,
+      "spn": 110,
+      "description": "Engine Coolant Temperature Sensor Circuit - shorted low",
+      "lamp": "(Yellow)",
+      "fmi": 4,
+      "model_flag": "X"
+    },
+    {
+      "fault_code": 146,
+      "spn": 110,
+      "description": "Engine Coolant Temperature High – Warning",
+      "lamp": "(Yellow)",
+      "fmi": 16,
+      "model_flag": "X"
+    },
+    {
+      "fault_code": 147,
+      "spn": 91,
+      "description": "Accelerator Pedal Position Sensor Circuit - low frequency",
+      "lamp": "(Red)",
+      "fmi": 8,
+      "model_flag": "X"
+    },
+    {
+      "fault_code": 148,
+      "spn": 91,
+      "description": "Accelerator Pedal Position Sensor Circuit - high frequency",
+      "lamp": "(Red)",
+      "fmi": 8,
+      "model_flag": "X"
+    },
+    {
+      "fault_code": 151,
+      "spn": 110,
+      "description": "Engine Coolant Temperature High – Critical",
+      "lamp": "(Red)",
+      "fmi": 0,
+      "model_flag": "X"
+    },
+    {
+      "fault_code": 153,
+      "spn": 105,
+      "description": "Intake Manifold Temperature Sensor #1 Circuit - shorted high",
+      "lamp": "(Yellow)",
+      "fmi": 3,
+      "model_flag": "X"
+    },
+    {
+      "fault_code": 154,
+      "spn": 105,
+      "description": "Intake Manifold Temperature Sensor #1 Circuit - shorted low",
+      "lamp": "(Yellow)",
+      "fmi": 4,
+      "model_flag": "X"
+    },
+    {
+      "fault_code": 155,
+      "spn": 105,
+      "description": "Intake Manifold Temperature #1 High - Critical",
+      "lamp": "(Red)",
+      "fmi": 0,
+      "model_flag": "X"
+    },
+    {
+      "fault_code": 187,
+      "spn": 620,
+      "description": "Sensor Supply Voltage #2 Circuit - shorted low",
+      "lamp": "(Yellow)",
+      "fmi": 4,
+      "model_flag": "X"
+    },
+    {
+      "fault_code": 212,
+      "spn": 175,
+      "description": "Engine Oil Temperature Sensor Circuit - shorted high",
+      "lamp": "(Yellow)",
+      "fmi": 3,
+      "model_flag": "X"
+    },
+    {
+      "fault_code": 213,
+      "spn": 175,
+      "description": "Engine Oil Temperature Sensor Circuit - shorted low",
+      "lamp": "(Yellow)",
+      "fmi": 4,
+      "model_flag": "X"
+    },
+    {
+      "fault_code": 214,
+      "spn": 175,
+      "description": "Engine Oil Temperature High - Critical",
+      "lamp": "(Red)",
+      "fmi": 0,
+      "model_flag": "X"
+    },
+    {
+      "fault_code": 221,
+      "spn": 108,
+      "description": "Ambient Air Pressure Sensor Circuit – shorted high",
+      "lamp": "(Yellow)",
+      "fmi": 3,
+      "model_flag": "X"
+    },
+    {
+      "fault_code": 222,
+      "spn": 108,
+      "description": "Ambient Air Pressure Sensor Circuit – shorted low",
+      "lamp": "(Yellow)",
+      "fmi": 4,
+      "model_flag": "X"
+    },
+    {
+      "fault_code": 227,
+      "spn": 620,
+      "description": "Sensor Supply Voltage #2 Circuit - shorted high",
+      "lamp": "(Yellow)",
+      "fmi": 3,
+      "model_flag": "X"
+    },
+    {
+      "fault_code": 234,
+      "spn": 190,
+      "description": "Engine Speed High – Critical",
+      "lamp": "(Red)",
+      "fmi": 0,
+      "model_flag": "X"
+    },
+    {
+      "fault_code": 235,
+      "spn": 111,
+      "description": "Engine Coolant Level Low - Critical",
+      "lamp": "(Red)",
+      "fmi": 1,
+      "model_flag": "X"
+    },
+    {
+      "fault_code": 237,
+      "spn": 644,
+      "description": "External Speed Input (Multiple Unit Synchronization) - data incorrect",
+      "lamp": "(Yellow)",
+      "fmi": 2,
+      "model_flag": "X"
+    },
+    {
+      "fault_code": 241,
+      "spn": 84,
+      "description": "Vehicle Speed Sensor Circuit - data incorrect",
+      "lamp": "(Yellow)",
+      "fmi": 2,
+      "model_flag": "X"
+    },
+    {
+      "fault_code": 242,
+      "spn": 84,
+      "description": "Vehicle Speed Sensor Circuit - tampering has been detected",
+      "lamp": "(Yellow)",
+      "fmi": 10,
+      "model_flag": "X"
+    },
+    {
+      "fault_code": 245,
+      "spn": 647,
+      "description": "Fan Clutch Circuit - shorted low",
+      "lamp": "(Yellow)",
+      "fmi": 4,
+      "model_flag": "X"
+    },
+    {
+      "fault_code": 254,
+      "spn": 632,
+      "description": "Fuel Shutoff Valve Circuit - shorted low",
+      "lamp": "(Red)",
+      "fmi": 4,
+      "model_flag": "X"
+    },
+    {
+      "fault_code": 255,
+      "spn": 632,
+      "description": "Fuel Shutoff Valve Circuit - shorted high",
+      "lamp": "(Yellow)",
+      "fmi": 3,
+      "model_flag": "X"
+    },
+    {
+      "fault_code": 285,
+      "spn": 639,
+      "description": "SAE J1939 Multiplexing PGN Timeout Error",
+      "lamp": "(Yellow)",
+      "fmi": 9,
+      "model_flag": "X"
+    },
+    {
+      "fault_code": 286,
+      "spn": 639,
+      "description": "SAE J1939 Multiplexing Configuration Error",
+      "lamp": "(Yellow)",
+      "fmi": 13,
+      "model_flag": "X"
+    },
+    {
+      "fault_code": 287,
+      "spn": 91,
+      "description": "SAE J1939 Multiplexing Accelerator Pedal Sensor System Error",
+      "lamp": "(Red)",
+      "fmi": 19,
+      "model_flag": "X"
+    },
+    {
+      "fault_code": 288,
+      "spn": 974,
+      "description": "SAE J1939 Multiplexing Remote Throttle Data Error",
+      "lamp": "(Red)",
+      "fmi": 19,
+      "model_flag": "X"
+    },
+    {
+      "fault_code": 293,
+      "spn": 1083,
+      "description": "Auxiliary Temperature Sensor Input # 1 Circuit – shorted high",
+      "lamp": "(Yellow)",
+      "fmi": 3,
+      "model_flag": "X"
+    },
+    {
+      "fault_code": 294,
+      "spn": 1083,
+      "description": "Auxiliary Temperature Sensor Input # 1 Circuit – shorted low",
+      "lamp": "(Yellow)",
+      "fmi": 4,
+      "model_flag": "X"
+    },
+    {
+      "fault_code": 295,
+      "spn": 108,
+      "description": "Ambient Air Pressure Sensor Circuit - data incorrect",
+      "lamp": "(Yellow)",
+      "fmi": 2,
+      "model_flag": "X"
+    },
+    {
+      "fault_code": 297,
+      "spn": 1084,
+      "description": "Auxiliary Pressure Sensor Input # 2 Circuit – shorted high",
+      "lamp": "(Yellow)",
+      "fmi": 3,
+      "model_flag": "X"
+    },
+    {
+      "fault_code": 298,
+      "spn": 1084,
+      "description": "Auxiliary Pressure Sensor Input # 2 Circuit – shorted low",
+      "lamp": "(Yellow)",
+      "fmi": 4,
+      "model_flag": "X"
+    },
+    {
+      "fault_code": 299,
+      "spn": 1384,
+      "description": "Engine Shutdown Commanded by J1939",
+      "lamp": "(Yellow)",
+      "fmi": 31,
+      "model_flag": "X"
+    },
+    {
+      "fault_code": 311,
+      "spn": 651,
+      "description": "Injector Solenoid Valve Cylinder #1 Circuit – grounded circuit",
+      "lamp": "(Yellow)",
+      "fmi": 6,
+      "model_flag": "X"
+    },
+    {
+      "fault_code": 312,
+      "spn": 655,
+      "description": "Injector Solenoid Valve Cylinder #5 Circuit – grounded circuit",
+      "lamp": "(Yellow)",
+      "fmi": 6,
+      "model_flag": "X"
+    },
+    {
+      "fault_code": 313,
+      "spn": 653,
+      "description": "Injector Solenoid Valve Cylinder #3 Circuit – grounded circuit",
+      "lamp": "(Yellow)",
+      "fmi": 6,
+      "model_flag": "X"
+    },
+    {
+      "fault_code": 314,
+      "spn": 656,
+      "description": "Injector Solenoid Valve Cylinder #6 Circuit - grounded circuit",
+      "lamp": "(Yellow)",
+      "fmi": 6,
+      "model_flag": "X"
+    },
+    {
+      "fault_code": 315,
+      "spn": 652,
+      "description": "Injector Solenoid Valve Cylinder #2 Circuit – grounded circuit",
+      "lamp": "(Yellow)",
+      "fmi": 6,
+      "model_flag": "X"
+    },
+    {
+      "fault_code": 319,
+      "spn": 251,
+      "description": "Real Time Clock - Power Interrupt",
+      "lamp": "(None)",
+      "fmi": 2,
+      "model_flag": "X"
+    },
+    {
+      "fault_code": 321,
+      "spn": 654,
+      "description": "Injector Solenoid Valve Cylinder #4 Circuit - grounded circuit",
+      "lamp": "(Yellow)",
+      "fmi": 6,
+      "model_flag": "X"
+    },
+    {
+      "fault_code": 322,
+      "spn": 651,
+      "description": "Injector Solenoid Valve Cylinder #1 Circuit - open circuit",
+      "lamp": "(Yellow)",
+      "fmi": 5,
+      "model_flag": "X"
+    },
+    {
+      "fault_code": 323,
+      "spn": 655,
+      "description": "Injector Solenoid Valve Cylinder #5 Circuit – open circuit",
+      "lamp": "(Yellow)",
+      "fmi": 5,
+      "model_flag": "X"
+    },
+    {
+      "fault_code": 324,
+      "spn": 653,
+      "description": "Injector Solenoid Valve Cylinder #3 Circuit – open circuit",
+      "lamp": "(Yellow)",
+      "fmi": 5,
+      "model_flag": "X"
+    },
+    {
+      "fault_code": 325,
+      "spn": 656,
+      "description": "Injector Solenoid Valve Cylinder #6 Circuit – open circuit",
+      "lamp": "(Yellow)",
+      "fmi": 5,
+      "model_flag": "X"
+    },
+    {
+      "fault_code": 331,
+      "spn": 652,
+      "description": "Injector Solenoid Valve Cylinder #2 Circuit – open circuit",
+      "lamp": "(Yellow)",
+      "fmi": 5,
+      "model_flag": "X"
+    },
+    {
+      "fault_code": 332,
+      "spn": 654,
+      "description": "Injector Solenoid Valve Cylinder #4 Circuit – open circuit",
+      "lamp": "(Yellow)",
+      "fmi": 5,
+      "model_flag": "X"
+    },
+    {
+      "fault_code": 341,
+      "spn": 630,
+      "description": "Engine Control Module – data lost",
+      "lamp": "(Yellow)",
+      "fmi": 2,
+      "model_flag": "X"
+    },
+    {
+      "fault_code": 343,
+      "spn": 629,
+      "description": "Engine Control Module - Warning internal hardware failure",
+      "lamp": "(Yellow)",
+      "fmi": 12,
+      "model_flag": "X"
+    },
+    {
+      "fault_code": 346,
+      "spn": 630,
+      "description": "Engine Control Module - Warning Software error",
+      "lamp": "(Yellow)",
+      "fmi": 12,
+      "model_flag": "X"
+    },
+    {
+      "fault_code": 349,
+      "spn": 191,
+      "description": "Transmission Output Shaft (Tailshaft) Speed High – Warning",
+      "lamp": "(Yellow)",
+      "fmi": 16,
+      "model_flag": "X"
+    },
+    {
+      "fault_code": 352,
+      "spn": 1079,
+      "description": "Sensor Supply Voltage #1 Circuit - shorted low",
+      "lamp": "(Yellow)",
+      "fmi": 4,
+      "model_flag": "X"
+    },
+    {
+      "fault_code": 386,
+      "spn": 1079,
+      "description": "Sensor Supply Voltage #1 Circuit - shorted high",
+      "lamp": "(Yellow)",
+      "fmi": 3,
+      "model_flag": "X"
+    },
+    {
+      "fault_code": 387,
+      "spn": 1043,
+      "description": "Accelerator Pedal Position Sensor Supply Voltage Circuit - shorted high",
+      "lamp": "(Yellow)",
+      "fmi": 3,
+      "model_flag": "X"
+    },
+    {
+      "fault_code": 415,
+      "spn": 100,
+      "description": "Engine Oil Pressure Low – Critical",
+      "lamp": "(Red)",
+      "fmi": 1,
+      "model_flag": "X"
+    },
+    {
+      "fault_code": 418,
+      "spn": 97,
+      "description": "Water in Fuel Indicator High – Maintenance",
+      "lamp": "(None)",
+      "fmi": 15,
+      "model_flag": "X"
+    },
+    {
+      "fault_code": 422,
+      "spn": 111,
+      "description": "Engine Coolant Level Sensor Circuit - data incorrect",
+      "lamp": "(Yellow)",
+      "fmi": 2,
+      "model_flag": "X"
+    },
+    {
+      "fault_code": 426,
+      "spn": 639,
+      "description": "SAE J1939 datalink - cannot transmit",
+      "lamp": "(None)",
+      "fmi": 2,
+      "model_flag": "X"
+    },
+    {
+      "fault_code": 428,
+      "spn": 97,
+      "description": "Water in Fuel Sensor Circuit - shorted high",
+      "lamp": "(Yellow)",
+      "fmi": 3,
+      "model_flag": "X"
+    },
+    {
+      "fault_code": 429,
+      "spn": 97,
+      "description": "Water in Fuel Sensor Circuit - shorted low",
+      "lamp": "(Yellow)",
+      "fmi": 4,
+      "model_flag": "X"
+    },
+    {
+      "fault_code": 431,
+      "spn": 558,
+      "description": "Voltage detected simultaneously on both idle validation and off-idle validation switches",
+      "lamp": "(Yellow)",
+      "fmi": 2,
+      "model_flag": "X"
+    },
+    {
+      "fault_code": 432,
+      "spn": 558,
+      "description": "Accelerator Pedal Idle Validation Circuit - out of calibration",
+      "lamp": "(Red)",
+      "fmi": 13,
+      "model_flag": "X"
+    },
+    {
+      "fault_code": 433,
+      "spn": 102,
+      "description": "Intake Manifold Pressure Sensor Circuit - data incorrect",
+      "lamp": "(Yellow)",
+      "fmi": 2,
+      "model_flag": "X"
+    },
+    {
+      "fault_code": 435,
+      "spn": 100,
+      "description": "Engine Oil Pressure Sensor Circuit - data incorrect",
+      "lamp": "(Yellow)",
+      "fmi": 2,
+      "model_flag": "X"
+    },
+    {
+      "fault_code": 441,
+      "spn": 168,
+      "description": "Battery #1 Voltage Low - Warning",
+      "lamp": "(Yellow)",
+      "fmi": 18,
+      "model_flag": "X"
+    },
+    {
+      "fault_code": 442,
+      "spn": 168,
+      "description": "Battery #1 Voltage High - Warning",
+      "lamp": "(Yellow)",
+      "fmi": 16,
+      "model_flag": "X"
+    },
+    {
+      "fault_code": 443,
+      "spn": 1043,
+      "description": "Accelerator Pedal Position Sensor Supply Voltage Circuit - shorted low",
+      "lamp": "(Yellow)",
+      "fmi": 4,
+      "model_flag": "X"
+    },
+    {
+      "fault_code": 489,
+      "spn": 191,
+      "description": "Transmission Output Shaft (Tailshaft) Speed Low – Warning",
+      "lamp": "(Yellow)",
+      "fmi": 18,
+      "model_flag": "X"
+    },
+    {
+      "fault_code": 527,
+      "spn": 702,
+      "description": "Auxiliary Input/Output #2 Circuit - shorted high",
+      "lamp": "(Yellow)",
+      "fmi": 3,
+      "model_flag": "X"
+    },
+    {
+      "fault_code": 528,
+      "spn": 93,
+      "description": "OEM Alternate torque validation switch - data incorrect",
+      "lamp": "(Yellow)",
+      "fmi": 2,
+      "model_flag": "X"
+    },
+    {
+      "fault_code": 529,
+      "spn": 703,
+      "description": "Auxiliary Input/Output #3 Circuit - shorted high",
+      "lamp": "(Yellow)",
+      "fmi": 3,
+      "model_flag": "X"
+    },
+    {
+      "fault_code": 551,
+      "spn": 558,
+      "description": "Accelerator Pedal Idle Validation Circuit - shorted low",
+      "lamp": "(Yellow)",
+      "fmi": 4,
+      "model_flag": "X"
+    },
+    {
+      "fault_code": 581,
+      "spn": 1381,
+      "description": "Fuel Supply Pump Inlet Pressure Sensor Circuit - shorted high",
+      "lamp": "(Yellow)",
+      "fmi": 3,
+      "model_flag": "X"
+    },
+    {
+      "fault_code": 582,
+      "spn": 1381,
+      "description": "Fuel Supply Pump Inlet Pressure Sensor Circuit – shorted low",
+      "lamp": "(Yellow)",
+      "fmi": 4,
+      "model_flag": "X"
+    },
+    {
+      "fault_code": 583,
+      "spn": 1381,
+      "description": "Fuel Supply Pump Inlet Pressure Low - warning level",
+      "lamp": "(Yellow)",
+      "fmi": 18,
+      "model_flag": "X"
+    },
+    {
+      "fault_code": 596,
+      "spn": 167,
+      "description": "Electrical Charging System Voltage High - warning level",
+      "lamp": "(Yellow)",
+      "fmi": 16,
+      "model_flag": "X"
+    },
+    {
+      "fault_code": 597,
+      "spn": 167,
+      "description": "Electrical Charging System Voltage Low - Warning Level",
+      "lamp": "(Yellow)",
+      "fmi": 18,
+      "model_flag": "X"
+    },
+    {
+      "fault_code": 598,
+      "spn": 167,
+      "description": "Electrical Charging System Voltage Low - Critical Level",
+      "lamp": "(Red)",
+      "fmi": 1,
+      "model_flag": "X"
+    },
+    {
+      "fault_code": 611,
+      "spn": 1383,
+      "description": "Engine Hot Shutdown",
+      "lamp": "(None)",
+      "fmi": 31,
+      "model_flag": "X"
+    },
+    {
+      "fault_code": 951,
+      "spn": 166,
+      "description": "Cylinder Power Imbalance between cylinders",
+      "lamp": "(None)",
+      "fmi": 2,
+      "model_flag": "X"
+    },
+    {
+      "fault_code": 1117,
+      "spn": 3597,
+      "description": "Power Supply Lost With Ignition On - Data Erratic, Intermittent, or Incorrect",
+      "lamp": "(None)",
+      "fmi": 2,
+      "model_flag": "X"
+    },
+    {
+      "fault_code": 2182,
+      "spn": 1072,
+      "description": "Engine Brake driver 1 shorted to a high source.",
+      "lamp": "(Yellow)",
+      "fmi": 3,
+      "model_flag": "X"
+    },
+    {
+      "fault_code": 2183,
+      "spn": 1072,
+      "description": "Engine Brake driver 1 shorted to a low source.",
+      "lamp": "(Yellow)",
+      "fmi": 4,
+      "model_flag": "X"
+    },
+    {
+      "fault_code": 2363,
+      "spn": 1073,
+      "description": "Engine Brake driver 2 shorted to a low source",
+      "lamp": "(Yellow)",
+      "fmi": 4,
+      "model_flag": "X"
+    },
+    {
+      "fault_code": 2367,
+      "spn": 1073,
+      "description": "Engine Brake driver 2 shorted to a high source.",
+      "lamp": "(Yellow)",
+      "fmi": 3,
+      "model_flag": "X"
+    },
+    {
+      "fault_code": 2555,
+      "spn": 729,
+      "description": "Intake Air Heater circuit shorted to a high source.",
+      "lamp": "(Yellow)",
+      "fmi": 3,
+      "model_flag": "X"
+    },
+    {
+      "fault_code": 2556,
+      "spn": 729,
+      "description": "Intake Air Heater circuit shorted to a low source.",
+      "lamp": "(Yellow)",
+      "fmi": 4,
+      "model_flag": "X"
+    }
+  ]
+}

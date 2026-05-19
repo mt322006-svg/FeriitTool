@@ -1,5 +1,222 @@
 {
-  "dnk10": {},
-  "dnk14": {},
-  "dnk17": {}
+  "dnk10": {
+    "electrics_no_power": {
+      "asset": "assets/pdfs/dnk10_schema.pdf",
+      "pages": []
+    },
+    "electrics_not_starting": {
+      "asset": "assets/pdfs/dnk10_schema.pdf",
+      "pages": []
+    },
+    "electrics_protection_trips": {
+      "asset": "assets/pdfs/dnk10_schema.pdf",
+      "pages": []
+    },
+    "lighting_headlights_boom_low_not_working": {
+      "asset": "assets/pdfs/dnk10_schema.pdf",
+      "pages": []
+    },
+    "lighting_marker_not_working": {
+      "asset": "assets/pdfs/dnk10_schema.pdf",
+      "pages": []
+    },
+    "lighting_light_flickers_or_drops": {
+      "asset": "assets/pdfs/dnk10_schema.pdf",
+      "pages": []
+    },
+    "hydraulic_no_pressure": {
+      "asset": "assets/pdfs/dnk10_hydraulic_schema.pdf",
+      "pages": []
+    },
+    "hydraulic_slow_movement": {
+      "asset": "assets/pdfs/dnk10_hydraulic_schema.pdf",
+      "pages": []
+    },
+    "hydraulic_valve_issue": {
+      "asset": "assets/pdfs/dnk10_hydraulic_schema.pdf",
+      "pages": []
+    },
+    "can_bus_fault": {
+      "asset": "assets/pdfs/dnk10_schema.pdf",
+      "pages": []
+    },
+    "can_bus_unstable": {
+      "asset": "assets/pdfs/dnk10_schema.pdf",
+      "pages": []
+    },
+    "engine_no_start": {
+      "asset": "assets/pdfs/dnk10_schema.pdf",
+      "pages": []
+    },
+    "engine_stalls": {
+      "asset": "assets/pdfs/dnk10_schema.pdf",
+      "pages": []
+    },
+    "electrics_sensor_layout": {
+      "asset": "assets/pdfs/dnk10_sensor_layout.pdf",
+      "pages": []
+    }
+  },
+  "shs30": {
+    "electrics_no_power": {
+      "asset": "assets/pdfs/shs30_schema.pdf",
+      "pages": []
+    },
+    "electrics_not_starting": {
+      "asset": "assets/pdfs/shs30_schema.pdf",
+      "pages": []
+    },
+    "electrics_protection_trips": {
+      "asset": "assets/pdfs/shs30_schema.pdf",
+      "pages": []
+    },
+    "lighting_headlights_boom_low_not_working": {
+      "asset": "assets/pdfs/shs30_schema.pdf",
+      "pages": []
+    },
+    "lighting_marker_not_working": {
+      "asset": "assets/pdfs/shs30_schema.pdf",
+      "pages": []
+    },
+    "lighting_light_flickers_or_drops": {
+      "asset": "assets/pdfs/shs30_schema.pdf",
+      "pages": []
+    },
+    "hydraulic_no_pressure": {
+      "asset": "assets/pdfs/shs30_hydraulic_schema.pdf",
+      "pages": []
+    },
+    "hydraulic_slow_movement": {
+      "asset": "assets/pdfs/shs30_hydraulic_schema.pdf",
+      "pages": []
+    },
+    "hydraulic_valve_issue": {
+      "asset": "assets/pdfs/shs30_hydraulic_schema.pdf",
+      "pages": []
+    },
+    "can_bus_fault": {
+      "asset": "assets/pdfs/shs30_schema.pdf",
+      "pages": []
+    },
+    "can_bus_unstable": {
+      "asset": "assets/pdfs/shs30_schema.pdf",
+      "pages": []
+    },
+    "engine_no_start": {
+      "asset": "assets/pdfs/shs30_schema.pdf",
+      "pages": []
+    },
+    "engine_stalls": {
+      "asset": "assets/pdfs/shs30_schema.pdf",
+      "pages": []
+    }
+  },
+  "dnk14": {
+    "electrics_no_power": {
+      "asset": "assets/pdfs/dnk14_schema.pdf",
+      "pages": []
+    },
+    "electrics_not_starting": {
+      "asset": "assets/pdfs/dnk14_schema.pdf",
+      "pages": []
+    },
+    "electrics_protection_trips": {
+      "asset": "assets/pdfs/dnk14_schema.pdf",
+      "pages": []
+    },
+    "lighting_headlights_boom_low_not_working": {
+      "asset": "assets/pdfs/dnk14_schema.pdf",
+      "pages": []
+    },
+    "lighting_marker_not_working": {
+      "asset": "assets/pdfs/dnk14_schema.pdf",
+      "pages": []
+    },
+    "lighting_light_flickers_or_drops": {
+      "asset": "assets/pdfs/dnk14_schema.pdf",
+      "pages": []
+    },
+    "hydraulic_no_pressure": {
+      "asset": "assets/pdfs/dnk14_hydraulic_schema.pdf",
+      "pages": []
+    },
+    "hydraulic_slow_movement": {
+      "asset": "assets/pdfs/dnk14_hydraulic_schema.pdf",
+      "pages": []
+    },
+    "hydraulic_valve_issue": {
+      "asset": "assets/pdfs/dnk14_hydraulic_schema.pdf",
+      "pages": []
+    },
+    "can_bus_fault": {
+      "asset": "assets/pdfs/dnk14_schema.pdf",
+      "pages": []
+    },
+    "can_bus_unstable": {
+      "asset": "assets/pdfs/dnk14_schema.pdf",
+      "pages": []
+    },
+    "engine_no_start": {
+      "asset": "assets/pdfs/dnk14_schema.pdf",
+      "pages": []
+    },
+    "engine_stalls": {
+      "asset": "assets/pdfs/dnk14_schema.pdf",
+      "pages": []
+    }
+  },
+  "dnk17": {
+    "electrics_no_power": {
+      "asset": "assets/pdfs/dnk17_schema.pdf",
+      "pages": []
+    },
+    "electrics_not_starting": {
+      "asset": "assets/pdfs/dnk17_schema.pdf",
+      "pages": []
+    },
+    "electrics_protection_trips": {
+      "asset": "assets/pdfs/dnk17_schema.pdf",
+      "pages": []
+    },
+    "lighting_headlights_boom_low_not_working": {
+      "asset": "assets/pdfs/dnk17_schema.pdf",
+      "pages": []
+    },
+    "lighting_marker_not_working": {
+      "asset": "assets/pdfs/dnk17_schema.pdf",
+      "pages": []
+    },
+    "lighting_light_flickers_or_drops": {
+      "asset": "assets/pdfs/dnk17_schema.pdf",
+      "pages": []
+    },
+    "hydraulic_no_pressure": {
+      "asset": "assets/pdfs/dnk17_hydraulic_schema.pdf",
+      "pages": []
+    },
+    "hydraulic_slow_movement": {
+      "asset": "assets/pdfs/dnk17_hydraulic_schema.pdf",
+      "pages": []
+    },
+    "hydraulic_valve_issue": {
+      "asset": "assets/pdfs/dnk17_hydraulic_schema.pdf",
+      "pages": []
+    },
+    "can_bus_fault": {
+      "asset": "assets/pdfs/dnk17_schema.pdf",
+      "pages": []
+    },
+    "can_bus_unstable": {
+      "asset": "assets/pdfs/dnk17_schema.pdf",
+      "pages": []
+    },
+    "engine_no_start": {
+      "asset": "assets/pdfs/dnk17_schema.pdf",
+      "pages": []
+    },
+    "engine_stalls": {
+      "asset": "assets/pdfs/dnk17_schema.pdf",
+      "pages": []
+    }
+  }
 }

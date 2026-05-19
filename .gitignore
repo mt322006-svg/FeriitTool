@@ -43,3 +43,9 @@ app.*.map.json
 /android/app/debug
 /android/app/profile
 /android/app/release
+
+# Local research / extraction artifacts
+/_base_apk_extract/
+/_base_jadx/
+/_pre_apk_sync_backup/
+/_tools/
