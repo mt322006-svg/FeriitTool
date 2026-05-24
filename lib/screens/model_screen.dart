@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import '../data/troubleshooting_repository.dart';
-import 'engine_codes_screen.dart';
+import 'pdf_viewer_screen.dart';
 import 'unit_screen.dart';
 
 class ModelScreen extends StatelessWidget {
@@ -9,6 +9,21 @@ class ModelScreen extends StatelessWidget {
 
   bool get _supportsCumminsCodes => model.id == 'dnk14' || model.id == 'dnk17';
   bool get _isSimpleEngineModel => model.id == 'dnk10';
+
+  String? get _maintenancePdfAsset {
+    switch (model.id) {
+      case 'dnk10':
+        return 'assets/pdfs/dnk10_maintenance_ru.pdf';
+      case 'dnk14':
+        return 'assets/pdfs/dnk14_maintenance_ru.pdf';
+      case 'dnk17':
+        return 'assets/pdfs/dnk17_maintenance_ru.pdf';
+      case 'shs30':
+        return 'assets/pdfs/shs30_maintenance_ru.pdf';
+      default:
+        return null;
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -29,47 +44,50 @@ class ModelScreen extends StatelessWidget {
                       : 'Полевая диагностика и схемы для сервисной работы.',
             ),
             const SizedBox(height: 12),
-            if (_supportsCumminsCodes)
+            if (_maintenancePdfAsset != null) ...[
               _ServiceToolCard(
-                title: 'Коды двигателя Cummins',
+                title: 'Карта ТО и фильтры',
                 subtitle:
-                    'Поиск по fault code, SPN, FMI и описанию для серий ПДМ-14 / ПДМ-17.',
-                buttonLabel: 'Открыть коды',
-                icon: Icons.memory_outlined,
+                    'Открыть сервисную карту ТО по модели, чтобы быстро смотреть обслуживание и фильтры.',
+                buttonLabel: 'Открыть карту ТО',
+                icon: Icons.fact_check_outlined,
                 onTap: () => Navigator.push(
                   context,
                   MaterialPageRoute(
-                    builder: (_) => EngineCodesScreen(modelName: model.displayName),
+                    builder: (_) => PdfViewerScreen(
+                      title: 'Карта ТО: ${model.displayName}',
+                      assetPath: _maintenancePdfAsset!,
+                    ),
                   ),
                 ),
               ),
+            ],
             if (_isSimpleEngineModel)
               const _InfoNote(
                 title: 'По двигателю',
                 text:
                     'ПДМ-10 идёт как более простая машина без такого ECU-сценария, поэтому раздел Cummins-кодов сюда не подтягиваем.',
               ),
-            if (_supportsCumminsCodes || _isSimpleEngineModel)
-              const SizedBox(height: 12),
+            if (_isSimpleEngineModel) const SizedBox(height: 12),
             Text(
               'Узлы и разделы',
               style: Theme.of(context).textTheme.titleLarge,
             ),
             const SizedBox(height: 10),
             ...units.map((u) => Padding(
-              padding: const EdgeInsets.only(bottom: 12),
-              child: _SectionButton(
-                icon: Icons.layers_outlined,
-                title: u,
-                subtitle: 'Открыть симптоматику и проверки по узлу',
-                onPressed: () => Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                    builder: (_) => UnitScreen(unitName: u, model: model),
+                  padding: const EdgeInsets.only(bottom: 12),
+                  child: _SectionButton(
+                    icon: Icons.layers_outlined,
+                    title: u,
+                    subtitle: 'Открыть симптоматику и проверки по узлу',
+                    onPressed: () => Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (_) => UnitScreen(unitName: u, model: model),
+                      ),
+                    ),
                   ),
-                ),
-              ),
-            )),
+                )),
           ],
         ),
       ),
@@ -95,16 +113,37 @@ class _ModelHero extends StatelessWidget {
         gradient: const LinearGradient(
           begin: Alignment.topLeft,
           end: Alignment.bottomRight,
-          colors: [Color(0xFF323844), Color(0xFF1F242B)],
+          colors: [Color(0xFF41281B), Color(0xFF1A2230)],
         ),
-        border: Border.all(color: const Color(0x44FF8A3D)),
+        border: Border.all(color: const Color(0x77FF7A1A)),
+        boxShadow: const [
+          BoxShadow(
+            color: Color(0x22000000),
+            blurRadius: 18,
+            offset: Offset(0, 10),
+          ),
+        ],
       ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Text(title, style: Theme.of(context).textTheme.titleLarge),
+          Text(
+            title,
+            maxLines: 2,
+            overflow: TextOverflow.ellipsis,
+            style: Theme.of(context).textTheme.titleLarge?.copyWith(
+                  color: const Color(0xFFFFD7B8),
+                ),
+          ),
           const SizedBox(height: 8),
-          Text(subtitle, style: Theme.of(context).textTheme.bodyMedium),
+          Text(
+            subtitle,
+            maxLines: 4,
+            overflow: TextOverflow.ellipsis,
+            style: Theme.of(context).textTheme.bodyMedium?.copyWith(
+                  color: const Color(0xFFE0E6ED),
+                ),
+          ),
         ],
       ),
     );
@@ -134,18 +173,43 @@ class _ServiceToolCard extends StatelessWidget {
         color: Theme.of(context).cardColor,
         borderRadius: BorderRadius.circular(16),
         border: Border.all(color: Theme.of(context).dividerColor),
+        boxShadow: const [
+          BoxShadow(
+            color: Color(0x18000000),
+            blurRadius: 12,
+            offset: Offset(0, 6),
+          ),
+        ],
       ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Text(title, style: Theme.of(context).textTheme.titleLarge),
+          Text(
+            title,
+            maxLines: 2,
+            overflow: TextOverflow.ellipsis,
+            style: Theme.of(context).textTheme.titleLarge,
+          ),
           const SizedBox(height: 8),
-          Text(subtitle, style: Theme.of(context).textTheme.bodyMedium),
+          Text(
+            subtitle,
+            maxLines: 4,
+            overflow: TextOverflow.ellipsis,
+            style: Theme.of(context).textTheme.bodyMedium,
+          ),
           const SizedBox(height: 14),
-          ElevatedButton.icon(
-            onPressed: onTap,
-            icon: Icon(icon),
-            label: Text(buttonLabel),
+          SizedBox(
+            width: double.infinity,
+            child: ElevatedButton.icon(
+              onPressed: onTap,
+              icon: Icon(icon),
+              label: Text(
+                buttonLabel,
+                maxLines: 2,
+                textAlign: TextAlign.center,
+                overflow: TextOverflow.fade,
+              ),
+            ),
           ),
         ],
       ),
@@ -170,6 +234,13 @@ class _InfoNote extends StatelessWidget {
         color: Theme.of(context).cardColor,
         borderRadius: BorderRadius.circular(16),
         border: Border.all(color: Theme.of(context).dividerColor),
+        boxShadow: const [
+          BoxShadow(
+            color: Color(0x18000000),
+            blurRadius: 12,
+            offset: Offset(0, 6),
+          ),
+        ],
       ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -198,28 +269,62 @@ class _SectionButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return ElevatedButton(
-      onPressed: onPressed,
-      style: ElevatedButton.styleFrom(
-        minimumSize: const Size.fromHeight(72),
-        padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 14),
-      ),
-      child: Row(
-        children: [
-          Icon(icon),
-          const SizedBox(width: 12),
-          Expanded(
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text(title, style: Theme.of(context).textTheme.bodyLarge),
-                const SizedBox(height: 4),
-                Text(subtitle, style: Theme.of(context).textTheme.bodyMedium),
-              ],
+    return InkWell(
+      onTap: onPressed,
+      borderRadius: BorderRadius.circular(18),
+      child: Ink(
+        padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 16),
+        decoration: BoxDecoration(
+          color: Theme.of(context).cardColor,
+          borderRadius: BorderRadius.circular(18),
+          border: Border.all(color: Theme.of(context).dividerColor),
+          boxShadow: const [
+            BoxShadow(
+              color: Color(0x18000000),
+              blurRadius: 12,
+              offset: Offset(0, 6),
             ),
-          ),
-          const Icon(Icons.chevron_right),
-        ],
+          ],
+        ),
+        child: Row(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Container(
+              width: 42,
+              height: 42,
+              decoration: BoxDecoration(
+                color: const Color(0x14FF8A3D),
+                borderRadius: BorderRadius.circular(12),
+                border: Border.all(color: const Color(0x44FF8A3D)),
+              ),
+              child: Icon(
+                icon,
+                color: Theme.of(context).colorScheme.primary,
+              ),
+            ),
+            const SizedBox(width: 14),
+            Expanded(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    title,
+                    maxLines: 3,
+                    overflow: TextOverflow.fade,
+                    style: Theme.of(context).textTheme.bodyLarge,
+                  ),
+                  const SizedBox(height: 4),
+                  Text(
+                    subtitle,
+                    maxLines: 4,
+                    overflow: TextOverflow.fade,
+                    style: Theme.of(context).textTheme.bodyMedium,
+                  ),
+                ],
+              ),
+            ),
+          ],
+        ),
       ),
     );
   }

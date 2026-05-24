@@ -6,6 +6,6 @@ void main() {
     await tester.pumpWidget(const FerritToolApp());
     await tester.pump();
 
-    expect(find.text('FERRIT TOOL'), findsOneWidget);
+    expect(find.text('Твой Ferrrit'), findsOneWidget);
   });
 }

@@ -78,7 +78,7 @@ class SymptomScreen extends StatelessWidget {
             ],
             if (step.measurements.isNotEmpty) ...[
               const SizedBox(height: 12),
-              const _SectionTitle('Контрольные точки'),
+              const _SectionTitle('Измерения'),
               const SizedBox(height: 8),
               ...step.measurements.map((measurement) => _MeasurementCard(
                     measurement: measurement,
@@ -96,37 +96,27 @@ class SymptomScreen extends StatelessWidget {
               const SizedBox(height: 8),
               ...step.notes.map((note) => _ImportantCard(text: note)),
             ],
-            if (step.todo.isNotEmpty) ...[
-              const SizedBox(height: 12),
-              _TodoCard(text: step.todo),
-            ],
             const SizedBox(height: 16),
-            ElevatedButton.icon(
-              onPressed: step.pdfAsset.isEmpty
+            _PdfLaunchCard(
+              isEnabled: step.pdfAsset.isNotEmpty,
+              pages: step.pages,
+              onTap: step.pdfAsset.isEmpty
                   ? null
                   : () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                    builder: (_) => PdfViewerScreen(
-                      title: 'Схема: $modelName',
-                      assetPath: step.pdfAsset,
-                      initialPage: step.pages.isNotEmpty ? step.pages.first : 1,
-                      quickPages: step.pages,
-                    ),
-                  ),
-                );
-              },
-              icon: const Icon(Icons.picture_as_pdf_outlined),
-              label: const Text('Открыть схему'),
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (_) => PdfViewerScreen(
+                            title: 'Схема: $modelName',
+                            assetPath: step.pdfAsset,
+                            initialPage:
+                                step.pages.isNotEmpty ? step.pages.first : 1,
+                            quickPages: step.pages,
+                          ),
+                        ),
+                      );
+                    },
             ),
-            if (step.pages.isNotEmpty) ...[
-              const SizedBox(height: 10),
-              Text(
-                'Страницы: ${step.pages.join(', ')}',
-                style: Theme.of(context).textTheme.bodyMedium,
-              ),
-            ],
           ],
         ),
       ),
@@ -144,17 +134,39 @@ class _TopInfo extends StatelessWidget {
   Widget build(BuildContext context) {
     final t = Theme.of(context).textTheme;
     return Container(
-      padding: const EdgeInsets.all(14),
+      padding: const EdgeInsets.all(16),
       decoration: BoxDecoration(
-        color: Theme.of(context).cardColor,
-        borderRadius: BorderRadius.circular(14),
+        gradient: const LinearGradient(
+          begin: Alignment.topLeft,
+          end: Alignment.bottomRight,
+          colors: [Color(0xFF41281B), Color(0xFF1A2230)],
+        ),
+        borderRadius: BorderRadius.circular(18),
+        border: Border.all(color: const Color(0x77FF7A1A)),
+        boxShadow: const [
+          BoxShadow(
+            color: Color(0x22000000),
+            blurRadius: 18,
+            offset: Offset(0, 10),
+          ),
+        ],
       ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Text(modelName, style: t.titleLarge),
+          Text(
+            modelName,
+            maxLines: 2,
+            overflow: TextOverflow.ellipsis,
+            style: t.titleLarge?.copyWith(color: const Color(0xFFFFD7B8)),
+          ),
           const SizedBox(height: 6),
-          Text('Узел: $unitName', style: t.bodyMedium),
+          Text(
+            'Узел: $unitName',
+            maxLines: 2,
+            overflow: TextOverflow.ellipsis,
+            style: t.bodyMedium?.copyWith(color: const Color(0xFFE0E6ED)),
+          ),
         ],
       ),
     );
@@ -168,6 +180,7 @@ class _SectionTitle extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Row(
+      crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Container(
           width: 4,
@@ -178,7 +191,14 @@ class _SectionTitle extends StatelessWidget {
           ),
         ),
         const SizedBox(width: 10),
-        Text(text, style: Theme.of(context).textTheme.bodyLarge),
+        Expanded(
+          child: Text(
+            text,
+            maxLines: 2,
+            overflow: TextOverflow.ellipsis,
+            style: Theme.of(context).textTheme.bodyLarge,
+          ),
+        ),
       ],
     );
   }
@@ -196,6 +216,7 @@ class _CheckRow extends StatelessWidget {
       decoration: BoxDecoration(
         color: Theme.of(context).cardColor,
         borderRadius: BorderRadius.circular(12),
+        border: Border.all(color: Theme.of(context).dividerColor),
       ),
       child: Row(
         children: [
@@ -309,6 +330,7 @@ class _RecommendationRow extends StatelessWidget {
       decoration: BoxDecoration(
         color: Theme.of(context).cardColor,
         borderRadius: BorderRadius.circular(12),
+        border: Border.all(color: Theme.of(context).dividerColor),
       ),
       child: Row(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -369,6 +391,7 @@ class _TextBlock extends StatelessWidget {
       decoration: BoxDecoration(
         color: Theme.of(context).cardColor,
         borderRadius: BorderRadius.circular(12),
+        border: Border.all(color: Theme.of(context).dividerColor),
       ),
       child: Text(text),
     );
@@ -389,6 +412,7 @@ class _MeasurementCard extends StatelessWidget {
       decoration: BoxDecoration(
         color: Theme.of(context).cardColor,
         borderRadius: BorderRadius.circular(12),
+        border: Border.all(color: Theme.of(context).dividerColor),
       ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -406,23 +430,97 @@ class _MeasurementCard extends StatelessWidget {
   }
 }
 
-class _TodoCard extends StatelessWidget {
-  final String text;
+class _PdfLaunchCard extends StatelessWidget {
+  final bool isEnabled;
+  final List<int> pages;
+  final VoidCallback? onTap;
 
-  const _TodoCard({required this.text});
+  const _PdfLaunchCard({
+    required this.isEnabled,
+    required this.pages,
+    required this.onTap,
+  });
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      padding: const EdgeInsets.all(12),
-      decoration: BoxDecoration(
-        color: Theme.of(context).cardColor,
-        borderRadius: BorderRadius.circular(12),
-        border: Border.all(color: Theme.of(context).dividerColor),
-      ),
-      child: Text(
-        text,
-        style: Theme.of(context).textTheme.bodyMedium,
+    return InkWell(
+      onTap: onTap,
+      borderRadius: BorderRadius.circular(18),
+      child: Ink(
+        padding: const EdgeInsets.all(16),
+        decoration: BoxDecoration(
+          gradient: isEnabled
+              ? const LinearGradient(
+                  begin: Alignment.topLeft,
+                  end: Alignment.bottomRight,
+                  colors: [Color(0xFF4C2B17), Color(0xFF2C313A)],
+                )
+              : null,
+          color: isEnabled ? null : Theme.of(context).cardColor,
+          borderRadius: BorderRadius.circular(18),
+          border: Border.all(
+            color: isEnabled
+                ? const Color(0x88FF7A1A)
+                : Theme.of(context).dividerColor,
+          ),
+          boxShadow: const [
+            BoxShadow(
+              color: Color(0x22000000),
+              blurRadius: 14,
+              offset: Offset(0, 8),
+            ),
+          ],
+        ),
+        child: Row(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Container(
+              width: 52,
+              height: 52,
+              decoration: BoxDecoration(
+                color: const Color(0x14FF8A3D),
+                borderRadius: BorderRadius.circular(14),
+                border: Border.all(color: const Color(0x66FF8A3D)),
+              ),
+              child: Icon(
+                Icons.picture_as_pdf_outlined,
+                color: Theme.of(context).colorScheme.primary,
+              ),
+            ),
+            const SizedBox(width: 14),
+            Expanded(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    isEnabled ? 'Открыть схему' : 'Схема пока не привязана',
+                    maxLines: 2,
+                    overflow: TextOverflow.ellipsis,
+                    style: Theme.of(context).textTheme.bodyLarge,
+                  ),
+                  const SizedBox(height: 4),
+                  Text(
+                    isEnabled
+                        ? pages.isEmpty
+                            ? 'Полноэкранный просмотр PDF, поиск по тексту и удобное листание.'
+                            : 'Быстрый переход на страницы: ${pages.join(', ')}'
+                        : 'Для этого сценария ещё не добавлен PDF-файл или точная привязка.',
+                    maxLines: 4,
+                    overflow: TextOverflow.ellipsis,
+                    style: Theme.of(context).textTheme.bodyMedium,
+                  ),
+                ],
+              ),
+            ),
+            const SizedBox(width: 10),
+            Icon(
+              Icons.chevron_right,
+              color: isEnabled
+                  ? Theme.of(context).colorScheme.primary
+                  : Theme.of(context).disabledColor,
+            ),
+          ],
+        ),
       ),
     );
   }

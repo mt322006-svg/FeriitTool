@@ -8,6 +8,7 @@ class CumminsCode {
     required this.spn,
     required this.fmi,
     required this.description,
+    required this.descriptionRu,
     required this.lamp,
     required this.modelFlag,
   });
@@ -16,6 +17,7 @@ class CumminsCode {
   final int spn;
   final int fmi;
   final String description;
+  final String descriptionRu;
   final String lamp;
   final String modelFlag;
 
@@ -32,6 +34,7 @@ class CumminsCode {
       spn: parseInt(json['spn']),
       fmi: parseInt(json['fmi']),
       description: (json['description'] ?? '') as String,
+      descriptionRu: (json['description_ru'] ?? json['description'] ?? '') as String,
       lamp: (json['lamp'] ?? '') as String,
       modelFlag: (json['model_flag'] ?? '') as String,
     );
@@ -46,6 +49,7 @@ class CumminsCode {
     return faultCode.toString().contains(normalized) ||
         spn.toString().contains(normalized) ||
         fmi.toString().contains(normalized) ||
+        descriptionRu.toLowerCase().contains(normalized) ||
         description.toLowerCase().contains(normalized) ||
         lamp.toLowerCase().contains(normalized);
   }

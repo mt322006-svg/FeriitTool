@@ -1,5 +1,12 @@
+import 'dart:async';
+import 'dart:typed_data';
+
 import 'package:flutter/material.dart';
 import 'package:syncfusion_flutter_pdfviewer/pdfviewer.dart';
+import 'package:wakelock_plus/wakelock_plus.dart';
+
+import '../data/app_settings_store.dart';
+import '../data/pdf_asset_cache.dart';
 
 class PdfViewerScreen extends StatefulWidget {
   final String title;
@@ -23,27 +30,34 @@ class _PdfViewerScreenState extends State<PdfViewerScreen> {
   static const double _minZoom = 1.0;
   static const double _maxZoom = 30.0;
   static const double _zoomStep = 1.25;
+  static const double _pageSpacing = 0.0;
 
   late final PdfViewerController _controller;
   late final TextEditingController _searchTextController;
+  late final Future<_PdfViewerBoot> _bootFuture;
 
   PdfTextSearchResult? _searchResult;
+  Timer? _saveDebounce;
   bool _isSearchOpen = false;
   int _pagesCount = 0;
   int _currentPage = 1;
   double _currentZoom = _minZoom;
   bool _noMatchesToastShown = false;
+  bool _restoredZoomApplied = false;
 
   @override
   void initState() {
     super.initState();
-    _currentPage = widget.initialPage;
     _controller = PdfViewerController();
     _searchTextController = TextEditingController();
+    _bootFuture = _prepareBoot();
   }
 
   @override
   void dispose() {
+    _saveDebounce?.cancel();
+    unawaited(_persistViewState());
+    unawaited(WakelockPlus.disable());
     _detachSearchListener();
     _searchTextController.dispose();
     _controller.dispose();
@@ -85,117 +99,193 @@ class _PdfViewerScreenState extends State<PdfViewerScreen> {
           ),
         ],
       ),
-      body: Column(
-        children: [
-          if (_isSearchOpen)
-            Padding(
-              padding: const EdgeInsets.fromLTRB(12, 10, 12, 8),
-              child: _SearchToolbar(
-                controller: _searchTextController,
-                currentIndex: searchResult?.currentInstanceIndex ?? 0,
-                totalCount: searchResult?.totalInstanceCount ?? 0,
-                isBusy: (searchResult?.hasResult ?? false) &&
-                    !(searchResult?.isSearchCompleted ?? false),
-                hasQuery: _searchTextController.text.trim().isNotEmpty,
-                onSubmitted: _performSearch,
-                onClear: _clearSearch,
-                onPrevious: () => _searchResult?.previousInstance(),
-                onNext: () => _searchResult?.nextInstance(),
+      body: FutureBuilder<_PdfViewerBoot>(
+        future: _bootFuture,
+        builder: (context, snapshot) {
+          if (snapshot.hasError) {
+            return Center(
+              child: Text(
+                'Не удалось открыть PDF: ${snapshot.error}',
+                style: Theme.of(context).textTheme.bodyLarge,
+                textAlign: TextAlign.center,
               ),
-            ),
-          Expanded(
-            child: Stack(
-              children: [
-                Positioned.fill(
-                  child: SfPdfViewer.asset(
-                    widget.assetPath,
-                    controller: _controller,
-                    pageLayoutMode: PdfPageLayoutMode.single,
-                    scrollDirection: PdfScrollDirection.horizontal,
-                    initialPageNumber: widget.initialPage,
-                    initialZoomLevel: 1.0,
-                    maxZoomLevel: _maxZoom,
-                    enableDoubleTapZooming: true,
-                    canShowPaginationDialog: false,
-                    canShowScrollHead: false,
-                    canShowScrollStatus: false,
-                    currentSearchTextHighlightColor: const Color(0xFFFF5A1F),
-                    otherSearchTextHighlightColor: const Color(0xFFFFF176),
-                    onDocumentLoaded: (details) {
-                      if (!mounted) {
-                        return;
-                      }
-                      setState(() {
-                        _pagesCount = details.document.pages.count;
-                        _currentPage = _controller.pageNumber;
-                      });
-                    },
-                    onDocumentLoadFailed: (details) {
-                      _showDocumentError('${details.error}: ${details.description}');
-                    },
-                    onPageChanged: (details) {
-                      if (!mounted) {
-                        return;
-                      }
-                      setState(() {
-                        _currentPage = details.newPageNumber;
-                      });
-                    },
-                    onZoomLevelChanged: (details) {
-                      if (!mounted) {
-                        return;
-                      }
-                      setState(() {
-                        _currentZoom = details.newZoomLevel.clamp(_minZoom, _maxZoom);
-                      });
-                    },
+            );
+          }
+          if (!snapshot.hasData) {
+            return const Center(child: CircularProgressIndicator());
+          }
+
+          final boot = snapshot.data!;
+
+          return Column(
+            children: [
+              if (_isSearchOpen)
+                Padding(
+                  padding: const EdgeInsets.fromLTRB(12, 10, 12, 8),
+                  child: _SearchToolbar(
+                    controller: _searchTextController,
+                    currentIndex: searchResult?.currentInstanceIndex ?? 0,
+                    totalCount: searchResult?.totalInstanceCount ?? 0,
+                    isBusy: (searchResult?.hasResult ?? false) &&
+                        !(searchResult?.isSearchCompleted ?? false),
+                    hasQuery: _searchTextController.text.trim().isNotEmpty,
+                    onSubmitted: _performSearch,
+                    onClear: _clearSearch,
+                    onPrevious: () => _searchResult?.previousInstance(),
+                    onNext: () => _searchResult?.nextInstance(),
                   ),
                 ),
-                if (widget.quickPages.isNotEmpty)
-                  Positioned(
-                    left: 12,
-                    top: 12,
-                    child: _QuickPagesBar(
-                      pages: widget.quickPages,
-                      currentPage: _currentPage,
-                      onTapPage: _goToPage,
+              Expanded(
+                child: Stack(
+                  children: [
+                    Positioned.fill(
+                      child: SfPdfViewer.memory(
+                        boot.bytes,
+                        controller: _controller,
+                        pageSpacing: _pageSpacing,
+                        pageLayoutMode: PdfPageLayoutMode.single,
+                        scrollDirection: PdfScrollDirection.horizontal,
+                        interactionMode: PdfInteractionMode.pan,
+                        initialPageNumber: boot.initialPage,
+                        initialZoomLevel: 1.0,
+                        maxZoomLevel: _maxZoom,
+                        enableDoubleTapZooming: true,
+                        enableTextSelection: false,
+                        enableDocumentLinkAnnotation: false,
+                        canShowPaginationDialog: false,
+                        canShowScrollHead: false,
+                        canShowScrollStatus: false,
+                        canShowHyperlinkDialog: false,
+                        enableHyperlinkNavigation: false,
+                        currentSearchTextHighlightColor:
+                            const Color(0xFFFF5A1F),
+                        otherSearchTextHighlightColor:
+                            const Color(0xFFFFF176),
+                        onDocumentLoaded: (details) {
+                          if (!mounted) {
+                            return;
+                          }
+                          if (!_restoredZoomApplied && boot.initialZoom > 1.0) {
+                            _restoredZoomApplied = true;
+                            WidgetsBinding.instance.addPostFrameCallback((_) {
+                              if (!mounted) {
+                                return;
+                              }
+                              _controller.zoomLevel = boot.initialZoom.clamp(
+                                _minZoom,
+                                _maxZoom,
+                              );
+                            });
+                          }
+                          setState(() {
+                            _pagesCount = details.document.pages.count;
+                            _currentPage = _controller.pageNumber;
+                            _currentZoom = boot.initialZoom.clamp(
+                              _minZoom,
+                              _maxZoom,
+                            );
+                          });
+                        },
+                        onDocumentLoadFailed: (details) {
+                          _showDocumentError(
+                            '${details.error}: ${details.description}',
+                          );
+                        },
+                        onPageChanged: (details) {
+                          if (!mounted) {
+                            return;
+                          }
+                          setState(() {
+                            _currentPage = details.newPageNumber;
+                          });
+                          _schedulePersistViewState();
+                        },
+                        onZoomLevelChanged: (details) {
+                          if (!mounted) {
+                            return;
+                          }
+                          setState(() {
+                            _currentZoom = details.newZoomLevel.clamp(
+                              _minZoom,
+                              _maxZoom,
+                            );
+                          });
+                          _schedulePersistViewState();
+                        },
+                      ),
                     ),
-                  ),
-                if (_isSearchOpen && _searchTextController.text.trim().isNotEmpty)
-                  Positioned(
-                    right: 12,
-                    top: 12,
-                    child: _SearchBadge(
-                      currentIndex: searchResult?.currentInstanceIndex ?? 0,
-                      totalCount: searchResult?.totalInstanceCount ?? 0,
-                      isBusy: (searchResult?.hasResult ?? false) &&
-                          !(searchResult?.isSearchCompleted ?? false),
-                    ),
-                  )
-                else
-                  Positioned(
-                    top: 12,
-                    right: 12,
-                    child: _ModeBadge(
-                      label: '${(_currentZoom * 100).round()}%',
-                    ),
-                  ),
-                if (_pagesCount > 1)
-                  Positioned(
-                    left: 12,
-                    right: 12,
-                    bottom: 12,
-                    child: _PageHud(
-                      current: _currentPage,
-                      total: _pagesCount,
-                      onTap: () => _openPageNavigator(context),
-                    ),
-                  ),
-              ],
-            ),
-          ),
-        ],
+                    if (widget.quickPages.isNotEmpty)
+                      Positioned(
+                        left: 12,
+                        top: 12,
+                        child: _QuickPagesBar(
+                          pages: widget.quickPages,
+                          currentPage: _currentPage,
+                          onTapPage: _goToPage,
+                        ),
+                      ),
+                    if (_isSearchOpen &&
+                        _searchTextController.text.trim().isNotEmpty)
+                      Positioned(
+                        right: 12,
+                        top: 12,
+                        child: _SearchBadge(
+                          currentIndex: searchResult?.currentInstanceIndex ?? 0,
+                          totalCount: searchResult?.totalInstanceCount ?? 0,
+                          isBusy: (searchResult?.hasResult ?? false) &&
+                              !(searchResult?.isSearchCompleted ?? false),
+                        ),
+                      )
+                    else
+                      Positioned(
+                        top: 12,
+                        right: 12,
+                        child: _ModeBadge(
+                          label:
+                              'Стр. $_currentPage · ${(_currentZoom * 100).round()}%',
+                        ),
+                      ),
+                    if (_pagesCount > 1)
+                      Positioned(
+                        left: 12,
+                        right: 12,
+                        bottom: 12,
+                        child: _PageHud(
+                          current: _currentPage,
+                          total: _pagesCount,
+                          canGoBack: _currentPage > 1,
+                          canGoForward: _currentPage < _pagesCount,
+                          onBack: () => _goToPage(_currentPage - 1),
+                          onForward: () => _goToPage(_currentPage + 1),
+                          onTap: () => _openPageNavigator(context),
+                        ),
+                      ),
+                  ],
+                ),
+              ),
+            ],
+          );
+        },
       ),
+    );
+  }
+
+  Future<_PdfViewerBoot> _prepareBoot() async {
+    final settings = AppSettingsStore.instance;
+    await settings.ensureLoaded();
+    final cachedPdf = await PdfAssetCache.instance.load(widget.assetPath);
+    final savedState = await settings.loadPdfViewState(widget.assetPath);
+
+    if (settings.keepScreenAwakeInPdf) {
+      await WakelockPlus.enable();
+    } else {
+      await WakelockPlus.disable();
+    }
+
+    return _PdfViewerBoot(
+      bytes: cachedPdf,
+      initialPage: savedState?.page ?? widget.initialPage,
+      initialZoom: savedState?.zoom ?? _minZoom,
     );
   }
 
@@ -210,9 +300,10 @@ class _PdfViewerScreenState extends State<PdfViewerScreen> {
     }
 
     WidgetsBinding.instance.addPostFrameCallback((_) {
-      if (mounted) {
-        FocusScope.of(context).requestFocus(FocusNode());
+      if (!mounted) {
+        return;
       }
+      FocusScope.of(context).requestFocus(FocusNode());
     });
   }
 
@@ -305,6 +396,34 @@ class _PdfViewerScreenState extends State<PdfViewerScreen> {
       ),
     );
   }
+
+  void _schedulePersistViewState() {
+    _saveDebounce?.cancel();
+    _saveDebounce = Timer(
+      const Duration(milliseconds: 450),
+      _persistViewState,
+    );
+  }
+
+  Future<void> _persistViewState() {
+    return AppSettingsStore.instance.savePdfViewState(
+      widget.assetPath,
+      page: _currentPage,
+      zoom: _currentZoom,
+    );
+  }
+}
+
+class _PdfViewerBoot {
+  const _PdfViewerBoot({
+    required this.bytes,
+    required this.initialPage,
+    required this.initialZoom,
+  });
+
+  final Uint8List bytes;
+  final int initialPage;
+  final double initialZoom;
 }
 
 class _SearchToolbar extends StatelessWidget {
@@ -382,10 +501,10 @@ class _SearchToolbar extends StatelessWidget {
               isBusy
                   ? 'Поиск...'
                   : hasMatches
-                  ? '$currentIndex / $totalCount'
-                  : hasQuery
-                  ? '0 / 0'
-                  : '',
+                      ? '$currentIndex / $totalCount'
+                      : hasQuery
+                          ? '0 / 0'
+                          : '',
               textAlign: TextAlign.center,
               style: Theme.of(context).textTheme.bodyMedium,
             ),
@@ -399,37 +518,63 @@ class _SearchToolbar extends StatelessWidget {
 class _PageHud extends StatelessWidget {
   final int current;
   final int total;
+  final bool canGoBack;
+  final bool canGoForward;
+  final VoidCallback onBack;
+  final VoidCallback onForward;
   final VoidCallback onTap;
 
   const _PageHud({
     required this.current,
     required this.total,
+    required this.canGoBack,
+    required this.canGoForward,
+    required this.onBack,
+    required this.onForward,
     required this.onTap,
   });
 
   @override
   Widget build(BuildContext context) {
-    return GestureDetector(
-      onTap: onTap,
-      child: Container(
-        padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 10),
-        decoration: BoxDecoration(
-          color: Theme.of(context).cardColor.withValues(alpha: 0.92),
-          borderRadius: BorderRadius.circular(14),
-        ),
-        child: Row(
-          children: [
-            const Icon(Icons.picture_as_pdf_outlined, size: 18),
-            const SizedBox(width: 10),
-            Expanded(
-              child: Text(
-                'Стр. $current / $total',
-                style: Theme.of(context).textTheme.bodyMedium,
+    return Container(
+      padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 8),
+      decoration: BoxDecoration(
+        color: Theme.of(context).cardColor.withValues(alpha: 0.92),
+        borderRadius: BorderRadius.circular(14),
+      ),
+      child: Row(
+        children: [
+          IconButton(
+            tooltip: 'Предыдущая страница',
+            onPressed: canGoBack ? onBack : null,
+            icon: const Icon(Icons.chevron_left),
+          ),
+          Expanded(
+            child: GestureDetector(
+              onTap: onTap,
+              child: Row(
+                children: [
+                  const Icon(Icons.picture_as_pdf_outlined, size: 18),
+                  const SizedBox(width: 10),
+                  Expanded(
+                    child: Text(
+                      'Стр. $current / $total',
+                      textAlign: TextAlign.center,
+                      style: Theme.of(context).textTheme.bodyMedium,
+                    ),
+                  ),
+                  const SizedBox(width: 10),
+                  const Icon(Icons.swap_horiz, size: 18),
+                ],
               ),
             ),
-            const Icon(Icons.swap_horiz, size: 18),
-          ],
-        ),
+          ),
+          IconButton(
+            tooltip: 'Следующая страница',
+            onPressed: canGoForward ? onForward : null,
+            icon: const Icon(Icons.chevron_right),
+          ),
+        ],
       ),
     );
   }
@@ -499,8 +644,8 @@ class _SearchBadge extends StatelessWidget {
           isBusy
               ? 'Поиск...'
               : totalCount > 0
-              ? 'Найдено: $currentIndex / $totalCount'
-              : '0 совпадений',
+                  ? 'Найдено: $currentIndex / $totalCount'
+                  : '0 совпадений',
           style: Theme.of(
             context,
           ).textTheme.bodyMedium?.copyWith(color: Colors.black87),
@@ -628,7 +773,7 @@ class _PageNavigatorState extends State<_PageNavigator> {
           ),
           const SizedBox(height: 4),
           Text(
-            'Поиск по PDF теперь подсвечивает совпадения ярко и позволяет листать их по одному.',
+            'Схема откроется там, где ты остановился в прошлый раз.',
             style: textTheme.bodySmall?.copyWith(color: const Color(0xFF9EA7B3)),
           ),
         ],

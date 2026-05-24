@@ -90,12 +90,12 @@ BEGIN
         BLOCK "040904e4"
         BEGIN
             VALUE "CompanyName", "com.example" "\0"
-            VALUE "FileDescription", "ferrit_tool" "\0"
+            VALUE "FileDescription", "Твой Ferrrit" "\0"
             VALUE "FileVersion", VERSION_AS_STRING "\0"
-            VALUE "InternalName", "ferrit_tool" "\0"
+            VALUE "InternalName", "Твой Ferrrit" "\0"
             VALUE "LegalCopyright", "Copyright (C) 2026 com.example. All rights reserved." "\0"
-            VALUE "OriginalFilename", "ferrit_tool.exe" "\0"
-            VALUE "ProductName", "ferrit_tool" "\0"
+            VALUE "OriginalFilename", "Твой Ferrrit.exe" "\0"
+            VALUE "ProductName", "Твой Ferrrit" "\0"
             VALUE "ProductVersion", VERSION_AS_STRING "\0"
         END
     END

@@ -1,11 +1,15 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 
 import '../data/app_session_store.dart';
+import '../data/app_settings_store.dart';
 import '../data/sensor_catalog_repository.dart';
 import '../data/troubleshooting_repository.dart';
 import 'engine_codes_screen.dart';
 import 'global_search_screen.dart';
 import 'model_screen.dart';
+import 'settings_screen.dart';
 import 'sensors_screen.dart';
 import 'symptom_screen.dart';
 
@@ -19,6 +23,22 @@ class HomeScreen extends StatefulWidget {
 class _HomeScreenState extends State<HomeScreen> {
   final ScrollController _scrollController = ScrollController();
   final GlobalKey _recentKey = GlobalKey();
+  late final Timer _clockTimer;
+  late TimeOfDay _now;
+
+  @override
+  void initState() {
+    super.initState();
+    _now = TimeOfDay.now();
+    _clockTimer = Timer.periodic(const Duration(minutes: 1), (_) {
+      if (!mounted) {
+        return;
+      }
+      setState(() {
+        _now = TimeOfDay.now();
+      });
+    });
+  }
 
   Future<_HomeData> _loadHomeData() async {
     final troubleshooting =
@@ -32,6 +52,7 @@ class _HomeScreenState extends State<HomeScreen> {
 
   @override
   void dispose() {
+    _clockTimer.cancel();
     _scrollController.dispose();
     super.dispose();
   }
@@ -41,13 +62,53 @@ class _HomeScreenState extends State<HomeScreen> {
     return Scaffold(
       appBar: AppBar(
         title: Text(
-          'FERRIT TOOL',
+          'Твой Ferrrit',
+          maxLines: 1,
+          overflow: TextOverflow.ellipsis,
           style: TextStyle(
-            color: Theme.of(context).colorScheme.onSurface.withValues(alpha: 0.9),
-            fontWeight: FontWeight.w800,
-            letterSpacing: 1.4,
+            color: Theme.of(context).colorScheme.primary,
+            fontWeight: FontWeight.w900,
+            letterSpacing: 0.6,
           ),
         ),
+        titleSpacing: 16,
+        actions: [
+          Padding(
+            padding: const EdgeInsets.only(right: 6),
+            child: Center(
+              child: Container(
+                padding:
+                    const EdgeInsets.symmetric(horizontal: 10, vertical: 6),
+                decoration: BoxDecoration(
+                  color: const Color(0x12FF7A1A),
+                  borderRadius: BorderRadius.circular(12),
+                  border: Border.all(color: const Color(0x44FF7A1A)),
+                ),
+                child: Text(
+                  _formatTime(_now),
+                  style: TextStyle(
+                    color: Theme.of(context).colorScheme.primary,
+                    fontWeight: FontWeight.w700,
+                    fontFeatures: const [FontFeature.tabularFigures()],
+                  ),
+                ),
+              ),
+            ),
+          ),
+          IconButton(
+            tooltip: 'Настройки',
+            onPressed: () => Navigator.push(
+              context,
+              MaterialPageRoute(
+                builder: (_) => const SettingsScreen(),
+              ),
+            ),
+            icon: Icon(
+              Icons.tune,
+              color: Theme.of(context).colorScheme.primary,
+            ),
+          ),
+        ],
       ),
       body: FutureBuilder<_HomeData>(
         future: _loadHomeData(),
@@ -65,9 +126,13 @@ class _HomeScreenState extends State<HomeScreen> {
           final catalog = homeData.troubleshooting;
 
           return AnimatedBuilder(
-            animation: AppSessionStore.instance,
+            animation: Listenable.merge([
+              AppSessionStore.instance,
+              AppSettingsStore.instance,
+            ]),
             builder: (context, _) {
               final recentRefs = AppSessionStore.instance.recentSymptoms;
+              final showQuickTools = AppSettingsStore.instance.showQuickTools;
               final availableRefs = [
                 for (final model in catalog.models)
                   for (final step in model.steps)
@@ -78,41 +143,37 @@ class _HomeScreenState extends State<HomeScreen> {
 
               return ListView(
                 controller: _scrollController,
-                padding: const EdgeInsets.all(16),
+                padding: const EdgeInsets.fromLTRB(16, 12, 16, 20),
                 children: [
-                  const _HeroPanel(
-                    title: 'Инструмент для сервисников',
-                    subtitle:
-                        'Диагностика, схемы, коды двигателя и датчики в одном оффлайн-наборе.',
-                  ),
-                  const SizedBox(height: 14),
-                  _QuickTools(
-                    onSearch: () => Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                        builder: (_) => const GlobalSearchScreen(),
-                      ),
-                    ),
-                    onSensors: () => Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                        builder: (_) => const SensorsScreen(),
-                      ),
-                    ),
-                    onCodes: () => Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                        builder: (_) => const EngineCodesScreen(
-                          modelName: 'ПДМ-14 / ПДМ-17',
+                  if (showQuickTools) ...[
+                    _QuickTools(
+                      onSearch: () => Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (_) => const GlobalSearchScreen(),
                         ),
                       ),
+                      onSensors: () => Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (_) => const SensorsScreen(),
+                        ),
+                      ),
+                      onCodes: () => Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (_) => const EngineCodesScreen(
+                            modelName: 'ПДМ-14 / ПДМ-17',
+                          ),
+                        ),
+                      ),
+                      onRecent: _scrollToRecent,
                     ),
-                    onRecent: _scrollToRecent,
-                  ),
-                  const SizedBox(height: 18),
-                  Text(
-                    'Серии техники',
-                    style: Theme.of(context).textTheme.titleLarge,
+                    const SizedBox(height: 16),
+                  ],
+                  const _SectionTitle(
+                    title: 'Серии техники',
+                    subtitle: 'Выбери машину и переходи к симптомам и схемам.',
                   ),
                   const SizedBox(height: 10),
                   ...catalog.models.map(
@@ -157,12 +218,6 @@ class _HomeScreenState extends State<HomeScreen> {
                           : AppSessionStore.instance.clearRecentSymptoms,
                     ),
                   ),
-                  const SizedBox(height: 12),
-                  const _AboutBlock(
-                    title: 'О программе',
-                    text:
-                        'С уважением и пониманием к сервису.\nСоздатель MobileTechnology (РябкоFF)',
-                  ),
                 ],
               );
             },
@@ -170,6 +225,12 @@ class _HomeScreenState extends State<HomeScreen> {
         },
       ),
     );
+  }
+
+  String _formatTime(TimeOfDay time) {
+    final hour = time.hour.toString().padLeft(2, '0');
+    final minute = time.minute.toString().padLeft(2, '0');
+    return '$hour:$minute';
   }
 
   String _modelSubtitle(String modelId) {
@@ -228,36 +289,42 @@ class _HomeScreenState extends State<HomeScreen> {
   }
 }
 
-class _HeroPanel extends StatelessWidget {
+class _SectionTitle extends StatelessWidget {
   final String title;
   final String subtitle;
 
-  const _HeroPanel({
+  const _SectionTitle({
     required this.title,
     required this.subtitle,
   });
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      padding: const EdgeInsets.all(18),
-      decoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(20),
-        gradient: const LinearGradient(
-          begin: Alignment.topLeft,
-          end: Alignment.bottomRight,
-          colors: [Color(0xFF2F3745), Color(0xFF1C2230)],
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Row(
+          children: [
+            Container(
+              width: 6,
+              height: 24,
+              decoration: BoxDecoration(
+                color: Theme.of(context).colorScheme.primary,
+                borderRadius: BorderRadius.circular(99),
+              ),
+            ),
+            const SizedBox(width: 10),
+            Expanded(
+              child: Text(
+                title,
+                style: Theme.of(context).textTheme.titleLarge,
+              ),
+            ),
+          ],
         ),
-        border: Border.all(color: const Color(0x44FF8A3D)),
-      ),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Text(title, style: Theme.of(context).textTheme.titleLarge),
-          const SizedBox(height: 8),
-          Text(subtitle, style: Theme.of(context).textTheme.bodyMedium),
-        ],
-      ),
+        const SizedBox(height: 6),
+        Text(subtitle, style: Theme.of(context).textTheme.bodyMedium),
+      ],
     );
   }
 }
@@ -291,7 +358,7 @@ class _QuickTools extends StatelessWidget {
           physics: const NeverScrollableScrollPhysics(),
           mainAxisSpacing: 10,
           crossAxisSpacing: 10,
-          childAspectRatio: 1.55,
+          mainAxisExtent: 176,
           children: [
             _ToolTile(
               icon: Icons.manage_search,
@@ -313,8 +380,8 @@ class _QuickTools extends StatelessWidget {
             ),
             _ToolTile(
               icon: Icons.history,
-              title: 'Последние',
-              subtitle: 'Вернуться к недавним открытиям',
+              title: 'Последние открытия',
+              subtitle: 'Перейти к недавним открытиям',
               onTap: onRecent,
             ),
           ],
@@ -339,6 +406,7 @@ class _ToolTile extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final textTheme = Theme.of(context).textTheme;
     return InkWell(
       onTap: onTap,
       borderRadius: BorderRadius.circular(18),
@@ -348,6 +416,13 @@ class _ToolTile extends StatelessWidget {
           color: Theme.of(context).cardColor,
           borderRadius: BorderRadius.circular(18),
           border: Border.all(color: Theme.of(context).dividerColor),
+          boxShadow: const [
+            BoxShadow(
+              color: Color(0x18000000),
+              blurRadius: 12,
+              offset: Offset(0, 6),
+            ),
+          ],
         ),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
@@ -362,10 +437,22 @@ class _ToolTile extends StatelessWidget {
               ),
               child: Icon(icon, color: Theme.of(context).colorScheme.primary),
             ),
-            const Spacer(),
-            Text(title, style: Theme.of(context).textTheme.bodyLarge),
+            const SizedBox(height: 14),
+            Text(
+              title,
+              maxLines: 3,
+              overflow: TextOverflow.fade,
+              style: textTheme.bodyLarge,
+            ),
             const SizedBox(height: 4),
-            Text(subtitle, style: Theme.of(context).textTheme.bodyMedium),
+            Expanded(
+              child: Text(
+                subtitle,
+                maxLines: 5,
+                overflow: TextOverflow.fade,
+                style: textTheme.bodyMedium,
+              ),
+            ),
           ],
         ),
       ),
@@ -386,6 +473,7 @@ class _ModelCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final textTheme = Theme.of(context).textTheme;
     return InkWell(
       onTap: onTap,
       borderRadius: BorderRadius.circular(18),
@@ -395,6 +483,13 @@ class _ModelCard extends StatelessWidget {
           color: Theme.of(context).cardColor,
           borderRadius: BorderRadius.circular(18),
           border: Border.all(color: Theme.of(context).dividerColor),
+          boxShadow: const [
+            BoxShadow(
+              color: Color(0x18000000),
+              blurRadius: 12,
+              offset: Offset(0, 6),
+            ),
+          ],
         ),
         child: Row(
           children: [
@@ -416,9 +511,19 @@ class _ModelCard extends StatelessWidget {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Text(model.displayName, style: Theme.of(context).textTheme.bodyLarge),
+                  Text(
+                    model.displayName,
+                    maxLines: 2,
+                    overflow: TextOverflow.ellipsis,
+                    style: textTheme.bodyLarge,
+                  ),
                   const SizedBox(height: 4),
-                  Text(subtitle, style: Theme.of(context).textTheme.bodyMedium),
+                  Text(
+                    subtitle,
+                    maxLines: 3,
+                    overflow: TextOverflow.ellipsis,
+                    style: textTheme.bodyMedium,
+                  ),
                 ],
               ),
             ),
@@ -446,12 +551,20 @@ class _CompactSymptomSection extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final textTheme = Theme.of(context).textTheme;
     return Container(
       padding: const EdgeInsets.all(14),
       decoration: BoxDecoration(
         color: Theme.of(context).cardColor,
         borderRadius: BorderRadius.circular(18),
         border: Border.all(color: Theme.of(context).dividerColor),
+        boxShadow: const [
+          BoxShadow(
+            color: Color(0x18000000),
+            blurRadius: 12,
+            offset: Offset(0, 6),
+          ),
+        ],
       ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -459,7 +572,8 @@ class _CompactSymptomSection extends StatelessWidget {
           Row(
             children: [
               Expanded(
-                child: Text(title, style: Theme.of(context).textTheme.titleLarge),
+                child:
+                    Text(title, style: Theme.of(context).textTheme.titleLarge),
               ),
               if (onClear != null)
                 TextButton(
@@ -505,9 +619,19 @@ class _CompactSymptomSection extends StatelessWidget {
                           child: Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
-                              Text(item.title, style: Theme.of(context).textTheme.bodyLarge),
+                              Text(
+                                item.title,
+                                maxLines: 3,
+                                overflow: TextOverflow.fade,
+                                style: Theme.of(context).textTheme.bodyLarge,
+                              ),
                               const SizedBox(height: 3),
-                              Text(item.subtitle, style: Theme.of(context).textTheme.bodyMedium),
+                              Text(
+                                item.subtitle,
+                                maxLines: 3,
+                                overflow: TextOverflow.fade,
+                                style: textTheme.bodyMedium,
+                              ),
                             ],
                           ),
                         ),
@@ -534,35 +658,6 @@ class _ResolvedSymptomCard {
   final String title;
   final String subtitle;
   final VoidCallback onTap;
-}
-
-class _AboutBlock extends StatelessWidget {
-  final String title;
-  final String text;
-
-  const _AboutBlock({
-    required this.title,
-    required this.text,
-  });
-
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      padding: const EdgeInsets.all(14),
-      decoration: BoxDecoration(
-        color: Theme.of(context).cardColor,
-        borderRadius: BorderRadius.circular(16),
-      ),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Text(title, style: Theme.of(context).textTheme.titleLarge),
-          const SizedBox(height: 8),
-          Text(text, style: Theme.of(context).textTheme.bodyMedium),
-        ],
-      ),
-    );
-  }
 }
 
 class _ErrorState extends StatelessWidget {

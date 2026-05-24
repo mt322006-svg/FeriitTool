@@ -1,7 +1,7 @@
 name: ferrit_tool
-description: Ferrit Tool - offline troubleshooting + wiring diagrams
+description: Твой Ferrrit - offline troubleshooting + wiring diagrams
 publish_to: "none"
-version: 0.2.1+8
+version: 3.0.1+9
 
 environment:
   sdk: ">=3.3.0 <4.0.0"
@@ -10,7 +10,9 @@ dependencies:
   flutter:
     sdk: flutter
   cupertino_icons: ^1.0.8
+  shared_preferences: ^2.5.3
   syncfusion_flutter_pdfviewer: ^31.1.17
+  wakelock_plus: ^1.4.0
 
 dev_dependencies:
   flutter_test:

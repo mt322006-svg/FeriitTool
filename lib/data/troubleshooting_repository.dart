@@ -139,6 +139,27 @@ class TroubleshootingModel {
         ordered.add(step.node);
       }
     }
+    const preferredOrder = [
+      'Электрика',
+      'Гидравлика',
+      'Двигатель',
+      'CAN шина',
+      'Управление',
+      'Практика',
+    ];
+
+    ordered.sort((left, right) {
+      final leftIndex = preferredOrder.indexOf(left);
+      final rightIndex = preferredOrder.indexOf(right);
+      final normalizedLeft = leftIndex == -1 ? preferredOrder.length : leftIndex;
+      final normalizedRight =
+          rightIndex == -1 ? preferredOrder.length : rightIndex;
+      if (normalizedLeft != normalizedRight) {
+        return normalizedLeft.compareTo(normalizedRight);
+      }
+      return left.compareTo(right);
+    });
+
     return ordered;
   }
 

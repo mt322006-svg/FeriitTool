@@ -8,7 +8,8 @@
       "description": "Engine Control Module – Critical internal failure",
       "lamp": "(Red)",
       "fmi": 12,
-      "model_flag": "X"
+      "model_flag": "X",
+      "description_ru": "Модуль управления двигателем - критический внутренний отказ"
     },
     {
       "fault_code": 115,
@@ -16,7 +17,8 @@
       "description": "Engine Speed/Position Sensor Circuit - lost both of two signals from the magnetic pickup sensor",
       "lamp": "(Red)",
       "fmi": 2,
-      "model_flag": "X"
+      "model_flag": "X",
+      "description_ru": "Цепь датчика скорости/положения двигателя - потеряны оба сигнала магнитного датчика"
     },
     {
       "fault_code": 121,
@@ -24,7 +26,8 @@
       "description": "Engine Speed/Position Sensor Circuit - lost one of two signals from the magnetic pickup sensor",
       "lamp": "(Yellow)",
       "fmi": 10,
-      "model_flag": "X"
+      "model_flag": "X",
+      "description_ru": "Цепь датчика скорости/положения двигателя - потерян один из двух сигналов магнитного датчика"
     },
     {
       "fault_code": 122,
@@ -32,7 +35,8 @@
       "description": "Intake Manifold Pressure Sensor #1 Circuit - shorted high",
       "lamp": "(Yellow)",
       "fmi": 3,
-      "model_flag": "X"
+      "model_flag": "X",
+      "description_ru": "Цепь датчика давления во впускном коллекторе №1 - короткое замыкание на плюс"
     },
     {
       "fault_code": 123,
@@ -40,7 +44,8 @@
       "description": "Intake Manifold Pressure Sensor #1 Circuit - shorted low",
       "lamp": "(Yellow)",
       "fmi": 4,
-      "model_flag": "X"
+      "model_flag": "X",
+      "description_ru": "Цепь датчика давления во впускном коллекторе №1 - короткое замыкание на массу"
     },
     {
       "fault_code": 131,
@@ -48,7 +53,8 @@
       "description": "Accelerator Pedal Position Sensor Circuit - shorted high",
       "lamp": "(Red)",
       "fmi": 3,
-      "model_flag": "X"
+      "model_flag": "X",
+      "description_ru": "Цепь датчика положения педали акселератора - короткое замыкание на плюс"
     },
     {
       "fault_code": 132,
@@ -56,7 +62,8 @@
       "description": "Accelerator Pedal Position Sensor Circuit - shorted low",
       "lamp": "(Red)",
       "fmi": 4,
-      "model_flag": "X"
+      "model_flag": "X",
+      "description_ru": "Цепь датчика положения педали акселератора - короткое замыкание на массу"
     },
     {
       "fault_code": 133,
@@ -64,7 +71,8 @@
       "description": "Remote Accelerator Pedal Position Sensor Circuit - shorted high",
       "lamp": "(Red)",
       "fmi": 3,
-      "model_flag": "X"
+      "model_flag": "X",
+      "description_ru": "Цепь дистанционного датчика положения педали акселератора - короткое замыкание на плюс"
     },
     {
       "fault_code": 134,
@@ -72,7 +80,8 @@
       "description": "Remote Accelerator Pedal Position Sensor Circuit - shorted low",
       "lamp": "(Red)",
       "fmi": 4,
-      "model_flag": "X"
+      "model_flag": "X",
+      "description_ru": "Цепь дистанционного датчика положения педали акселератора - короткое замыкание на массу"
     },
     {
       "fault_code": 135,
@@ -80,7 +89,8 @@
       "description": "Engine Oil Pressure Sensor Circuit - shorted high",
       "lamp": "(Yellow)",
       "fmi": 3,
-      "model_flag": "X"
+      "model_flag": "X",
+      "description_ru": "Цепь датчика давления масла двигателя - короткое замыкание на плюс"
     },
     {
       "fault_code": 141,
@@ -88,7 +98,8 @@
       "description": "Engine Oil Pressure Sensor Circuit - shorted low",
       "lamp": "(Yellow)",
       "fmi": 4,
-      "model_flag": "X"
+      "model_flag": "X",
+      "description_ru": "Цепь датчика давления масла двигателя - короткое замыкание на массу"
     },
     {
       "fault_code": 143,
@@ -96,7 +107,8 @@
       "description": "Engine Oil Pressure Low – Warning",
       "lamp": "(Yellow)",
       "fmi": 18,
-      "model_flag": "X"
+      "model_flag": "X",
+      "description_ru": "Низкое давление масла двигателя - предупреждение"
     },
     {
       "fault_code": 144,
@@ -104,7 +116,8 @@
       "description": "Engine Coolant Temperature Sensor Circuit - shorted high",
       "lamp": "(Yellow)",
       "fmi": 3,
-      "model_flag": "X"
+      "model_flag": "X",
+      "description_ru": "Цепь датчика температуры охлаждающей жидкости двигателя - короткое замыкание на плюс"
     },
     {
       "fault_code": 145,
@@ -112,7 +125,8 @@
       "description": "Engine Coolant Temperature Sensor Circuit - shorted low",
       "lamp": "(Yellow)",
       "fmi": 4,
-      "model_flag": "X"
+      "model_flag": "X",
+      "description_ru": "Цепь датчика температуры охлаждающей жидкости двигателя - короткое замыкание на массу"
     },
     {
       "fault_code": 146,
@@ -120,7 +134,8 @@
       "description": "Engine Coolant Temperature High – Warning",
       "lamp": "(Yellow)",
       "fmi": 16,
-      "model_flag": "X"
+      "model_flag": "X",
+      "description_ru": "Высокая температура охлаждающей жидкости двигателя - предупреждение"
     },
     {
       "fault_code": 147,
@@ -128,7 +143,8 @@
       "description": "Accelerator Pedal Position Sensor Circuit - low frequency",
       "lamp": "(Red)",
       "fmi": 8,
-      "model_flag": "X"
+      "model_flag": "X",
+      "description_ru": "Цепь датчика положения педали акселератора - низкая частота сигнала"
     },
     {
       "fault_code": 148,
@@ -136,7 +152,8 @@
       "description": "Accelerator Pedal Position Sensor Circuit - high frequency",
       "lamp": "(Red)",
       "fmi": 8,
-      "model_flag": "X"
+      "model_flag": "X",
+      "description_ru": "Цепь датчика положения педали акселератора - высокая частота сигнала"
     },
     {
       "fault_code": 151,
@@ -144,7 +161,8 @@
       "description": "Engine Coolant Temperature High – Critical",
       "lamp": "(Red)",
       "fmi": 0,
-      "model_flag": "X"
+      "model_flag": "X",
+      "description_ru": "Высокая температура охлаждающей жидкости двигателя - критический уровень"
     },
     {
       "fault_code": 153,
@@ -152,7 +170,8 @@
       "description": "Intake Manifold Temperature Sensor #1 Circuit - shorted high",
       "lamp": "(Yellow)",
       "fmi": 3,
-      "model_flag": "X"
+      "model_flag": "X",
+      "description_ru": "Цепь датчика температуры во впускном коллекторе №1 - короткое замыкание на плюс"
     },
     {
       "fault_code": 154,
@@ -160,7 +179,8 @@
       "description": "Intake Manifold Temperature Sensor #1 Circuit - shorted low",
       "lamp": "(Yellow)",
       "fmi": 4,
-      "model_flag": "X"
+      "model_flag": "X",
+      "description_ru": "Цепь датчика температуры во впускном коллекторе №1 - короткое замыкание на массу"
     },
     {
       "fault_code": 155,
@@ -168,7 +188,8 @@
       "description": "Intake Manifold Temperature #1 High - Critical",
       "lamp": "(Red)",
       "fmi": 0,
-      "model_flag": "X"
+      "model_flag": "X",
+      "description_ru": "Высокая температура во впускном коллекторе №1 - критический уровень"
     },
     {
       "fault_code": 187,
@@ -176,7 +197,8 @@
       "description": "Sensor Supply Voltage #2 Circuit - shorted low",
       "lamp": "(Yellow)",
       "fmi": 4,
-      "model_flag": "X"
+      "model_flag": "X",
+      "description_ru": "Цепь опорного напряжения датчиков №2 - короткое замыкание на массу"
     },
     {
       "fault_code": 212,
@@ -184,7 +206,8 @@
       "description": "Engine Oil Temperature Sensor Circuit - shorted high",
       "lamp": "(Yellow)",
       "fmi": 3,
-      "model_flag": "X"
+      "model_flag": "X",
+      "description_ru": "Цепь датчика температуры масла двигателя - короткое замыкание на плюс"
     },
     {
       "fault_code": 213,
@@ -192,7 +215,8 @@
       "description": "Engine Oil Temperature Sensor Circuit - shorted low",
       "lamp": "(Yellow)",
       "fmi": 4,
-      "model_flag": "X"
+      "model_flag": "X",
+      "description_ru": "Цепь датчика температуры масла двигателя - короткое замыкание на массу"
     },
     {
       "fault_code": 214,
@@ -200,7 +224,8 @@
       "description": "Engine Oil Temperature High - Critical",
       "lamp": "(Red)",
       "fmi": 0,
-      "model_flag": "X"
+      "model_flag": "X",
+      "description_ru": "Высокая температура масла двигателя - критический уровень"
     },
     {
       "fault_code": 221,
@@ -208,7 +233,8 @@
       "description": "Ambient Air Pressure Sensor Circuit – shorted high",
       "lamp": "(Yellow)",
       "fmi": 3,
-      "model_flag": "X"
+      "model_flag": "X",
+      "description_ru": "Цепь датчика давления окружающего воздуха - короткое замыкание на плюс"
     },
     {
       "fault_code": 222,
@@ -216,7 +242,8 @@
       "description": "Ambient Air Pressure Sensor Circuit – shorted low",
       "lamp": "(Yellow)",
       "fmi": 4,
-      "model_flag": "X"
+      "model_flag": "X",
+      "description_ru": "Цепь датчика давления окружающего воздуха - короткое замыкание на массу"
     },
     {
       "fault_code": 227,
@@ -224,7 +251,8 @@
       "description": "Sensor Supply Voltage #2 Circuit - shorted high",
       "lamp": "(Yellow)",
       "fmi": 3,
-      "model_flag": "X"
+      "model_flag": "X",
+      "description_ru": "Цепь опорного напряжения датчиков №2 - короткое замыкание на плюс"
     },
     {
       "fault_code": 234,
@@ -232,7 +260,8 @@
       "description": "Engine Speed High – Critical",
       "lamp": "(Red)",
       "fmi": 0,
-      "model_flag": "X"
+      "model_flag": "X",
+      "description_ru": "Высокая частота вращения двигателя - критический уровень"
     },
     {
       "fault_code": 235,
@@ -240,7 +269,8 @@
       "description": "Engine Coolant Level Low - Critical",
       "lamp": "(Red)",
       "fmi": 1,
-      "model_flag": "X"
+      "model_flag": "X",
+      "description_ru": "Низкий уровень охлаждающей жидкости двигателя - критический уровень"
     },
     {
       "fault_code": 237,
@@ -248,7 +278,8 @@
       "description": "External Speed Input (Multiple Unit Synchronization) - data incorrect",
       "lamp": "(Yellow)",
       "fmi": 2,
-      "model_flag": "X"
+      "model_flag": "X",
+      "description_ru": "Вход внешнего сигнала скорости (синхронизация нескольких установок) - неверные данные"
     },
     {
       "fault_code": 241,
@@ -256,7 +287,8 @@
       "description": "Vehicle Speed Sensor Circuit - data incorrect",
       "lamp": "(Yellow)",
       "fmi": 2,
-      "model_flag": "X"
+      "model_flag": "X",
+      "description_ru": "Цепь датчика скорости машины - неверные данные"
     },
     {
       "fault_code": 242,
@@ -264,7 +296,8 @@
       "description": "Vehicle Speed Sensor Circuit - tampering has been detected",
       "lamp": "(Yellow)",
       "fmi": 10,
-      "model_flag": "X"
+      "model_flag": "X",
+      "description_ru": "Цепь датчика скорости машины - обнаружено вмешательство в цепь"
     },
     {
       "fault_code": 245,
@@ -272,7 +305,8 @@
       "description": "Fan Clutch Circuit - shorted low",
       "lamp": "(Yellow)",
       "fmi": 4,
-      "model_flag": "X"
+      "model_flag": "X",
+      "description_ru": "Цепь муфты вентилятора - короткое замыкание на массу"
     },
     {
       "fault_code": 254,
@@ -280,7 +314,8 @@
       "description": "Fuel Shutoff Valve Circuit - shorted low",
       "lamp": "(Red)",
       "fmi": 4,
-      "model_flag": "X"
+      "model_flag": "X",
+      "description_ru": "Цепь клапана отсечки топлива - короткое замыкание на массу"
     },
     {
       "fault_code": 255,
@@ -288,7 +323,8 @@
       "description": "Fuel Shutoff Valve Circuit - shorted high",
       "lamp": "(Yellow)",
       "fmi": 3,
-      "model_flag": "X"
+      "model_flag": "X",
+      "description_ru": "Цепь клапана отсечки топлива - короткое замыкание на плюс"
     },
     {
       "fault_code": 285,
@@ -296,7 +332,8 @@
       "description": "SAE J1939 Multiplexing PGN Timeout Error",
       "lamp": "(Yellow)",
       "fmi": 9,
-      "model_flag": "X"
+      "model_flag": "X",
+      "description_ru": "Ошибка тайм-аута PGN в мультиплексной сети SAE J1939"
     },
     {
       "fault_code": 286,
@@ -304,7 +341,8 @@
       "description": "SAE J1939 Multiplexing Configuration Error",
       "lamp": "(Yellow)",
       "fmi": 13,
-      "model_flag": "X"
+      "model_flag": "X",
+      "description_ru": "Ошибка конфигурации мультиплексной сети SAE J1939"
     },
     {
       "fault_code": 287,
@@ -312,7 +350,8 @@
       "description": "SAE J1939 Multiplexing Accelerator Pedal Sensor System Error",
       "lamp": "(Red)",
       "fmi": 19,
-      "model_flag": "X"
+      "model_flag": "X",
+      "description_ru": "Ошибка мультиплексной системы датчика педали акселератора SAE J1939"
     },
     {
       "fault_code": 288,
@@ -320,7 +359,8 @@
       "description": "SAE J1939 Multiplexing Remote Throttle Data Error",
       "lamp": "(Red)",
       "fmi": 19,
-      "model_flag": "X"
+      "model_flag": "X",
+      "description_ru": "Ошибка данных дистанционного управления дросселем SAE J1939"
     },
     {
       "fault_code": 293,
@@ -328,7 +368,8 @@
       "description": "Auxiliary Temperature Sensor Input # 1 Circuit – shorted high",
       "lamp": "(Yellow)",
       "fmi": 3,
-      "model_flag": "X"
+      "model_flag": "X",
+      "description_ru": "Цепь входа вспомогательного датчика температуры №1 - короткое замыкание на плюс"
     },
     {
       "fault_code": 294,
@@ -336,7 +377,8 @@
       "description": "Auxiliary Temperature Sensor Input # 1 Circuit – shorted low",
       "lamp": "(Yellow)",
       "fmi": 4,
-      "model_flag": "X"
+      "model_flag": "X",
+      "description_ru": "Цепь входа вспомогательного датчика температуры №1 - короткое замыкание на массу"
     },
     {
       "fault_code": 295,
@@ -344,7 +386,8 @@
       "description": "Ambient Air Pressure Sensor Circuit - data incorrect",
       "lamp": "(Yellow)",
       "fmi": 2,
-      "model_flag": "X"
+      "model_flag": "X",
+      "description_ru": "Цепь датчика давления окружающего воздуха - неверные данные"
     },
     {
       "fault_code": 297,
@@ -352,7 +395,8 @@
       "description": "Auxiliary Pressure Sensor Input # 2 Circuit – shorted high",
       "lamp": "(Yellow)",
       "fmi": 3,
-      "model_flag": "X"
+      "model_flag": "X",
+      "description_ru": "Цепь входа вспомогательного датчика давления №2 - короткое замыкание на плюс"
     },
     {
       "fault_code": 298,
@@ -360,7 +404,8 @@
       "description": "Auxiliary Pressure Sensor Input # 2 Circuit – shorted low",
       "lamp": "(Yellow)",
       "fmi": 4,
-      "model_flag": "X"
+      "model_flag": "X",
+      "description_ru": "Цепь входа вспомогательного датчика давления №2 - короткое замыкание на массу"
     },
     {
       "fault_code": 299,
@@ -368,7 +413,8 @@
       "description": "Engine Shutdown Commanded by J1939",
       "lamp": "(Yellow)",
       "fmi": 31,
-      "model_flag": "X"
+      "model_flag": "X",
+      "description_ru": "Остановка двигателя по команде J1939"
     },
     {
       "fault_code": 311,
@@ -376,7 +422,8 @@
       "description": "Injector Solenoid Valve Cylinder #1 Circuit – grounded circuit",
       "lamp": "(Yellow)",
       "fmi": 6,
-      "model_flag": "X"
+      "model_flag": "X",
+      "description_ru": "Цепь соленоида форсунки цилиндра №1 - замыкание на массу"
     },
     {
       "fault_code": 312,
@@ -384,7 +431,8 @@
       "description": "Injector Solenoid Valve Cylinder #5 Circuit – grounded circuit",
       "lamp": "(Yellow)",
       "fmi": 6,
-      "model_flag": "X"
+      "model_flag": "X",
+      "description_ru": "Цепь соленоида форсунки цилиндра №5 - замыкание на массу"
     },
     {
       "fault_code": 313,
@@ -392,7 +440,8 @@
       "description": "Injector Solenoid Valve Cylinder #3 Circuit – grounded circuit",
       "lamp": "(Yellow)",
       "fmi": 6,
-      "model_flag": "X"
+      "model_flag": "X",
+      "description_ru": "Цепь соленоида форсунки цилиндра №3 - замыкание на массу"
     },
     {
       "fault_code": 314,
@@ -400,7 +449,8 @@
       "description": "Injector Solenoid Valve Cylinder #6 Circuit - grounded circuit",
       "lamp": "(Yellow)",
       "fmi": 6,
-      "model_flag": "X"
+      "model_flag": "X",
+      "description_ru": "Цепь соленоида форсунки цилиндра №6 - замыкание на массу"
     },
     {
       "fault_code": 315,
@@ -408,7 +458,8 @@
       "description": "Injector Solenoid Valve Cylinder #2 Circuit – grounded circuit",
       "lamp": "(Yellow)",
       "fmi": 6,
-      "model_flag": "X"
+      "model_flag": "X",
+      "description_ru": "Цепь соленоида форсунки цилиндра №2 - замыкание на массу"
     },
     {
       "fault_code": 319,
@@ -416,7 +467,8 @@
       "description": "Real Time Clock - Power Interrupt",
       "lamp": "(None)",
       "fmi": 2,
-      "model_flag": "X"
+      "model_flag": "X",
+      "description_ru": "Часы реального времени - прерывание питания"
     },
     {
       "fault_code": 321,
@@ -424,7 +476,8 @@
       "description": "Injector Solenoid Valve Cylinder #4 Circuit - grounded circuit",
       "lamp": "(Yellow)",
       "fmi": 6,
-      "model_flag": "X"
+      "model_flag": "X",
+      "description_ru": "Цепь соленоида форсунки цилиндра №4 - замыкание на массу"
     },
     {
       "fault_code": 322,
@@ -432,7 +485,8 @@
       "description": "Injector Solenoid Valve Cylinder #1 Circuit - open circuit",
       "lamp": "(Yellow)",
       "fmi": 5,
-      "model_flag": "X"
+      "model_flag": "X",
+      "description_ru": "Цепь соленоида форсунки цилиндра №1 - обрыв цепи"
     },
     {
       "fault_code": 323,
@@ -440,7 +494,8 @@
       "description": "Injector Solenoid Valve Cylinder #5 Circuit – open circuit",
       "lamp": "(Yellow)",
       "fmi": 5,
-      "model_flag": "X"
+      "model_flag": "X",
+      "description_ru": "Цепь соленоида форсунки цилиндра №5 - обрыв цепи"
     },
     {
       "fault_code": 324,
@@ -448,7 +503,8 @@
       "description": "Injector Solenoid Valve Cylinder #3 Circuit – open circuit",
       "lamp": "(Yellow)",
       "fmi": 5,
-      "model_flag": "X"
+      "model_flag": "X",
+      "description_ru": "Цепь соленоида форсунки цилиндра №3 - обрыв цепи"
     },
     {
       "fault_code": 325,
@@ -456,7 +512,8 @@
       "description": "Injector Solenoid Valve Cylinder #6 Circuit – open circuit",
       "lamp": "(Yellow)",
       "fmi": 5,
-      "model_flag": "X"
+      "model_flag": "X",
+      "description_ru": "Цепь соленоида форсунки цилиндра №6 - обрыв цепи"
     },
     {
       "fault_code": 331,
@@ -464,7 +521,8 @@
       "description": "Injector Solenoid Valve Cylinder #2 Circuit – open circuit",
       "lamp": "(Yellow)",
       "fmi": 5,
-      "model_flag": "X"
+      "model_flag": "X",
+      "description_ru": "Цепь соленоида форсунки цилиндра №2 - обрыв цепи"
     },
     {
       "fault_code": 332,
@@ -472,7 +530,8 @@
       "description": "Injector Solenoid Valve Cylinder #4 Circuit – open circuit",
       "lamp": "(Yellow)",
       "fmi": 5,
-      "model_flag": "X"
+      "model_flag": "X",
+      "description_ru": "Цепь соленоида форсунки цилиндра №4 - обрыв цепи"
     },
     {
       "fault_code": 341,
@@ -480,7 +539,8 @@
       "description": "Engine Control Module – data lost",
       "lamp": "(Yellow)",
       "fmi": 2,
-      "model_flag": "X"
+      "model_flag": "X",
+      "description_ru": "Модуль управления двигателем - потеря данных"
     },
     {
       "fault_code": 343,
@@ -488,7 +548,8 @@
       "description": "Engine Control Module - Warning internal hardware failure",
       "lamp": "(Yellow)",
       "fmi": 12,
-      "model_flag": "X"
+      "model_flag": "X",
+      "description_ru": "Модуль управления двигателем - предупреждение: внутренний аппаратный сбой"
     },
     {
       "fault_code": 346,
@@ -496,7 +557,8 @@
       "description": "Engine Control Module - Warning Software error",
       "lamp": "(Yellow)",
       "fmi": 12,
-      "model_flag": "X"
+      "model_flag": "X",
+      "description_ru": "Модуль управления двигателем - предупреждение: ошибка программного обеспечения"
     },
     {
       "fault_code": 349,
@@ -504,7 +566,8 @@
       "description": "Transmission Output Shaft (Tailshaft) Speed High – Warning",
       "lamp": "(Yellow)",
       "fmi": 16,
-      "model_flag": "X"
+      "model_flag": "X",
+      "description_ru": "Высокая скорость выходного вала трансмиссии - предупреждение"
     },
     {
       "fault_code": 352,
@@ -512,7 +575,8 @@
       "description": "Sensor Supply Voltage #1 Circuit - shorted low",
       "lamp": "(Yellow)",
       "fmi": 4,
-      "model_flag": "X"
+      "model_flag": "X",
+      "description_ru": "Цепь опорного напряжения датчиков №1 - короткое замыкание на массу"
     },
     {
       "fault_code": 386,
@@ -520,7 +584,8 @@
       "description": "Sensor Supply Voltage #1 Circuit - shorted high",
       "lamp": "(Yellow)",
       "fmi": 3,
-      "model_flag": "X"
+      "model_flag": "X",
+      "description_ru": "Цепь опорного напряжения датчиков №1 - короткое замыкание на плюс"
     },
     {
       "fault_code": 387,
@@ -528,7 +593,8 @@
       "description": "Accelerator Pedal Position Sensor Supply Voltage Circuit - shorted high",
       "lamp": "(Yellow)",
       "fmi": 3,
-      "model_flag": "X"
+      "model_flag": "X",
+      "description_ru": "Цепь опорного напряжения датчика положения педали акселератора - короткое замыкание на плюс"
     },
     {
       "fault_code": 415,
@@ -536,7 +602,8 @@
       "description": "Engine Oil Pressure Low – Critical",
       "lamp": "(Red)",
       "fmi": 1,
-      "model_flag": "X"
+      "model_flag": "X",
+      "description_ru": "Низкое давление масла двигателя - критический уровень"
     },
     {
       "fault_code": 418,
@@ -544,7 +611,8 @@
       "description": "Water in Fuel Indicator High – Maintenance",
       "lamp": "(None)",
       "fmi": 15,
-      "model_flag": "X"
+      "model_flag": "X",
+      "description_ru": "Высокий уровень воды в топливе - требуется обслуживание"
     },
     {
       "fault_code": 422,
@@ -552,7 +620,8 @@
       "description": "Engine Coolant Level Sensor Circuit - data incorrect",
       "lamp": "(Yellow)",
       "fmi": 2,
-      "model_flag": "X"
+      "model_flag": "X",
+      "description_ru": "Цепь датчика уровня охлаждающей жидкости двигателя - неверные данные"
     },
     {
       "fault_code": 426,
@@ -560,7 +629,8 @@
       "description": "SAE J1939 datalink - cannot transmit",
       "lamp": "(None)",
       "fmi": 2,
-      "model_flag": "X"
+      "model_flag": "X",
+      "description_ru": "Линия данных SAE J1939 - невозможна передача данных"
     },
     {
       "fault_code": 428,
@@ -568,7 +638,8 @@
       "description": "Water in Fuel Sensor Circuit - shorted high",
       "lamp": "(Yellow)",
       "fmi": 3,
-      "model_flag": "X"
+      "model_flag": "X",
+      "description_ru": "Цепь датчика воды в топливе - короткое замыкание на плюс"
     },
     {
       "fault_code": 429,
@@ -576,7 +647,8 @@
       "description": "Water in Fuel Sensor Circuit - shorted low",
       "lamp": "(Yellow)",
       "fmi": 4,
-      "model_flag": "X"
+      "model_flag": "X",
+      "description_ru": "Цепь датчика воды в топливе - короткое замыкание на массу"
     },
     {
       "fault_code": 431,
@@ -584,7 +656,8 @@
       "description": "Voltage detected simultaneously on both idle validation and off-idle validation switches",
       "lamp": "(Yellow)",
       "fmi": 2,
-      "model_flag": "X"
+      "model_flag": "X",
+      "description_ru": "Напряжение одновременно обнаружено на выключателях холостого и внехолостого режима"
     },
     {
       "fault_code": 432,
@@ -592,7 +665,8 @@
       "description": "Accelerator Pedal Idle Validation Circuit - out of calibration",
       "lamp": "(Red)",
       "fmi": 13,
-      "model_flag": "X"
+      "model_flag": "X",
+      "description_ru": "Цепь подтверждения холостого хода педали акселератора - выход за пределы калибровки"
     },
     {
       "fault_code": 433,
@@ -600,7 +674,8 @@
       "description": "Intake Manifold Pressure Sensor Circuit - data incorrect",
       "lamp": "(Yellow)",
       "fmi": 2,
-      "model_flag": "X"
+      "model_flag": "X",
+      "description_ru": "Цепь датчика давления во впускном коллекторе - неверные данные"
     },
     {
       "fault_code": 435,
@@ -608,7 +683,8 @@
       "description": "Engine Oil Pressure Sensor Circuit - data incorrect",
       "lamp": "(Yellow)",
       "fmi": 2,
-      "model_flag": "X"
+      "model_flag": "X",
+      "description_ru": "Цепь датчика давления масла двигателя - неверные данные"
     },
     {
       "fault_code": 441,
@@ -616,7 +692,8 @@
       "description": "Battery #1 Voltage Low - Warning",
       "lamp": "(Yellow)",
       "fmi": 18,
-      "model_flag": "X"
+      "model_flag": "X",
+      "description_ru": "Низкое напряжение батареи №1 - предупреждение"
     },
     {
       "fault_code": 442,
@@ -624,7 +701,8 @@
       "description": "Battery #1 Voltage High - Warning",
       "lamp": "(Yellow)",
       "fmi": 16,
-      "model_flag": "X"
+      "model_flag": "X",
+      "description_ru": "Высокое напряжение батареи №1 - предупреждение"
     },
     {
       "fault_code": 443,
@@ -632,7 +710,8 @@
       "description": "Accelerator Pedal Position Sensor Supply Voltage Circuit - shorted low",
       "lamp": "(Yellow)",
       "fmi": 4,
-      "model_flag": "X"
+      "model_flag": "X",
+      "description_ru": "Цепь опорного напряжения датчика положения педали акселератора - короткое замыкание на массу"
     },
     {
       "fault_code": 489,
@@ -640,7 +719,8 @@
       "description": "Transmission Output Shaft (Tailshaft) Speed Low – Warning",
       "lamp": "(Yellow)",
       "fmi": 18,
-      "model_flag": "X"
+      "model_flag": "X",
+      "description_ru": "Низкая скорость выходного вала трансмиссии - предупреждение"
     },
     {
       "fault_code": 527,
@@ -648,7 +728,8 @@
       "description": "Auxiliary Input/Output #2 Circuit - shorted high",
       "lamp": "(Yellow)",
       "fmi": 3,
-      "model_flag": "X"
+      "model_flag": "X",
+      "description_ru": "Цепь вспомогательного входа/выхода №2 - короткое замыкание на плюс"
     },
     {
       "fault_code": 528,
@@ -656,7 +737,8 @@
       "description": "OEM Alternate torque validation switch - data incorrect",
       "lamp": "(Yellow)",
       "fmi": 2,
-      "model_flag": "X"
+      "model_flag": "X",
+      "description_ru": "Выключатель подтверждения альтернативного крутящего момента OEM - неверные данные"
     },
     {
       "fault_code": 529,
@@ -664,7 +746,8 @@
       "description": "Auxiliary Input/Output #3 Circuit - shorted high",
       "lamp": "(Yellow)",
       "fmi": 3,
-      "model_flag": "X"
+      "model_flag": "X",
+      "description_ru": "Цепь вспомогательного входа/выхода №3 - короткое замыкание на плюс"
     },
     {
       "fault_code": 551,
@@ -672,7 +755,8 @@
       "description": "Accelerator Pedal Idle Validation Circuit - shorted low",
       "lamp": "(Yellow)",
       "fmi": 4,
-      "model_flag": "X"
+      "model_flag": "X",
+      "description_ru": "Цепь подтверждения холостого хода педали акселератора - короткое замыкание на массу"
     },
     {
       "fault_code": 581,
@@ -680,7 +764,8 @@
       "description": "Fuel Supply Pump Inlet Pressure Sensor Circuit - shorted high",
       "lamp": "(Yellow)",
       "fmi": 3,
-      "model_flag": "X"
+      "model_flag": "X",
+      "description_ru": "Цепь датчика давления на входе топливоподкачивающего насоса - короткое замыкание на плюс"
     },
     {
       "fault_code": 582,
@@ -688,7 +773,8 @@
       "description": "Fuel Supply Pump Inlet Pressure Sensor Circuit – shorted low",
       "lamp": "(Yellow)",
       "fmi": 4,
-      "model_flag": "X"
+      "model_flag": "X",
+      "description_ru": "Цепь датчика давления на входе топливоподкачивающего насоса - короткое замыкание на массу"
     },
     {
       "fault_code": 583,
@@ -696,7 +782,8 @@
       "description": "Fuel Supply Pump Inlet Pressure Low - warning level",
       "lamp": "(Yellow)",
       "fmi": 18,
-      "model_flag": "X"
+      "model_flag": "X",
+      "description_ru": "Низкое давление на входе топливоподкачивающего насоса - предупреждающий уровень"
     },
     {
       "fault_code": 596,
@@ -704,7 +791,8 @@
       "description": "Electrical Charging System Voltage High - warning level",
       "lamp": "(Yellow)",
       "fmi": 16,
-      "model_flag": "X"
+      "model_flag": "X",
+      "description_ru": "Высокое напряжение системы зарядки - предупреждающий уровень"
     },
     {
       "fault_code": 597,
@@ -712,7 +800,8 @@
       "description": "Electrical Charging System Voltage Low - Warning Level",
       "lamp": "(Yellow)",
       "fmi": 18,
-      "model_flag": "X"
+      "model_flag": "X",
+      "description_ru": "Низкое напряжение системы зарядки - предупреждающий уровень"
     },
     {
       "fault_code": 598,
@@ -720,7 +809,8 @@
       "description": "Electrical Charging System Voltage Low - Critical Level",
       "lamp": "(Red)",
       "fmi": 1,
-      "model_flag": "X"
+      "model_flag": "X",
+      "description_ru": "Низкое напряжение системы зарядки - критический уровень"
     },
     {
       "fault_code": 611,
@@ -728,7 +818,8 @@
       "description": "Engine Hot Shutdown",
       "lamp": "(None)",
       "fmi": 31,
-      "model_flag": "X"
+      "model_flag": "X",
+      "description_ru": "Остановка двигателя из-за перегрева"
     },
     {
       "fault_code": 951,
@@ -736,7 +827,8 @@
       "description": "Cylinder Power Imbalance between cylinders",
       "lamp": "(None)",
       "fmi": 2,
-      "model_flag": "X"
+      "model_flag": "X",
+      "description_ru": "Дисбаланс мощности между цилиндрами"
     },
     {
       "fault_code": 1117,
@@ -744,7 +836,8 @@
       "description": "Power Supply Lost With Ignition On - Data Erratic, Intermittent, or Incorrect",
       "lamp": "(None)",
       "fmi": 2,
-      "model_flag": "X"
+      "model_flag": "X",
+      "description_ru": "Потеря питания при включенном зажигании - данные ошибочные, прерывистые или неверные"
     },
     {
       "fault_code": 2182,
@@ -752,7 +845,8 @@
       "description": "Engine Brake driver 1 shorted to a high source.",
       "lamp": "(Yellow)",
       "fmi": 3,
-      "model_flag": "X"
+      "model_flag": "X",
+      "description_ru": "Драйвер моторного тормоза 1 - короткое замыкание на плюс"
     },
     {
       "fault_code": 2183,
@@ -760,7 +854,8 @@
       "description": "Engine Brake driver 1 shorted to a low source.",
       "lamp": "(Yellow)",
       "fmi": 4,
-      "model_flag": "X"
+      "model_flag": "X",
+      "description_ru": "Драйвер моторного тормоза 1 - короткое замыкание на массу"
     },
     {
       "fault_code": 2363,
@@ -768,7 +863,8 @@
       "description": "Engine Brake driver 2 shorted to a low source",
       "lamp": "(Yellow)",
       "fmi": 4,
-      "model_flag": "X"
+      "model_flag": "X",
+      "description_ru": "Драйвер моторного тормоза 2 - короткое замыкание на массу"
     },
     {
       "fault_code": 2367,
@@ -776,7 +872,8 @@
       "description": "Engine Brake driver 2 shorted to a high source.",
       "lamp": "(Yellow)",
       "fmi": 3,
-      "model_flag": "X"
+      "model_flag": "X",
+      "description_ru": "Драйвер моторного тормоза 2 - короткое замыкание на плюс"
     },
     {
       "fault_code": 2555,
@@ -784,7 +881,8 @@
       "description": "Intake Air Heater circuit shorted to a high source.",
       "lamp": "(Yellow)",
       "fmi": 3,
-      "model_flag": "X"
+      "model_flag": "X",
+      "description_ru": "Цепь подогревателя впускного воздуха - короткое замыкание на плюс"
     },
     {
       "fault_code": 2556,
@@ -792,7 +890,8 @@
       "description": "Intake Air Heater circuit shorted to a low source.",
       "lamp": "(Yellow)",
       "fmi": 4,
-      "model_flag": "X"
+      "model_flag": "X",
+      "description_ru": "Цепь подогревателя впускного воздуха - короткое замыкание на массу"
     }
   ]
 }
