@@ -141,7 +141,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
                 children: [
                   _SettingsHint(
                     text:
-                        'С уважением и пониманием к сервису.\nСоздатель MobileTechnology (РябкоFF).',
+                        'С уважением и пониманием к сервису.\nСоздано MobileTechnology: РябкоFF и Си.',
                   ),
                   _SettingsHint(
                     text:
