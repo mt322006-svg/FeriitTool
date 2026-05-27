@@ -310,14 +310,14 @@ class _SectionButton extends StatelessWidget {
                   Text(
                     title,
                     maxLines: 3,
-                    overflow: TextOverflow.fade,
+                    overflow: TextOverflow.ellipsis,
                     style: Theme.of(context).textTheme.bodyLarge,
                   ),
                   const SizedBox(height: 4),
                   Text(
                     subtitle,
                     maxLines: 4,
-                    overflow: TextOverflow.fade,
+                    overflow: TextOverflow.ellipsis,
                     style: Theme.of(context).textTheme.bodyMedium,
                   ),
                 ],

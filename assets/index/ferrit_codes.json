@@ -1,0 +1,1206 @@
+{
+  "source": "DNK17F_20Poruchy.sk.ru.xlsx",
+  "title": "Коды ошибок Ferrit",
+  "items": [
+    {
+      "code": 1,
+      "description": "Педаль акселератора - ошибка проводки",
+      "action_new": "СИГНАЛИЗАЦИЯ",
+      "action": "СИГНАЛИЗАЦИЯ",
+      "activation_conditions": "а) значение напряжения на клеммах XSP04-XSP05-XSP06 (MASTER) выходит за пределы диапазона 0,3–4,8 В.",
+      "program_code": "DEVICE_FAILURES_ACCELERATOR PEDAL",
+      "note": "",
+      "applicability": {
+        "dnk17": "confirmed",
+        "dnk14": "assumed",
+        "dnk10": "unknown",
+        "shs30": "unknown"
+      }
+    },
+    {
+      "code": 2,
+      "description": "Педаль тормоза - ошибка проводки",
+      "action_new": "NO_MOVEMENT",
+      "action": "NO_MOVEMENT",
+      "activation_conditions": "а) значение напряжения на клеммах XSP01-XSP02-XSP03 (MASTER) выходит за пределы диапазона 0,3–4,8 В.",
+      "program_code": "DEVICE_FAILURES_BRAKE_PEDAL",
+      "note": "",
+      "applicability": {
+        "dnk17": "confirmed",
+        "dnk14": "assumed",
+        "dnk10": "unknown",
+        "shs30": "unknown"
+      }
+    },
+    {
+      "code": 3,
+      "description": "Погрешность датчика угла наклона станка.",
+      "action_new": "СИГНАЛИЗАЦИЯ",
+      "action": "СИГНАЛИЗАЦИЯ",
+      "activation_conditions": "а) значение напряжения на клеммах XF04-XF05-XF06 (SLAVE) выходит за пределы диапазона 0,3–4,8 В.",
+      "program_code": "DEVICE_FAILURES_ANGLE_FOLDING_SENSOR",
+      "note": "",
+      "applicability": {
+        "dnk17": "confirmed",
+        "dnk14": "assumed",
+        "dnk10": "unknown",
+        "shs30": "unknown"
+      }
+    },
+    {
+      "code": 4,
+      "description": "Датчик давления в передних тормозах - ошибка.",
+      "action_new": "АВАРИЙНЫЙ ТОРМОЗ (ОЖИДАНИЕ)",
+      "action": "АВАРИЙНЫЙ ТОРМОЗ",
+      "activation_conditions": "а) отключение датчика или короткое замыкание на клеммах XPI01-XPI02 (MASTER)",
+      "program_code": "DEVICE_FAILURES_FRONT_BRAKE_PRESSURE_SENSOR",
+      "note": "",
+      "applicability": {
+        "dnk17": "confirmed",
+        "dnk14": "assumed",
+        "dnk10": "unknown",
+        "shs30": "unknown"
+      }
+    },
+    {
+      "code": 5,
+      "description": "Давление в передних тормозах - за пределами допустимого диапазона.",
+      "action_new": "АВАРИЙНЫЙ ТОРМОЗ (ОЖИДАНИЕ)",
+      "action": "АВАРИЙНЫЙ ТОРМОЗ",
+      "activation_conditions": "a) устройство запущено b) стояночный тормоз отпущен c) давление от датчика (XPI01-XPI02 (MASTER)) превышает значение, установленное в блоке d) или тормоз отпущен, а давление ниже значения, установленного в блоке",
+      "program_code": "DEVICE_FAILURES_FRONT_BRAKE PRESSURE",
+      "note": "",
+      "applicability": {
+        "dnk17": "confirmed",
+        "dnk14": "assumed",
+        "dnk10": "unknown",
+        "shs30": "unknown"
+      }
+    },
+    {
+      "code": 6,
+      "description": "Датчик давления в задних тормозах - ошибка.",
+      "action_new": "АВАРИЙНЫЙ ТОРМОЗ (ОЖИДАНИЕ)",
+      "action": "АВАРИЙНЫЙ ТОРМОЗ",
+      "activation_conditions": "а) отключение датчика или короткое замыкание на клеммах XPI03-XPI04 (MASTER)",
+      "program_code": "DEVICE_FAILURES_REAR_BRAKE_PRESSURE_SENSOR",
+      "note": "",
+      "applicability": {
+        "dnk17": "confirmed",
+        "dnk14": "assumed",
+        "dnk10": "unknown",
+        "shs30": "unknown"
+      }
+    },
+    {
+      "code": 7,
+      "description": "Давление в задних тормозах - за пределами допустимого диапазона.",
+      "action_new": "АВАРИЙНЫЙ ТОРМОЗ (ОЖИДАНИЕ)",
+      "action": "АВАРИЙНЫЙ ТОРМОЗ",
+      "activation_conditions": "a) устройство запущено b) стояночный тормоз отпущен c) давление от датчика (XPI03-XPI04 (MASTER)) превышает значение, установленное в блоке d) или тормоз отпущен, а давление ниже значения, установленного в блоке",
+      "program_code": "DEVICE_FAILURES_REAR_BRAKE PRESSURE",
+      "note": "",
+      "applicability": {
+        "dnk17": "confirmed",
+        "dnk14": "assumed",
+        "dnk10": "unknown",
+        "shs30": "unknown"
+      }
+    },
+    {
+      "code": 8,
+      "description": "Датчик неисправности дверного выключателя",
+      "action_new": "NO_MOVEMENT",
+      "action": "NO_MOVEMENT",
+      "activation_conditions": "а) отключение датчика или короткое замыкание на клеммах XN05-XN06 (MASTER)",
+      "program_code": "DEVICE_FAILURES_DOOR_SENSOR_SWITCH",
+      "note": "",
+      "applicability": {
+        "dnk17": "confirmed",
+        "dnk14": "assumed",
+        "dnk10": "unknown",
+        "shs30": "unknown"
+      }
+    },
+    {
+      "code": 9,
+      "description": "Панель переключателей (передняя панель) - ошибка связи.",
+      "action_new": "СИГНАЛИЗАЦИЯ",
+      "action": "СИГНАЛИЗАЦИЯ",
+      "activation_conditions": "а) ошибка связи с подключенным устройством (линия связи RS485 на клеммах XRS101 - XRS106 (MASTER))",
+      "program_code": "DEVICE_FAILURES_PANELSWITCH_PREDNA_COMMUNICATION",
+      "note": "",
+      "applicability": {
+        "dnk17": "confirmed",
+        "dnk14": "assumed",
+        "dnk10": "unknown",
+        "shs30": "unknown"
+      }
+    },
+    {
+      "code": 10,
+      "description": "Панельный переключатель, передняя панель, плюс - ошибка связи",
+      "action_new": "СИГНАЛИЗАЦИЯ",
+      "action": "СИГНАЛИЗАЦИЯ",
+      "activation_conditions": "а) ошибка связи с подключенным устройством (линия связи RS485 на клеммах XRS101 - XRS106 (MASTER))",
+      "program_code": "DEVICE_FAILURES_PANELSWITCH_PREDNA_PLUS_COMMUNICATION",
+      "note": "",
+      "applicability": {
+        "dnk17": "confirmed",
+        "dnk14": "assumed",
+        "dnk10": "unknown",
+        "shs30": "unknown"
+      }
+    },
+    {
+      "code": 11,
+      "description": "Задняя панель переключателей - ошибка связи",
+      "action_new": "СИГНАЛИЗАЦИЯ",
+      "action": "СИГНАЛИЗАЦИЯ",
+      "activation_conditions": "а) ошибка связи с подключенным устройством (линия связи RS485 на клеммах XRS101 - XRS106 (MASTER))",
+      "program_code": "DEVICE_FAILURES_PANELSWITCH_BACK_COMMUNICATION",
+      "note": "",
+      "applicability": {
+        "dnk17": "confirmed",
+        "dnk14": "assumed",
+        "dnk10": "unknown",
+        "shs30": "unknown"
+      }
+    },
+    {
+      "code": 12,
+      "description": "Система управления ведомым устройством - ошибка связи",
+      "action_new": "ОСТАНОВИТЬ ДВИГАТЕЛЬ",
+      "action": "ОСТАНОВИТЬ ДВИГАТЕЛЬ",
+      "activation_conditions": "а) ошибка связи с подключенным устройством (линия связи RS485 на терминалах XRS107 - XRS110 (MASTER))",
+      "program_code": "DEVICE_FAILURES_SLAVE_CPU_COMMUNICATION",
+      "note": "",
+      "applicability": {
+        "dnk17": "confirmed",
+        "dnk14": "assumed",
+        "dnk10": "unknown",
+        "shs30": "unknown"
+      }
+    },
+    {
+      "code": 13,
+      "description": "Блок управления трансмиссией - ошибка связи",
+      "action_new": "NO_MOVEMENT_WAIT",
+      "action": "NO_MOVEMENT",
+      "activation_conditions": "а) ошибка связи с подключенным устройством (линия связи CAN на клеммах CAN201 - CAN205 (MASTER))",
+      "program_code": "DEVICE_FAILURES_ECU_TRANSMISSION_COMMUNICATION",
+      "note": "",
+      "applicability": {
+        "dnk17": "confirmed",
+        "dnk14": "assumed",
+        "dnk10": "unknown",
+        "shs30": "unknown"
+      }
+    },
+    {
+      "code": 14,
+      "description": "Блок управления трансмиссией - система экстренного торможения",
+      "action_new": "АВАРИЙНЫЙ ТОРМОЗ",
+      "action": "АВАРИЙНЫЙ ТОРМОЗ",
+      "activation_conditions": "а) Блок управления коробкой передач отправляет значение параметра GearPositionCode = 0xFF",
+      "program_code": "DEVICE_FAILURES_ECU_TRANSMISSION_EMERGENCY_BRAKE",
+      "note": "",
+      "applicability": {
+        "dnk17": "confirmed",
+        "dnk14": "assumed",
+        "dnk10": "unknown",
+        "shs30": "unknown"
+      }
+    },
+    {
+      "code": 15,
+      "description": "Блок управления коробкой передач - ограниченная функциональность",
+      "action_new": "СИГНАЛИЗАЦИЯ",
+      "action": "СИГНАЛИЗАЦИЯ",
+      "activation_conditions": "а) Блок управления коробкой передач отправляет значение параметра GearPositionCode = 0x7F",
+      "program_code": "DEVICE_FAILURES_ECU_TRANSMISSION_LIMITED_OPERATION",
+      "note": "",
+      "applicability": {
+        "dnk17": "confirmed",
+        "dnk14": "assumed",
+        "dnk10": "unknown",
+        "shs30": "unknown"
+      }
+    },
+    {
+      "code": 16,
+      "description": "Блок управления передачей - сигнализация",
+      "action_new": "СИГНАЛИЗАЦИЯ",
+      "action": "СИГНАЛИЗАЦИЯ",
+      "activation_conditions": "а) Блок управления коробкой передач отправляет значение параметра GearPositionCode, отличное от 0xFF, 0x7F, 0x05, 0x10, 0x11, 0x13, 0x15, 0x20, 0x30, 0x31, 0x00",
+      "program_code": "DEVICE_FAILURES_ECU_TRANSMISSION_SIGNALISATION",
+      "note": "",
+      "applicability": {
+        "dnk17": "confirmed",
+        "dnk14": "assumed",
+        "dnk10": "unknown",
+        "shs30": "unknown"
+      }
+    },
+    {
+      "code": 17,
+      "description": "Блок управления вентилятором - ошибка связи",
+      "action_new": "СИГНАЛИЗАЦИЯ",
+      "action": "СИГНАЛИЗАЦИЯ",
+      "activation_conditions": "а) ошибка связи с подключенным устройством (линия связи CAN на клеммах CAN201 - CAN205 (MASTER))",
+      "program_code": "DEVICE_FAILURES_ECU_FANDRIVE_COMMUNICATION",
+      "note": "",
+      "applicability": {
+        "dnk17": "confirmed",
+        "dnk14": "assumed",
+        "dnk10": "unknown",
+        "shs30": "unknown"
+      }
+    },
+    {
+      "code": 18,
+      "description": "Блок управления вентилятором - неисправен",
+      "action_new": "СИГНАЛИЗАЦИЯ",
+      "action": "СИГНАЛИЗАЦИЯ",
+      "activation_conditions": "а) блок управления отправляет стандартные сообщения DM1 о неисправности (подробную информацию о неисправности можно найти в архиве неисправностей для конкретного устройства).",
+      "program_code": "DEVICE_FAILURES_ECU_FANDRIVE_ERROR",
+      "note": "",
+      "applicability": {
+        "dnk17": "confirmed",
+        "dnk14": "assumed",
+        "dnk10": "unknown",
+        "shs30": "unknown"
+      }
+    },
+    {
+      "code": 19,
+      "description": "Блок управления рабочими функциями - ошибка связи",
+      "action_new": "СИГНАЛИЗАЦИЯ",
+      "action": "СИГНАЛИЗАЦИЯ",
+      "activation_conditions": "а) ошибка связи с подключенным устройством (линия связи CAN на клеммах CAN201 - CAN205 (MASTER))",
+      "program_code": "DEVICE_FAILURES_ECU_WORKFUNCTIONS_COMMUNICATION",
+      "note": "",
+      "applicability": {
+        "dnk17": "confirmed",
+        "dnk14": "assumed",
+        "dnk10": "unknown",
+        "shs30": "unknown"
+      }
+    },
+    {
+      "code": 20,
+      "description": "Блок управления рабочими функциями - неисправность",
+      "action_new": "СИГНАЛИЗАЦИЯ",
+      "action": "СИГНАЛИЗАЦИЯ",
+      "activation_conditions": "а) блок управления отправляет стандартные сообщения DM1 о неисправности (подробную информацию о неисправности можно найти в архиве неисправностей для конкретного устройства).",
+      "program_code": "DEVICE_FAILURES_ECU_WORKFUNCTIONS_ERROR",
+      "note": "",
+      "applicability": {
+        "dnk17": "confirmed",
+        "dnk14": "assumed",
+        "dnk10": "unknown",
+        "shs30": "unknown"
+      }
+    },
+    {
+      "code": 21,
+      "description": "Блок управления двигателем - ошибка связи",
+      "action_new": "СИГНАЛИЗАЦИЯ",
+      "action": "ОСТАНОВИТЬ ДВИГАТЕЛЬ",
+      "activation_conditions": "а) Идет запуск двигателя б) или двигатель запущен в) Ошибка связи с подключенным устройством (линия связи CAN на клеммах CAN201 - CAN205 (MASTER))",
+      "program_code": "DEVICE_FAILURES_ECU_ENGINE_COMMUNICATION",
+      "note": "",
+      "applicability": {
+        "dnk17": "confirmed",
+        "dnk14": "assumed",
+        "dnk10": "unknown",
+        "shs30": "unknown"
+      }
+    },
+    {
+      "code": 22,
+      "description": "Блок управления двигателем - неисправен",
+      "action_new": "СИГНАЛИЗАЦИЯ",
+      "action": "СИГНАЛИЗАЦИЯ",
+      "activation_conditions": "а) двигатель запускается б) или двигатель запущен в) блок управления отправляет стандартные сообщения DM1 о неисправности (подробную информацию о неисправности можно найти в архиве неисправностей для конкретного устройства)",
+      "program_code": "DEVICE_FAILURES_ECU_ENGINE_ERROR",
+      "note": "",
+      "applicability": {
+        "dnk17": "confirmed",
+        "dnk14": "assumed",
+        "dnk10": "unknown",
+        "shs30": "unknown"
+      }
+    },
+    {
+      "code": 23,
+      "description": "Левый джойстик - ошибка связи",
+      "action_new": "NO_MOVEMENT",
+      "action": "NO_MOVEMENT",
+      "activation_conditions": "а) ошибка связи с подключенным устройством (линия связи CAN на клеммах CAN201 - CAN205 (MASTER))",
+      "program_code": "DEVICE_FAILURES_JOYSTICK_LEFT_COMMUNICATION",
+      "note": "",
+      "applicability": {
+        "dnk17": "confirmed",
+        "dnk14": "assumed",
+        "dnk10": "unknown",
+        "shs30": "unknown"
+      }
+    },
+    {
+      "code": 24,
+      "description": "Левый джойстик - ошибка оценки",
+      "action_new": "NO_MOVEMENT",
+      "action": "NO_MOVEMENT",
+      "activation_conditions": "а) джойстик отправляет сообщение о том, что данные по оси Y неверны.",
+      "program_code": "DEVICE_FAILURES_JOYSTICK_LAVY_DATA",
+      "note": "",
+      "applicability": {
+        "dnk17": "confirmed",
+        "dnk14": "assumed",
+        "dnk10": "unknown",
+        "shs30": "unknown"
+      }
+    },
+    {
+      "code": 25,
+      "description": "Правый джойстик - ошибка связи",
+      "action_new": "NO_MOVEMENT_WAIT",
+      "action": "NO_MOVEMENT",
+      "activation_conditions": "а) ошибка связи с подключенным устройством (линия связи CAN на клеммах CAN201 - CAN205 (MASTER))",
+      "program_code": "DEVICE_FAILURES_JOYSTICK_COMMUNICATION_RIGHTS",
+      "note": "",
+      "applicability": {
+        "dnk17": "confirmed",
+        "dnk14": "assumed",
+        "dnk10": "unknown",
+        "shs30": "unknown"
+      }
+    },
+    {
+      "code": 26,
+      "description": "Дисплей - ошибка связи",
+      "action_new": "СИГНАЛИЗАЦИЯ",
+      "action": "СИГНАЛИЗАЦИЯ",
+      "activation_conditions": "а) ошибка связи с подключенным устройством (линия связи CAN на клеммах CAN101 - CAN105 (MASTER))",
+      "program_code": "DEVICE_FAILURES_DISPLAY_COMMUNICATION",
+      "note": "",
+      "applicability": {
+        "dnk17": "confirmed",
+        "dnk14": "assumed",
+        "dnk10": "unknown",
+        "shs30": "unknown"
+      }
+    },
+    {
+      "code": 27,
+      "description": "Ошибка SD-карты",
+      "action_new": "СИГНАЛИЗАЦИЯ",
+      "action": "СИГНАЛИЗАЦИЯ",
+      "activation_conditions": "а) проблема со связью с модулем SD б) карта SD не вставлена/повреждена",
+      "program_code": "DEVICE_FAILURES_SDCARD",
+      "note": "",
+      "applicability": {
+        "dnk17": "confirmed",
+        "dnk14": "assumed",
+        "dnk10": "unknown",
+        "shs30": "unknown"
+      }
+    },
+    {
+      "code": 28,
+      "description": "Низкое напряжение генератора",
+      "action_new": "СИГНАЛИЗАЦИЯ",
+      "action": "СИГНАЛИЗАЦИЯ",
+      "activation_conditions": "а) значение напряжения на клемме PW06 (SLAVE) меньше 22 В.",
+      "program_code": "DEVICE_FAILURES_VOLTAGE_ALTERNATOR",
+      "note": "",
+      "applicability": {
+        "dnk17": "confirmed",
+        "dnk14": "assumed",
+        "dnk10": "unknown",
+        "shs30": "unknown"
+      }
+    },
+    {
+      "code": 29,
+      "description": "Превышение максимальной скорости",
+      "action_new": "АВАРИЙНЫЙ ТОРМОЗ",
+      "action": "АВАРИЙНЫЙ ТОРМОЗ",
+      "activation_conditions": "а) обнаруженная скорость вращения машины (информация от блока управления редуктором) превышает заданное значение, указанное в блоке управления.",
+      "program_code": "DEVICE_FAILURES_MAX_SPEED",
+      "note": "",
+      "applicability": {
+        "dnk17": "confirmed",
+        "dnk14": "assumed",
+        "dnk10": "unknown",
+        "shs30": "unknown"
+      }
+    },
+    {
+      "code": 30,
+      "description": "Температура гидравлической жидкости - работа гидравлики - ошибка датчика",
+      "action_new": "NO_MOVEMENT_WAIT",
+      "action": "NO_MOVEMENT",
+      "activation_conditions": "а) отключение датчика или короткое замыкание на клеммах XT05-XT06 (SLAVE)",
+      "program_code": "DEVICE_FAILURES_HYDRAULIC_FLUID_TEMPERATURE_SENSOR",
+      "note": "",
+      "applicability": {
+        "dnk17": "confirmed",
+        "dnk14": "assumed",
+        "dnk10": "unknown",
+        "shs30": "unknown"
+      }
+    },
+    {
+      "code": 31,
+      "description": "Температура гидравлической жидкости в рабочем режиме — превышена.",
+      "action_new": "NO_MOVEMENT_WAIT",
+      "action": "NO_MOVEMENT",
+      "activation_conditions": "а) температура, измеренная датчиком (XT05-XT06 (SLAVE)), превышает температуру, установленную блоком.",
+      "program_code": "DEVICE_FAILURES_HYDRAULIC_FLUID_MAX_TEMPERATURE",
+      "note": "",
+      "applicability": {
+        "dnk17": "confirmed",
+        "dnk14": "assumed",
+        "dnk10": "unknown",
+        "shs30": "unknown"
+      }
+    },
+    {
+      "code": 32,
+      "description": "Температура гидравлической жидкости - тормоза - ошибка датчика",
+      "action_new": "NO_MOVEMENT_WAIT",
+      "action": "NO_MOVEMENT",
+      "activation_conditions": "а) отключение датчика или короткое замыкание на клеммах XT03-XT04 (SLAVE)",
+      "program_code": "DEVICE_FAILURES_HYDRAULIC_FLUID_TEMPERATURE_SENSOR",
+      "note": "",
+      "applicability": {
+        "dnk17": "confirmed",
+        "dnk14": "assumed",
+        "dnk10": "unknown",
+        "shs30": "unknown"
+      }
+    },
+    {
+      "code": 33,
+      "description": "Температура гидравлической жидкости в тормозной системе превышена.",
+      "action_new": "NO_MOVEMENT_WAIT",
+      "action": "NO_MOVEMENT",
+      "activation_conditions": "а) температура, измеренная датчиком (XT03-XT04 (SLAVE)), превышает температуру, установленную блоком.",
+      "program_code": "DEVICE_FAILURES_HYDRAULIC_BRAKE_FLUID_TEMPERATURE_MAX",
+      "note": "",
+      "applicability": {
+        "dnk17": "confirmed",
+        "dnk14": "assumed",
+        "dnk10": "unknown",
+        "shs30": "unknown"
+      }
+    },
+    {
+      "code": 34,
+      "description": "Температура гидравлической жидкости - бак - ошибка датчика",
+      "action_new": "NO_MOVEMENT_WAIT",
+      "action": "NO_MOVEMENT",
+      "activation_conditions": "а) отключение датчика или короткое замыкание на клеммах XT01-XT02 (SLAVE)",
+      "program_code": "DEVICE_FAILURES_HYDRAULIC_FLUID_TEMPERATURE_SENSOR",
+      "note": "",
+      "applicability": {
+        "dnk17": "confirmed",
+        "dnk14": "assumed",
+        "dnk10": "unknown",
+        "shs30": "unknown"
+      }
+    },
+    {
+      "code": 35,
+      "description": "Температура гидравлической жидкости в баке превышена.",
+      "action_new": "NO_MOVEMENT_WAIT",
+      "action": "NO_MOVEMENT",
+      "activation_conditions": "а) температура, измеренная датчиком (XT01-XT02 (SLAVE)), превышает температуру, установленную блоком.",
+      "program_code": "DEVICE_FAILURES_HYDRAULIC_FLUID_TEMPERATURE_MAX",
+      "note": "",
+      "applicability": {
+        "dnk17": "confirmed",
+        "dnk14": "assumed",
+        "dnk10": "unknown",
+        "shs30": "unknown"
+      }
+    },
+    {
+      "code": 36,
+      "description": "Уровень гидравлической жидкости - работа гидравлики - сигнализация - ошибка датчика",
+      "action_new": "СИГНАЛИЗАЦИЯ",
+      "action": "СИГНАЛИЗАЦИЯ",
+      "activation_conditions": "а) отключение датчика или короткое замыкание на клеммах XN03-XN04 (SLAVE)",
+      "program_code": "DEVICE_FAILURES_HYDRAULIC_FLUID_LEVEL_WORKING_SENSOR",
+      "note": "",
+      "applicability": {
+        "dnk17": "confirmed",
+        "dnk14": "assumed",
+        "dnk10": "unknown",
+        "shs30": "unknown"
+      }
+    },
+    {
+      "code": 37,
+      "description": "Уровень гидравлической жидкости - работа гидравлики - сигнализация",
+      "action_new": "ОСТАНОВИТЬ ДВИГАТЕЛЬ",
+      "action": "ОСТАНОВИТЬ ДВИГАТЕЛЬ",
+      "activation_conditions": "а) Уровень отсутствует (клеммы XN03-XN04 (SLAVE))",
+      "program_code": "DEVICE_FAILURES_HYDRAULIC_FLUID_LEVEL_WORKING",
+      "note": "",
+      "applicability": {
+        "dnk17": "confirmed",
+        "dnk14": "assumed",
+        "dnk10": "unknown",
+        "shs30": "unknown"
+      }
+    },
+    {
+      "code": 38,
+      "description": "Уровень гидравлической жидкости - тормоза - сигнализация - ошибка датчика",
+      "action_new": "СИГНАЛИЗАЦИЯ",
+      "action": "СИГНАЛИЗАЦИЯ",
+      "activation_conditions": "а) отключение датчика или короткое замыкание на клеммах XN01-XN02 (SLAVE)",
+      "program_code": "DEVICE_FAILURES_HYDRAULIC_FLUID_LEVEL_BRAKE_SENSOR",
+      "note": "",
+      "applicability": {
+        "dnk17": "confirmed",
+        "dnk14": "assumed",
+        "dnk10": "unknown",
+        "shs30": "unknown"
+      }
+    },
+    {
+      "code": 39,
+      "description": "Уровень гидравлической жидкости - тормоза - сигнализация",
+      "action_new": "ОСТАНОВИТЬ ДВИГАТЕЛЬ",
+      "action": "ОСТАНОВИТЬ ДВИГАТЕЛЬ",
+      "activation_conditions": "а) Уровень отсутствует (клеммы XN01-XN02 (SLAVE))",
+      "program_code": "УРОВЕНЬ ТОРМОЗНОЙ ЖИДКОСТИ (DEVICE_FAILURES_HYDRAULIC_BRAKE_FLUID_LEVEL)",
+      "note": "",
+      "applicability": {
+        "dnk17": "confirmed",
+        "dnk14": "assumed",
+        "dnk10": "unknown",
+        "shs30": "unknown"
+      }
+    },
+    {
+      "code": 40,
+      "description": "Ошибка датчика давления в батарее",
+      "action_new": "СИГНАЛИЗАЦИЯ",
+      "action": "СИГНАЛИЗАЦИЯ",
+      "activation_conditions": "а) отключение датчика или короткое замыкание на клеммах XPI07-XPI08 (SLAVE)",
+      "program_code": "DEVICE_FAILURES_BATTERY_PRESSURE_SENSOR",
+      "note": "",
+      "applicability": {
+        "dnk17": "confirmed",
+        "dnk14": "assumed",
+        "dnk10": "unknown",
+        "shs30": "unknown"
+      }
+    },
+    {
+      "code": 41,
+      "description": "Давление в аккумуляторе - за пределами допустимых значений.",
+      "action_new": "СИГНАЛИЗАЦИЯ",
+      "action": "СИГНАЛИЗАЦИЯ",
+      "activation_conditions": "а) устройство запущено; б) истекло время, необходимое для создания давления в аккумуляторах; в) давление от датчика (XPI07-XPI08 (SLAVE)) выходит за пределы, установленные в блоке.",
+      "program_code": "DEVICE_FAILURES_ACCURATE_PRESSURE",
+      "note": "",
+      "applicability": {
+        "dnk17": "confirmed",
+        "dnk14": "assumed",
+        "dnk10": "unknown",
+        "shs30": "unknown"
+      }
+    },
+    {
+      "code": 42,
+      "description": "Ошибка датчика давления в рулевом управлении",
+      "action_new": "АВАРИЙНЫЙ ТОРМОЗ (ОЖИДАНИЕ)",
+      "action": "АВАРИЙНЫЙ ТОРМОЗ",
+      "activation_conditions": "а) отключение датчика или короткое замыкание на клеммах XPI05-XPI06 (SLAVE)",
+      "program_code": "DEVICE_FAILURES_PRESSURE_STEERING_SENSOR",
+      "note": "",
+      "applicability": {
+        "dnk17": "confirmed",
+        "dnk14": "assumed",
+        "dnk10": "unknown",
+        "shs30": "unknown"
+      }
+    },
+    {
+      "code": 43,
+      "description": "Давление в рулевом управлении - выход за пределы допустимого диапазона.",
+      "action_new": "АВАРИЙНЫЙ ТОРМОЗ (ОЖИДАНИЕ)",
+      "action": "АВАРИЙНЫЙ ТОРМОЗ",
+      "activation_conditions": "а) устройство запущено; б) выход предохранительного клапана управления включен; в) давление от датчика (XPI05-XPI06 (SLAVE)) выходит за пределы, установленные в блоке управления.",
+      "program_code": "DEVICE_FAILURES_PRESSURE_CONTROL",
+      "note": "",
+      "applicability": {
+        "dnk17": "confirmed",
+        "dnk14": "assumed",
+        "dnk10": "unknown",
+        "shs30": "unknown"
+      }
+    },
+    {
+      "code": 44,
+      "description": "Ошибка датчика уровня топлива",
+      "action_new": "СИГНАЛИЗАЦИЯ",
+      "action": "СИГНАЛИЗАЦИЯ",
+      "activation_conditions": "а) отключение датчика или короткое замыкание на клеммах XPI03-XPI04 (SLAVE)",
+      "program_code": "DEVICE_FAILURES_FUEL_LEVEL_SENSOR",
+      "note": "",
+      "applicability": {
+        "dnk17": "confirmed",
+        "dnk14": "assumed",
+        "dnk10": "unknown",
+        "shs30": "unknown"
+      }
+    },
+    {
+      "code": 45,
+      "description": "Рабочее гидравлическое давление - ошибка датчика",
+      "action_new": "СИГНАЛИЗАЦИЯ",
+      "action": "СИГНАЛИЗАЦИЯ",
+      "activation_conditions": "а) отключение датчика или короткое замыкание на клеммах XPI01-XPI02 (SLAVE)",
+      "program_code": "DEVICE_FAILURES_TLAK_PRACOVNA_HYDRAULIKA_SENSOR",
+      "note": "",
+      "applicability": {
+        "dnk17": "confirmed",
+        "dnk14": "assumed",
+        "dnk10": "unknown",
+        "shs30": "unknown"
+      }
+    },
+    {
+      "code": 46,
+      "description": "Рабочее гидравлическое давление - за пределами допустимых значений.",
+      "action_new": "СИГНАЛИЗАЦИЯ",
+      "action": "СИГНАЛИЗАЦИЯ",
+      "activation_conditions": "а) устройство запущено; б) стояночный тормоз не активирован; в) выход предохранительного клапана рабочей гидравлики включен; г) давление от датчика (XPI01-XPI02 (SLAVE)) ниже заданного значением блока управления.",
+      "program_code": "DEVICE_FAILURES_TLAK_PRACOVNA_HYDRAULIKA",
+      "note": "",
+      "applicability": {
+        "dnk17": "confirmed",
+        "dnk14": "assumed",
+        "dnk10": "unknown",
+        "shs30": "unknown"
+      }
+    },
+    {
+      "code": 47,
+      "description": "Низкий уровень охлаждающей жидкости в двигателе",
+      "action_new": "СИГНАЛИЗАЦИЯ",
+      "action": "СИГНАЛИЗАЦИЯ",
+      "activation_conditions": "а) цифровой вход (клеммы XI09-XI10 (SLAVE)) имеет значение 1",
+      "program_code": "УРОВЕНЬ ВОДЫ В МОТОРЕ (DEVICE_FAILURES_MOTOR_WATER_LEVEL)",
+      "note": "",
+      "applicability": {
+        "dnk17": "confirmed",
+        "dnk14": "assumed",
+        "dnk10": "unknown",
+        "shs30": "unknown"
+      }
+    },
+    {
+      "code": 48,
+      "description": "Засорился гидравлический фильтр тормозов.",
+      "action_new": "СИГНАЛИЗАЦИЯ",
+      "action": "СИГНАЛИЗАЦИЯ",
+      "activation_conditions": "а) цифровой вход (клеммы XI07-XI08 (SLAVE)) имеет значение 0",
+      "program_code": "DEVICE_FAILURES_PRESSURE_FILTER_HYDRAULICS_BRAKES",
+      "note": "",
+      "applicability": {
+        "dnk17": "confirmed",
+        "dnk14": "assumed",
+        "dnk10": "unknown",
+        "shs30": "unknown"
+      }
+    },
+    {
+      "code": 49,
+      "description": "Засоренный фильтр гидравлической системы – исправная гидравлика",
+      "action_new": "СИГНАЛИЗАЦИЯ",
+      "action": "СИГНАЛИЗАЦИЯ",
+      "activation_conditions": "а) цифровой вход (клеммы XI05-XI06 (SLAVE)) имеет значение 1",
+      "program_code": "DEVICE_FAILURES_ODPAD_FILTER_HYDRAULIKA_PRACOVNA",
+      "note": "",
+      "applicability": {
+        "dnk17": "confirmed",
+        "dnk14": "assumed",
+        "dnk10": "unknown",
+        "shs30": "unknown"
+      }
+    },
+    {
+      "code": 50,
+      "description": "Засорился гидравлический всасывающий фильтр",
+      "action_new": "СИГНАЛИЗАЦИЯ",
+      "action": "СИГНАЛИЗАЦИЯ",
+      "activation_conditions": "а) цифровой вход (клеммы XI03-XI04 (SLAVE)) имеет значение 0",
+      "program_code": "DEVICE_FAILURES_SACI_FILTER_HYDRAULIC",
+      "note": "",
+      "applicability": {
+        "dnk17": "confirmed",
+        "dnk14": "assumed",
+        "dnk10": "unknown",
+        "shs30": "unknown"
+      }
+    },
+    {
+      "code": 51,
+      "description": "Засорился гидравлический фильтр тормозной системы.",
+      "action_new": "СИГНАЛИЗАЦИЯ",
+      "action": "СИГНАЛИЗАЦИЯ",
+      "activation_conditions": "а) цифровой вход (клеммы XI01-XI02 (SLAVE)) имеет значение 1",
+      "program_code": "DEVICE_FAILURES_WASTE_FILTER_HYDRAULIC_BRAKE_NADRZ",
+      "note": "",
+      "applicability": {
+        "dnk17": "confirmed",
+        "dnk14": "assumed",
+        "dnk10": "unknown",
+        "shs30": "unknown"
+      }
+    },
+    {
+      "code": 52,
+      "description": "Вода в топливе - ошибка датчика",
+      "action_new": "СИГНАЛИЗАЦИЯ",
+      "action": "СИГНАЛИЗАЦИЯ",
+      "activation_conditions": "а) значение напряжения на клеммах X02-XF03 (ведомое устройство) выходит за пределы диапазона 1–4 В.",
+      "program_code": "DEVICE_FAILURES_WATER_IN_PALIVE_SENSOR",
+      "note": "",
+      "applicability": {
+        "dnk17": "confirmed",
+        "dnk14": "assumed",
+        "dnk10": "unknown",
+        "shs30": "unknown"
+      }
+    },
+    {
+      "code": 53,
+      "description": "Вода, присутствующая в топливе",
+      "action_new": "ОСТАНОВИТЬ ДВИГАТЕЛЬ",
+      "action": "ОСТАНОВИТЬ ДВИГАТЕЛЬ",
+      "activation_conditions": "а) значение напряжения на клеммах X02-XF03 (ведомый) находится в диапазоне 2,2 В - 4 В.",
+      "program_code": "DEVICE_FAILURES_WATER_IN_FUEL",
+      "note": "",
+      "applicability": {
+        "dnk17": "confirmed",
+        "dnk14": "assumed",
+        "dnk10": "unknown",
+        "shs30": "unknown"
+      }
+    },
+    {
+      "code": 54,
+      "description": "Ошибка датчика скорости вращения вентилятора",
+      "action_new": "СИГНАЛИЗАЦИЯ",
+      "action": "СИГНАЛИЗАЦИЯ",
+      "activation_conditions": "DEVICE_FAILURES_OTACKY_VENTILATOR_SENSOR",
+      "program_code": "",
+      "note": "",
+      "applicability": {
+        "dnk17": "confirmed",
+        "dnk14": "assumed",
+        "dnk10": "unknown",
+        "shs30": "unknown"
+      }
+    },
+    {
+      "code": 55,
+      "description": "Скорость вращения вентилятора - низкая или критическая скорость",
+      "action_new": "СИГНАЛИЗАЦИЯ",
+      "action": "СИГНАЛИЗАЦИЯ",
+      "activation_conditions": "а) устройство запущено; б) обнаруженная скорость вращения вентилятора (клеммы XF07-XF10 (SLAVE)) превышает 2300 об/мин.",
+      "program_code": "DEVICE_FAILURES_OTACKY_VENTILATOR",
+      "note": "",
+      "applicability": {
+        "dnk17": "confirmed",
+        "dnk14": "assumed",
+        "dnk10": "unknown",
+        "shs30": "unknown"
+      }
+    },
+    {
+      "code": 56,
+      "description": "Ошибка блока управления двигателем",
+      "action_new": "СИГНАЛИЗАЦИЯ",
+      "action": "ОСТАНОВИТЬ ДВИГАТЕЛЬ",
+      "activation_conditions": "а) Сообщения об ошибках DM1 с кодами ошибок 629.12, 630.2, 630.12 поступили через шину CAN.",
+      "program_code": "DEVICE_FAILURES_ECU_ENGINE_SYSTEM_ERROR",
+      "note": "",
+      "applicability": {
+        "dnk17": "confirmed",
+        "dnk14": "assumed",
+        "dnk10": "unknown",
+        "shs30": "unknown"
+      }
+    },
+    {
+      "code": 57,
+      "description": "Ошибки датчика скорости двигателя",
+      "action_new": "СИГНАЛИЗАЦИЯ",
+      "action": "СИГНАЛИЗАЦИЯ",
+      "activation_conditions": "а) Сообщения об ошибках DM1 с кодами ошибок 190.2, 190.10 поступили через шину CAN.",
+      "program_code": "DEVICE_FAILURES_OTACKY_MOTOR_SENSOR",
+      "note": "",
+      "applicability": {
+        "dnk17": "confirmed",
+        "dnk14": "assumed",
+        "dnk10": "unknown",
+        "shs30": "unknown"
+      }
+    },
+    {
+      "code": 58,
+      "description": "Критическая скорость двигателя",
+      "action_new": "СИГНАЛИЗАЦИЯ",
+      "action": "ОСТАНОВИТЬ ДВИГАТЕЛЬ",
+      "activation_conditions": "а) Сообщения об ошибке DM1 с кодом ошибки 190.0 поступили по шине CAN.",
+      "program_code": "DEVICE_FAILURES_ROTATION_MOTOR",
+      "note": "",
+      "applicability": {
+        "dnk17": "confirmed",
+        "dnk14": "assumed",
+        "dnk10": "unknown",
+        "shs30": "unknown"
+      }
+    },
+    {
+      "code": 59,
+      "description": "Ошибка датчика давления воздуха на впуске.",
+      "action_new": "СИГНАЛИЗАЦИЯ",
+      "action": "СИГНАЛИЗАЦИЯ",
+      "activation_conditions": "а) Сообщения об ошибках DM1 с кодами ошибок 102.2, 102.3, 102.4 поступили по шине CAN.",
+      "program_code": "DEVICE_FAILURES_INTAKE_AIR_PRESSURE_SENSOR",
+      "note": "",
+      "applicability": {
+        "dnk17": "confirmed",
+        "dnk14": "assumed",
+        "dnk10": "unknown",
+        "shs30": "unknown"
+      }
+    },
+    {
+      "code": 60,
+      "description": "Погрешность датчика температуры всасываемого воздуха",
+      "action_new": "СИГНАЛИЗАЦИЯ",
+      "action": "СИГНАЛИЗАЦИЯ",
+      "activation_conditions": "а) Сообщения об ошибках DM1 с кодами ошибок 105.3, 105.4 поступили через шину CAN.",
+      "program_code": "DEVICE_FAILURES_INTAKE_AIR_TEMPERATURE_SENSOR",
+      "note": "",
+      "applicability": {
+        "dnk17": "confirmed",
+        "dnk14": "assumed",
+        "dnk10": "unknown",
+        "shs30": "unknown"
+      }
+    },
+    {
+      "code": 61,
+      "description": "Температура всасываемого воздуха – критическое значение",
+      "action_new": "СИГНАЛИЗАЦИЯ",
+      "action": "ОСТАНОВИТЬ ДВИГАТЕЛЬ",
+      "activation_conditions": "а) Сообщения об ошибке DM1 с кодом ошибки 105.16 поступили через шину CAN.",
+      "program_code": "DEVICE_FAILURES_INTAKE_AIR_TEMPERATURE",
+      "note": "",
+      "applicability": {
+        "dnk17": "confirmed",
+        "dnk14": "assumed",
+        "dnk10": "unknown",
+        "shs30": "unknown"
+      }
+    },
+    {
+      "code": 62,
+      "description": "Ошибка датчика давления моторного масла.",
+      "action_new": "СИГНАЛИЗАЦИЯ",
+      "action": "ОСТАНОВИТЬ ДВИГАТЕЛЬ",
+      "activation_conditions": "а) Сообщения об ошибках DM1 с кодами ошибок 100.2, 100.3, 100.4 поступили по шине CAN.",
+      "program_code": "DEVICE_FAILURES_ENGINE_OIL_PRESSURE_SENSOR",
+      "note": "",
+      "applicability": {
+        "dnk17": "confirmed",
+        "dnk14": "assumed",
+        "dnk10": "unknown",
+        "shs30": "unknown"
+      }
+    },
+    {
+      "code": 63,
+      "description": "Низкое давление моторного масла",
+      "action_new": "СИГНАЛИЗАЦИЯ",
+      "action": "ОСТАНОВИТЬ ДВИГАТЕЛЬ",
+      "activation_conditions": "а) Сообщения об ошибках DM1 с кодами ошибок 100.1 и 100.18 поступили через шину CAN.",
+      "program_code": "DEVICE_FAILURES_ENGINE_OIL_PRESSURE",
+      "note": "",
+      "applicability": {
+        "dnk17": "confirmed",
+        "dnk14": "assumed",
+        "dnk10": "unknown",
+        "shs30": "unknown"
+      }
+    },
+    {
+      "code": 64,
+      "description": "Ошибка датчика температуры моторного масла.",
+      "action_new": "СИГНАЛИЗАЦИЯ",
+      "action": "СИГНАЛИЗАЦИЯ",
+      "activation_conditions": "а) Сообщения об ошибках DM1 с кодами ошибок 175.3, 175.4 поступили через шину CAN.",
+      "program_code": "DEVICE_FAILURES_ENGINE_OIL_TEMPERATURE_SENSOR",
+      "note": "",
+      "applicability": {
+        "dnk17": "confirmed",
+        "dnk14": "assumed",
+        "dnk10": "unknown",
+        "shs30": "unknown"
+      }
+    },
+    {
+      "code": 65,
+      "description": "Температура моторного масла — критическое значение",
+      "action_new": "СИГНАЛИЗАЦИЯ",
+      "action": "NO_MOVEMENT",
+      "activation_conditions": "а) Сообщения об ошибке DM1 с кодом ошибки 175.0 поступили по шине CAN.",
+      "program_code": "DEVICE_FAILURES_ENGINE_OIL_TEMPERATURE",
+      "note": "",
+      "applicability": {
+        "dnk17": "confirmed",
+        "dnk14": "assumed",
+        "dnk10": "unknown",
+        "shs30": "unknown"
+      }
+    },
+    {
+      "code": 66,
+      "description": "Ошибка датчика температуры охлаждающей жидкости двигателя.",
+      "action_new": "СИГНАЛИЗАЦИЯ",
+      "action": "ОСТАНОВИТЬ ДВИГАТЕЛЬ",
+      "activation_conditions": "а) Сообщения об ошибках DM1 с кодами ошибок 110.3, 110.4 поступили по шине CAN.",
+      "program_code": "DEVICE_FAILURES_WATER_TEMPERATURE_MOTOR_SENSOR",
+      "note": "",
+      "applicability": {
+        "dnk17": "confirmed",
+        "dnk14": "assumed",
+        "dnk10": "unknown",
+        "shs30": "unknown"
+      }
+    },
+    {
+      "code": 67,
+      "description": "Температура охлаждающей жидкости двигателя — критическое значение",
+      "action_new": "СИГНАЛИЗАЦИЯ",
+      "action": "ОСТАНОВИТЬ ДВИГАТЕЛЬ",
+      "activation_conditions": "а) Сообщения об ошибках DM1 с кодами ошибок 110.0, 110.16 поступили через шину CAN.",
+      "program_code": "DEVICE_FAILURES_MOTOR_WATER_TEMPERATURE",
+      "note": "",
+      "applicability": {
+        "dnk17": "confirmed",
+        "dnk14": "assumed",
+        "dnk10": "unknown",
+        "shs30": "unknown"
+      }
+    },
+    {
+      "code": 68,
+      "description": "Остановка двигателя - критическая температура двигателя",
+      "action_new": "СИГНАЛИЗАЦИЯ",
+      "action": "ОСТАНОВИТЬ ДВИГАТЕЛЬ",
+      "activation_conditions": "а) Сообщения об ошибке DM1 с кодом ошибки 1381.31 поступили через шину CAN.",
+      "program_code": "DEVICE_FAILURES_SWITCH_ENGINE_TEMPERATURE",
+      "note": "",
+      "applicability": {
+        "dnk17": "confirmed",
+        "dnk14": "assumed",
+        "dnk10": "unknown",
+        "shs30": "unknown"
+      }
+    },
+    {
+      "code": 69,
+      "description": "Проверка тормозной системы не пройдена — необходимо провести повторную проверку.",
+      "action_new": "х",
+      "action": "СИГНАЛИЗАЦИЯ",
+      "activation_conditions": "а) проверка тормозов не завершена/не требуется",
+      "program_code": "DEVICE_FAILURES_TEST_BRAKE_FAILURE",
+      "note": "",
+      "applicability": {
+        "dnk17": "confirmed",
+        "dnk14": "assumed",
+        "dnk10": "unknown",
+        "shs30": "unknown"
+      }
+    },
+    {
+      "code": 70,
+      "description": "Панельный переключатель сзади плюс - ошибка связи",
+      "action_new": "СИГНАЛИЗАЦИЯ",
+      "action": "СИГНАЛИЗАЦИЯ",
+      "activation_conditions": "а) ошибка связи с подключенным устройством (линия связи RS485 на клеммах XRS101 - XRS106 (MASTER))",
+      "program_code": "DEVICE_FAILURES_PANELSWITCH_ZADNA_PLUS_COMMUNICATION",
+      "note": "",
+      "applicability": {
+        "dnk17": "confirmed",
+        "dnk14": "assumed",
+        "dnk10": "unknown",
+        "shs30": "unknown"
+      }
+    },
+    {
+      "code": 71,
+      "description": "Засорился воздушный фильтр двигателя.",
+      "action_new": "СИГНАЛИЗАЦИЯ",
+      "action": "СИГНАЛИЗАЦИЯ",
+      "activation_conditions": "а) цифровой вход (клеммы XI11-XI12 (SLAVE)) имеет значение 1.",
+      "program_code": "DEVICE_FAILURES_FILTER_AIR_SUCTION",
+      "note": "",
+      "applicability": {
+        "dnk17": "confirmed",
+        "dnk14": "assumed",
+        "dnk10": "unknown",
+        "shs30": "unknown"
+      }
+    },
+    {
+      "code": 72,
+      "description": "Началось тушение пожара",
+      "action_new": "ОСТАНОВИТЬ ДВИГАТЕЛЬ",
+      "action": "ОСТАНОВИТЬ ДВИГАТЕЛЬ",
+      "activation_conditions": "а) цифровой вход (клеммы XT13-XT14 (SLAVE)) имеет значение 1",
+      "program_code": "DEVICE_FAILURES_STOP_OFF_START",
+      "note": "",
+      "applicability": {
+        "dnk17": "confirmed",
+        "dnk14": "assumed",
+        "dnk10": "unknown",
+        "shs30": "unknown"
+      }
+    },
+    {
+      "code": 73,
+      "description": "Предупреждение о температуре охлаждающей жидкости двигателя",
+      "action_new": "СИГНАЛИЗАЦИЯ",
+      "action": "СИГНАЛИЗАЦИЯ",
+      "activation_conditions": "а) значение, считанное из CAN-сообщения устройства, превышает значение, установленное устройством.",
+      "program_code": "ПРЕДУПРЕЖДЕНИЕ О НЕИСПРАВНОСТЯХ УСТРОЙСТВА, ТЕМПЕРАТУРЕ ВОДЫ В МОТОРЕ",
+      "note": "",
+      "applicability": {
+        "dnk17": "confirmed",
+        "dnk14": "assumed",
+        "dnk10": "unknown",
+        "shs30": "unknown"
+      }
+    },
+    {
+      "code": 74,
+      "description": "Предупреждение о температуре гидравлического бака",
+      "action_new": "СИГНАЛИЗАЦИЯ",
+      "action": "СИГНАЛИЗАЦИЯ",
+      "activation_conditions": "а) температура, измеренная датчиком (XT01-XT02 (SLAVE)), превышает температуру, установленную блоком.",
+      "program_code": "ПРЕДУПРЕЖДЕНИЕ О НЕИСПРАВНОСТЯХ УСТРОЙСТВА, СВЯЗАННЫХ С ТЕМПЕРАТУРОЙ ГИДРАВЛИЧЕСКОЙ ЖИДКОСТИ В РЕЗЕРВУАРЕ",
+      "note": "",
+      "applicability": {
+        "dnk17": "confirmed",
+        "dnk14": "assumed",
+        "dnk10": "unknown",
+        "shs30": "unknown"
+      }
+    },
+    {
+      "code": 75,
+      "description": "Предупреждение о перегреве гидравлической жидкости тормозной системы.",
+      "action_new": "СИГНАЛИЗАЦИЯ",
+      "action": "СИГНАЛИЗАЦИЯ",
+      "activation_conditions": "а) температура, измеренная датчиком (XT03-XT04 (SLAVE)), превышает температуру, установленную блоком.",
+      "program_code": "ПРЕДУПРЕЖДЕНИЕ О ТЕМПЕРАТУРЕ ТОРМОЗНОЙ ЖИДКОСТИ (DEVICE_FAILURES_HYDRAULIC_BRAKE_FLUID_WARNING)",
+      "note": "",
+      "applicability": {
+        "dnk17": "confirmed",
+        "dnk14": "assumed",
+        "dnk10": "unknown",
+        "shs30": "unknown"
+      }
+    },
+    {
+      "code": 76,
+      "description": "Уровень гидравлической жидкости - работа гидравлики - предупреждение - ошибка датчика",
+      "action_new": "СИГНАЛИЗАЦИЯ",
+      "action": "СИГНАЛИЗАЦИЯ",
+      "activation_conditions": "а) отключение датчика или короткое замыкание на клеммах XN07-XN08 (SLAVE)",
+      "program_code": "DEVICE_FAILURES_HYDRAULIC_FLUID_LEVEL_WARNING_SENSOR",
+      "note": "",
+      "applicability": {
+        "dnk17": "confirmed",
+        "dnk14": "assumed",
+        "dnk10": "unknown",
+        "shs30": "unknown"
+      }
+    },
+    {
+      "code": 77,
+      "description": "Уровень гидравлической жидкости - работа гидравлики - уведомление",
+      "action_new": "СИГНАЛИЗАЦИЯ",
+      "action": "СИГНАЛИЗАЦИЯ",
+      "activation_conditions": "а) Уровень отсутствует (клеммы XN07-XN08 (SLAVE))",
+      "program_code": "ПРЕДУПРЕЖДЕНИЕ ОБ УРОВНЕ ЖИДКОСТИ В ГИДРАВЛИЧЕСКОЙ СИСТЕМЕ",
+      "note": "",
+      "applicability": {
+        "dnk17": "confirmed",
+        "dnk14": "assumed",
+        "dnk10": "unknown",
+        "shs30": "unknown"
+      }
+    },
+    {
+      "code": 78,
+      "description": "Уровень гидравлической жидкости - тормоза - предупреждение - ошибка датчика",
+      "action_new": "СИГНАЛИЗАЦИЯ",
+      "action": "СИГНАЛИЗАЦИЯ",
+      "activation_conditions": "а) отключение датчика или короткое замыкание на клеммах XN05-XN06 (SLAVE)",
+      "program_code": "DEVICE_FAILURES_HYDRAULIC_BRAKE_FLUID_LEVEL_WARNING_SENSOR",
+      "note": "",
+      "applicability": {
+        "dnk17": "confirmed",
+        "dnk14": "assumed",
+        "dnk10": "unknown",
+        "shs30": "unknown"
+      }
+    },
+    {
+      "code": 79,
+      "description": "Уровень гидравлической жидкости - тормоза - предупреждение",
+      "action_new": "СИГНАЛИЗАЦИЯ",
+      "action": "СИГНАЛИЗАЦИЯ",
+      "activation_conditions": "а) Уровень отсутствует (клеммы XN05-XN06 (SLAVE))",
+      "program_code": "ПРЕДУПРЕЖДЕНИЕ ОБ УРОВНЕ ЖИДКОСТИ ГИДРАВЛИЧЕСКОЙ ТОРМОЗА",
+      "note": "",
+      "applicability": {
+        "dnk17": "confirmed",
+        "dnk14": "assumed",
+        "dnk10": "unknown",
+        "shs30": "unknown"
+      }
+    },
+    {
+      "code": 81,
+      "description": "Переворачивание пульта дистанционного управления",
+      "action_new": "АВАРИЙНЫЙ ТОРМОЗ",
+      "action": "АВАРИЙНЫЙ ТОРМОЗ",
+      "activation_conditions": "а) угол наклона пульта дистанционного управления (по обеим осям) находится в пределах ±45°.",
+      "program_code": "DEVICE_FAILURES_REMCON_ANGLE_INDEX",
+      "note": "",
+      "applicability": {
+        "dnk17": "confirmed",
+        "dnk14": "assumed",
+        "dnk10": "unknown",
+        "shs30": "unknown"
+      }
+    }
+  ]
+}

@@ -3,15 +3,16 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 
 import '../data/app_session_store.dart';
-import '../data/app_settings_store.dart';
 import '../data/sensor_catalog_repository.dart';
 import '../data/troubleshooting_repository.dart';
 import 'engine_codes_screen.dart';
+import 'ferrit_codes_screen.dart';
 import 'global_search_screen.dart';
 import 'model_screen.dart';
 import 'settings_screen.dart';
 import 'sensors_screen.dart';
 import 'symptom_screen.dart';
+import 'tetris_screen.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -22,22 +23,12 @@ class HomeScreen extends StatefulWidget {
 
 class _HomeScreenState extends State<HomeScreen> {
   final ScrollController _scrollController = ScrollController();
-  final GlobalKey _recentKey = GlobalKey();
-  late final Timer _clockTimer;
-  late TimeOfDay _now;
+  int _easterTapCount = 0;
+  Timer? _easterTapTimer;
 
   @override
   void initState() {
     super.initState();
-    _now = TimeOfDay.now();
-    _clockTimer = Timer.periodic(const Duration(minutes: 1), (_) {
-      if (!mounted) {
-        return;
-      }
-      setState(() {
-        _now = TimeOfDay.now();
-      });
-    });
   }
 
   Future<_HomeData> _loadHomeData() async {
@@ -52,7 +43,7 @@ class _HomeScreenState extends State<HomeScreen> {
 
   @override
   void dispose() {
-    _clockTimer.cancel();
+    _easterTapTimer?.cancel();
     _scrollController.dispose();
     super.dispose();
   }
@@ -61,6 +52,13 @@ class _HomeScreenState extends State<HomeScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        leadingWidth: 46,
+        leading: Padding(
+          padding: const EdgeInsets.only(left: 4),
+          child: _AnimatedFerritEmblem(
+            onTap: _onEmblemTap,
+          ),
+        ),
         title: Text(
           'Твой Ferrrit',
           maxLines: 1,
@@ -71,30 +69,8 @@ class _HomeScreenState extends State<HomeScreen> {
             letterSpacing: 0.6,
           ),
         ),
-        titleSpacing: 16,
+        titleSpacing: 8,
         actions: [
-          Padding(
-            padding: const EdgeInsets.only(right: 6),
-            child: Center(
-              child: Container(
-                padding:
-                    const EdgeInsets.symmetric(horizontal: 10, vertical: 6),
-                decoration: BoxDecoration(
-                  color: const Color(0x12FF7A1A),
-                  borderRadius: BorderRadius.circular(12),
-                  border: Border.all(color: const Color(0x44FF7A1A)),
-                ),
-                child: Text(
-                  _formatTime(_now),
-                  style: TextStyle(
-                    color: Theme.of(context).colorScheme.primary,
-                    fontWeight: FontWeight.w700,
-                    fontFeatures: const [FontFeature.tabularFigures()],
-                  ),
-                ),
-              ),
-            ),
-          ),
           IconButton(
             tooltip: 'Настройки',
             onPressed: () => Navigator.push(
@@ -126,51 +102,26 @@ class _HomeScreenState extends State<HomeScreen> {
           final catalog = homeData.troubleshooting;
 
           return AnimatedBuilder(
-            animation: Listenable.merge([
-              AppSessionStore.instance,
-              AppSettingsStore.instance,
-            ]),
+            animation: AppSessionStore.instance,
             builder: (context, _) {
               final recentRefs = AppSessionStore.instance.recentSymptoms;
-              final showQuickTools = AppSettingsStore.instance.showQuickTools;
-              final availableRefs = [
-                for (final model in catalog.models)
-                  for (final step in model.steps)
-                    SymptomRef(modelId: model.id, stepId: step.id),
-              ];
-              final favoriteRefs =
-                  AppSessionStore.instance.favoriteSymptoms(availableRefs);
 
               return ListView(
                 controller: _scrollController,
                 padding: const EdgeInsets.fromLTRB(16, 12, 16, 20),
                 children: [
-                  if (showQuickTools) ...[
-                    _QuickTools(
-                      onSearch: () => Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                          builder: (_) => const GlobalSearchScreen(),
-                        ),
+                  _ActionCard(
+                    icon: Icons.manage_search,
+                    title: 'Поиск',
+                    subtitle: 'Симптомы, коды, датчики',
+                    onTap: () => Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (_) => const GlobalSearchScreen(),
                       ),
-                      onSensors: () => Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                          builder: (_) => const SensorsScreen(),
-                        ),
-                      ),
-                      onCodes: () => Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                          builder: (_) => const EngineCodesScreen(
-                            modelName: 'ПДМ-14 / ПДМ-17',
-                          ),
-                        ),
-                      ),
-                      onRecent: _scrollToRecent,
                     ),
-                    const SizedBox(height: 16),
-                  ],
+                  ),
+                  const SizedBox(height: 16),
                   const _SectionTitle(
                     title: 'Серии техники',
                     subtitle: 'Выбери машину и переходи к симптомам и схемам.',
@@ -191,32 +142,71 @@ class _HomeScreenState extends State<HomeScreen> {
                       ),
                     ),
                   ),
+                  const SizedBox(height: 4),
+                  const _SectionTitle(
+                    title: 'Датчики и калькуляторы',
+                    subtitle: 'Быстрый вход в базу датчиков, RTD/NTC и расчёты.',
+                  ),
+                  const SizedBox(height: 10),
+                  _ActionCard(
+                    icon: Icons.thermostat_outlined,
+                    title: 'Открыть датчики и калькуляторы',
+                    subtitle: 'Справочник датчиков, калькуляция сопротивления и температуры.',
+                    onTap: () => Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (_) => const SensorsScreen(),
+                      ),
+                    ),
+                  ),
+                  const SizedBox(height: 12),
+                  const _SectionTitle(
+                    title: 'Коды Ferrit',
+                    subtitle: 'Общий справочник кодов ошибок Ferrit по номеру.',
+                  ),
+                  const SizedBox(height: 10),
+                  _ActionCard(
+                    icon: Icons.confirmation_number_outlined,
+                    title: 'Открыть коды Ferrit',
+                    subtitle: 'Вводи номер (например 21) или листай весь список.',
+                    onTap: () => Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (_) => const FerritCodesScreen(),
+                      ),
+                    ),
+                  ),
+                  const SizedBox(height: 12),
+                  const _SectionTitle(
+                    title: 'Коды двигателя',
+                    subtitle: 'Cummins для ПДМ-14/17 и электронной серии.',
+                  ),
+                  const SizedBox(height: 10),
+                  _ActionCard(
+                    icon: Icons.memory_outlined,
+                    title: 'Открыть коды двигателя',
+                    subtitle: 'Поиск по Fault, SPN, FMI и русскому описанию.',
+                    onTap: () => Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (_) => const EngineCodesScreen(
+                          modelName: 'ПДМ-14 / ПДМ-17',
+                        ),
+                      ),
+                    ),
+                  ),
                   const SizedBox(height: 8),
                   _CompactSymptomSection(
-                    title: 'Избранное',
+                    title: 'Последние открытия',
                     emptyText:
-                        'Пока пусто. Открой нужный симптом и нажми звезду, чтобы закрепить его здесь.',
-                    items: favoriteRefs
+                        'Здесь появятся последние открытые симптомы и проверки.',
+                    items: recentRefs
                         .map((ref) => _resolveSymptomCard(catalog, ref))
                         .whereType<_ResolvedSymptomCard>()
                         .toList(growable: false),
-                    onClear: null,
-                  ),
-                  const SizedBox(height: 12),
-                  Container(
-                    key: _recentKey,
-                    child: _CompactSymptomSection(
-                      title: 'Последние открытия',
-                      emptyText:
-                          'Здесь появятся последние открытые симптомы и проверки.',
-                      items: recentRefs
-                          .map((ref) => _resolveSymptomCard(catalog, ref))
-                          .whereType<_ResolvedSymptomCard>()
-                          .toList(growable: false),
-                      onClear: recentRefs.isEmpty
-                          ? null
-                          : AppSessionStore.instance.clearRecentSymptoms,
-                    ),
+                    onClear: recentRefs.isEmpty
+                        ? null
+                        : AppSessionStore.instance.clearRecentSymptoms,
                   ),
                 ],
               );
@@ -227,10 +217,19 @@ class _HomeScreenState extends State<HomeScreen> {
     );
   }
 
-  String _formatTime(TimeOfDay time) {
-    final hour = time.hour.toString().padLeft(2, '0');
-    final minute = time.minute.toString().padLeft(2, '0');
-    return '$hour:$minute';
+  void _onEmblemTap() {
+    _easterTapCount++;
+    _easterTapTimer?.cancel();
+    _easterTapTimer = Timer(const Duration(milliseconds: 900), () {
+      _easterTapCount = 0;
+    });
+    if (_easterTapCount >= 3) {
+      _easterTapCount = 0;
+      Navigator.push(
+        context,
+        MaterialPageRoute(builder: (_) => const TetrisScreen()),
+      );
+    }
   }
 
   String _modelSubtitle(String modelId) {
@@ -275,18 +274,6 @@ class _HomeScreenState extends State<HomeScreen> {
     );
   }
 
-  void _scrollToRecent() {
-    final targetContext = _recentKey.currentContext;
-    if (targetContext == null) {
-      return;
-    }
-    Scrollable.ensureVisible(
-      targetContext,
-      duration: const Duration(milliseconds: 320),
-      curve: Curves.easeOutCubic,
-      alignment: 0.1,
-    );
-  }
 }
 
 class _SectionTitle extends StatelessWidget {
@@ -329,75 +316,13 @@ class _SectionTitle extends StatelessWidget {
   }
 }
 
-class _QuickTools extends StatelessWidget {
-  final VoidCallback onSearch;
-  final VoidCallback onSensors;
-  final VoidCallback onCodes;
-  final VoidCallback onRecent;
-
-  const _QuickTools({
-    required this.onSearch,
-    required this.onSensors,
-    required this.onCodes,
-    required this.onRecent,
-  });
-
-  @override
-  Widget build(BuildContext context) {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        Text(
-          'Быстрые инструменты',
-          style: Theme.of(context).textTheme.titleLarge,
-        ),
-        const SizedBox(height: 10),
-        GridView.count(
-          crossAxisCount: 2,
-          shrinkWrap: true,
-          physics: const NeverScrollableScrollPhysics(),
-          mainAxisSpacing: 10,
-          crossAxisSpacing: 10,
-          mainAxisExtent: 176,
-          children: [
-            _ToolTile(
-              icon: Icons.manage_search,
-              title: 'Поиск',
-              subtitle: 'Симптомы, коды, датчики',
-              onTap: onSearch,
-            ),
-            _ToolTile(
-              icon: Icons.thermostat_outlined,
-              title: 'Датчики',
-              subtitle: 'RTD, NTC и калькуляторы',
-              onTap: onSensors,
-            ),
-            _ToolTile(
-              icon: Icons.memory_outlined,
-              title: 'Коды двигателя',
-              subtitle: 'Cummins для 14 / 17 серии',
-              onTap: onCodes,
-            ),
-            _ToolTile(
-              icon: Icons.history,
-              title: 'Последние открытия',
-              subtitle: 'Перейти к недавним открытиям',
-              onTap: onRecent,
-            ),
-          ],
-        ),
-      ],
-    );
-  }
-}
-
-class _ToolTile extends StatelessWidget {
+class _ActionCard extends StatelessWidget {
   final IconData icon;
   final String title;
   final String subtitle;
   final VoidCallback onTap;
 
-  const _ToolTile({
+  const _ActionCard({
     required this.icon,
     required this.title,
     required this.subtitle,
@@ -406,53 +331,31 @@ class _ToolTile extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final textTheme = Theme.of(context).textTheme;
     return InkWell(
       onTap: onTap,
       borderRadius: BorderRadius.circular(18),
       child: Ink(
-        padding: const EdgeInsets.all(14),
+        padding: const EdgeInsets.all(16),
         decoration: BoxDecoration(
           color: Theme.of(context).cardColor,
           borderRadius: BorderRadius.circular(18),
           border: Border.all(color: Theme.of(context).dividerColor),
-          boxShadow: const [
-            BoxShadow(
-              color: Color(0x18000000),
-              blurRadius: 12,
-              offset: Offset(0, 6),
-            ),
-          ],
         ),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
+        child: Row(
           children: [
-            Container(
-              width: 38,
-              height: 38,
-              decoration: BoxDecoration(
-                color: const Color(0x14FF8A3D),
-                borderRadius: BorderRadius.circular(12),
-                border: Border.all(color: const Color(0x44FF8A3D)),
-              ),
-              child: Icon(icon, color: Theme.of(context).colorScheme.primary),
-            ),
-            const SizedBox(height: 14),
-            Text(
-              title,
-              maxLines: 3,
-              overflow: TextOverflow.fade,
-              style: textTheme.bodyLarge,
-            ),
-            const SizedBox(height: 4),
+            Icon(icon, color: Theme.of(context).colorScheme.primary),
+            const SizedBox(width: 12),
             Expanded(
-              child: Text(
-                subtitle,
-                maxLines: 5,
-                overflow: TextOverflow.fade,
-                style: textTheme.bodyMedium,
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(title, style: Theme.of(context).textTheme.bodyLarge),
+                  const SizedBox(height: 2),
+                  Text(subtitle, style: Theme.of(context).textTheme.bodyMedium),
+                ],
               ),
             ),
+            const Icon(Icons.chevron_right),
           ],
         ),
       ),
@@ -622,14 +525,14 @@ class _CompactSymptomSection extends StatelessWidget {
                               Text(
                                 item.title,
                                 maxLines: 3,
-                                overflow: TextOverflow.fade,
+                                overflow: TextOverflow.ellipsis,
                                 style: Theme.of(context).textTheme.bodyLarge,
                               ),
                               const SizedBox(height: 3),
                               Text(
                                 item.subtitle,
                                 maxLines: 3,
-                                overflow: TextOverflow.fade,
+                                overflow: TextOverflow.ellipsis,
                                 style: textTheme.bodyMedium,
                               ),
                             ],
@@ -672,6 +575,92 @@ class _ErrorState extends StatelessWidget {
         message,
         style: Theme.of(context).textTheme.bodyLarge,
         textAlign: TextAlign.center,
+      ),
+    );
+  }
+}
+
+class _AnimatedFerritEmblem extends StatefulWidget {
+  final VoidCallback onTap;
+
+  const _AnimatedFerritEmblem({required this.onTap});
+
+  @override
+  State<_AnimatedFerritEmblem> createState() => _AnimatedFerritEmblemState();
+}
+
+class _AnimatedFerritEmblemState extends State<_AnimatedFerritEmblem>
+    with SingleTickerProviderStateMixin {
+  late final AnimationController _controller;
+
+  @override
+  void initState() {
+    super.initState();
+    _controller = AnimationController(
+      vsync: this,
+      duration: const Duration(milliseconds: 1200),
+    )..repeat(reverse: true);
+  }
+
+  @override
+  void dispose() {
+    _controller.dispose();
+    super.dispose();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return GestureDetector(
+      onTap: widget.onTap,
+      child: AnimatedBuilder(
+        animation: _controller,
+        builder: (context, _) {
+          final t = Curves.easeInOut.transform(_controller.value);
+          final bucketAngle = (-0.95 + t * 1.55);
+          final bucketDy = -4.0 + t * 7.0;
+          final bodyDy = (t - 0.5) * 1.6;
+          return SizedBox(
+            width: 38,
+            height: 38,
+            child: Stack(
+              alignment: Alignment.center,
+              children: [
+                Transform.translate(
+                  offset: Offset(0, bodyDy),
+                  child: Icon(
+                    Icons.construction_outlined,
+                    size: 22,
+                    color: Theme.of(context).colorScheme.primary,
+                  ),
+                ),
+                Positioned(
+                  left: 8,
+                  bottom: 10 + bodyDy,
+                  child: Container(
+                    width: 14,
+                    height: 2,
+                    color: Theme.of(context).colorScheme.primary.withValues(alpha: 0.85),
+                  ),
+                ),
+                Positioned(
+                  right: 4,
+                  bottom: 8 + bucketDy + bodyDy,
+                  child: Transform.rotate(
+                    angle: bucketAngle,
+                    child: Container(
+                      width: 12,
+                      height: 7,
+                      decoration: BoxDecoration(
+                        color: Theme.of(context).colorScheme.primary,
+                        borderRadius: BorderRadius.circular(2),
+                      ),
+                    ),
+                  ),
+                ),
+              ],
+            ),
+          );
+        },
       ),
     );
   }

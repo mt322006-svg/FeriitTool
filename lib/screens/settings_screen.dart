@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 
 import '../data/app_settings_store.dart';
 
@@ -42,15 +43,6 @@ class _SettingsScreenState extends State<SettingsScreen> {
                     title: const Text('Увеличенный текст'),
                     subtitle: const Text(
                       'Делает текст в приложении крупнее и чуть легче для чтения в поле.',
-                    ),
-                  ),
-                  SwitchListTile.adaptive(
-                    value: settings.showQuickTools,
-                    onChanged: settings.setShowQuickTools,
-                    contentPadding: EdgeInsets.zero,
-                    title: const Text('Показывать быстрые инструменты'),
-                    subtitle: const Text(
-                      'Показывает или скрывает блок быстрых инструментов на главном экране.',
                     ),
                   ),
                 ],
@@ -105,7 +97,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
               const SizedBox(height: 12),
               const _SettingsSection(
                 title: 'О поведении',
-                subtitle: 'Смысл этих опций именно сервисный.',
+                subtitle: 'Как приложение ведёт себя при работе со схемами.',
                 children: [
                   _SettingsHint(
                     text:
@@ -137,14 +129,63 @@ class _SettingsScreenState extends State<SettingsScreen> {
                 title: 'Поддержка',
                 subtitle: 'Для донатов и поддержки проекта.',
                 children: [
-                  _SettingsHint(
-                    text: 'T-Банк · +7 965 946-25-26',
+                  _CopyableSupportCard(
+                    label: 'T-Банк',
+                    phone: '+7 965 946-25-26',
                   ),
                 ],
               ),
             ],
           );
         },
+      ),
+    );
+  }
+}
+
+class _CopyableSupportCard extends StatelessWidget {
+  final String label;
+  final String phone;
+
+  const _CopyableSupportCard({
+    required this.label,
+    required this.phone,
+  });
+
+  String get _digitsOnly => phone.replaceAll(RegExp(r'\D'), '');
+
+  @override
+  Widget build(BuildContext context) {
+    return InkWell(
+      borderRadius: BorderRadius.circular(12),
+      onTap: () async {
+        await Clipboard.setData(ClipboardData(text: _digitsOnly));
+        if (!context.mounted) {
+          return;
+        }
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(content: Text('Номер скопирован')),
+        );
+      },
+      child: Ink(
+        padding: const EdgeInsets.all(12),
+        decoration: BoxDecoration(
+          color: const Color(0x14FF8A3D),
+          borderRadius: BorderRadius.circular(12),
+          border: Border.all(color: const Color(0x44FF8A3D)),
+        ),
+        child: Row(
+          children: [
+            const Icon(Icons.content_copy_outlined),
+            const SizedBox(width: 10),
+            Expanded(
+              child: Text(
+                '$label · $phone',
+                style: Theme.of(context).textTheme.bodyMedium,
+              ),
+            ),
+          ],
+        ),
       ),
     );
   }

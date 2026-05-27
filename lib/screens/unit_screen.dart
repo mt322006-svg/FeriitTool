@@ -15,10 +15,14 @@ class UnitScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     final steps = model.stepsForNode(unitName);
     final normalizedUnit = unitName.toLowerCase();
+    final showEngineConnectorCard =
+        _supportsEngineConnectorPinout(model.id) &&
+            normalizedUnit.contains('двиг');
     final showEngineCodes =
         _supportsCumminsCodes(model.id) && normalizedUnit.contains('двиг');
     final schemaStep = _resolveSchemaStep(steps, normalizedUnit);
-    final showSchemaFirst = (normalizedUnit.contains('электр') ||
+    final showSchemaFirst = !showEngineConnectorCard &&
+        (normalizedUnit.contains('электр') ||
             normalizedUnit.contains('гидрав') ||
             normalizedUnit.contains('двиг')) &&
         schemaStep.pdfAsset.isNotEmpty;
@@ -58,6 +62,10 @@ class UnitScreen extends StatelessWidget {
                   ),
                 ),
               ),
+              const SizedBox(height: 12),
+            ],
+            if (showEngineConnectorCard) ...[
+              const _EngineConnectorCard(),
               const SizedBox(height: 12),
             ],
             if (showEngineCodes) ...[
@@ -108,6 +116,10 @@ class UnitScreen extends StatelessWidget {
 
   bool _supportsCumminsCodes(String modelId) {
     return modelId == 'dnk14' || modelId == 'dnk17';
+  }
+
+  bool _supportsEngineConnectorPinout(String modelId) {
+    return modelId == 'dnk14' || modelId == 'dnk17' || modelId == 'shs30';
   }
 
   TroubleshootingStep _resolveSchemaStep(
@@ -218,6 +230,141 @@ class _Info extends StatelessWidget {
   }
 }
 
+class _EngineConnectorCard extends StatelessWidget {
+  const _EngineConnectorCard();
+
+  @override
+  Widget build(BuildContext context) {
+    final textTheme = Theme.of(context).textTheme;
+    return Container(
+      padding: const EdgeInsets.all(16),
+      decoration: BoxDecoration(
+        gradient: const LinearGradient(
+          begin: Alignment.topLeft,
+          end: Alignment.bottomRight,
+          colors: [Color(0xFF4C2B17), Color(0xFF2C313A)],
+        ),
+        borderRadius: BorderRadius.circular(18),
+        border: Border.all(color: const Color(0x88FF7A1A)),
+        boxShadow: const [
+          BoxShadow(
+            color: Color(0x22000000),
+            blurRadius: 14,
+            offset: Offset(0, 8),
+          ),
+        ],
+      ),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Row(
+            children: [
+              Icon(
+                Icons.electrical_services_outlined,
+                color: Theme.of(context).colorScheme.primary,
+              ),
+              const SizedBox(width: 10),
+              Expanded(
+                child: Text(
+                  'ECU ENGINE CONNECTOR',
+                  style: textTheme.bodyLarge,
+                ),
+              ),
+            ],
+          ),
+          const SizedBox(height: 12),
+          const _EngineConnectorImage(),
+          const SizedBox(height: 12),
+          const _PinRow(label: '39', description: 'IGNITION (+24V after ignition switch)'),
+          const _PinRow(label: '46', description: 'CAN H'),
+          const _PinRow(label: '47', description: 'CAN L'),
+          const _PinRow(label: '1, 2', description: 'GND (-)'),
+          const _PinRow(label: '3, 4', description: 'BATTERY SUPPLY (+24V)'),
+        ],
+      ),
+    );
+  }
+}
+
+class _PinRow extends StatelessWidget {
+  final String label;
+  final String description;
+
+  const _PinRow({
+    required this.label,
+    required this.description,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return Padding(
+      padding: const EdgeInsets.only(bottom: 8),
+      child: Row(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          SizedBox(
+            width: 56,
+            child: Text(
+              label,
+              style: Theme.of(context).textTheme.bodyLarge?.copyWith(
+                    color: Theme.of(context).colorScheme.primary,
+                  ),
+            ),
+          ),
+          const SizedBox(width: 8),
+          Expanded(
+            child: Text(
+              description,
+              style: Theme.of(context).textTheme.bodyMedium,
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+}
+
+class _EngineConnectorImage extends StatefulWidget {
+  const _EngineConnectorImage();
+
+  @override
+  State<_EngineConnectorImage> createState() => _EngineConnectorImageState();
+}
+
+class _EngineConnectorImageState extends State<_EngineConnectorImage> {
+  bool _expanded = false;
+
+  @override
+  Widget build(BuildContext context) {
+    final image = Image.asset(
+      'assets/images/ecu_engine_connector.png',
+      fit: BoxFit.contain,
+    );
+    return GestureDetector(
+      onTap: () => setState(() => _expanded = !_expanded),
+      child: AnimatedContainer(
+        duration: const Duration(milliseconds: 180),
+        curve: Curves.easeOutCubic,
+        height: _expanded ? 280 : 120,
+        decoration: BoxDecoration(
+          borderRadius: BorderRadius.circular(12),
+          border: Border.all(color: const Color(0x44FF7A1A)),
+        ),
+        child: ClipRRect(
+          borderRadius: BorderRadius.circular(12),
+          child: _expanded
+              ? InteractiveViewer(
+                  minScale: 1.0,
+                  maxScale: 6.0,
+                  child: image,
+                )
+              : image,
+        ),
+      ),
+    );
+  }
+}
+
 class _SchemaFirstButton extends StatelessWidget {
   final String title;
   final List<int> pages;
@@ -280,7 +427,7 @@ class _SchemaFirstButton extends StatelessWidget {
                   Text(
                     title,
                     maxLines: 3,
-                    overflow: TextOverflow.fade,
+                    overflow: TextOverflow.ellipsis,
                     style: Theme.of(context).textTheme.bodyLarge,
                   ),
                   const SizedBox(height: 4),
@@ -290,7 +437,7 @@ class _SchemaFirstButton extends StatelessWidget {
                             ? 'Сразу перейти в PDF перед симптомами и проверками.'
                             : 'Быстрые страницы: ${pages.join(', ')}'),
                     maxLines: 4,
-                    overflow: TextOverflow.fade,
+                    overflow: TextOverflow.ellipsis,
                     style: Theme.of(context).textTheme.bodyMedium,
                   ),
                 ],
@@ -357,14 +504,14 @@ class _StepButton extends StatelessWidget {
                   Text(
                     title,
                     maxLines: 3,
-                    overflow: TextOverflow.fade,
+                    overflow: TextOverflow.ellipsis,
                     style: Theme.of(context).textTheme.bodyLarge,
                   ),
                   const SizedBox(height: 4),
                   Text(
                     subtitle,
                     maxLines: 5,
-                    overflow: TextOverflow.fade,
+                    overflow: TextOverflow.ellipsis,
                     style: Theme.of(context).textTheme.bodyMedium,
                   ),
                 ],

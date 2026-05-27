@@ -2,9 +2,12 @@ import 'package:flutter/material.dart';
 
 import '../data/app_session_store.dart';
 import '../data/cummins_codes_repository.dart';
+import '../data/ferrit_codes_repository.dart';
 import '../data/sensor_catalog_repository.dart';
 import '../data/troubleshooting_repository.dart';
 import 'engine_codes_screen.dart';
+import 'ferrit_codes_screen.dart';
+import 'pdf_viewer_screen.dart';
 import 'sensors_screen.dart';
 import 'symptom_screen.dart';
 
@@ -39,7 +42,8 @@ class _GlobalSearchScreenState extends State<GlobalSearchScreen> {
         future: _loadData(),
         builder: (context, snapshot) {
           if (snapshot.hasError) {
-            return const Center(child: Text('Не удалось загрузить данные поиска.'));
+            return const Center(
+                child: Text('Не удалось загрузить данные поиска.'));
           }
           if (!snapshot.hasData) {
             return const Center(child: CircularProgressIndicator());
@@ -49,6 +53,8 @@ class _GlobalSearchScreenState extends State<GlobalSearchScreen> {
           final symptomResults = _buildSymptomResults(data.catalog, _query);
           final sensorResults = _buildSensorResults(data.sensors, _query);
           final codeResults = _buildCodeResults(data.codes, _query);
+          final ferritCodeResults =
+              _buildFerritCodeResults(data.ferritCodes, _query);
 
           return Column(
             children: [
@@ -113,7 +119,8 @@ class _GlobalSearchScreenState extends State<GlobalSearchScreen> {
                       emptyText: 'По кодам двигателя ничего не найдено.',
                       itemBuilder: (item) => _ResultTile(
                         icon: Icons.memory_outlined,
-                        title: 'Fault ${item.code.faultCode} · SPN ${item.code.spn} · FMI ${item.code.fmi}',
+                        title:
+                            'Fault ${item.code.faultCode} · SPN ${item.code.spn} · FMI ${item.code.fmi}',
                         subtitle: item.code.description,
                         onTap: () {
                           Navigator.push(
@@ -128,6 +135,22 @@ class _GlobalSearchScreenState extends State<GlobalSearchScreen> {
                       ),
                     ),
                     const SizedBox(height: 14),
+                    _SearchSection<SearchFerritCodeResult>(
+                      title: 'Коды Ferrit',
+                      results: ferritCodeResults,
+                      emptyText: 'По кодам Ferrit ничего не найдено.',
+                      itemBuilder: (item) => _ResultTile(
+                        icon: Icons.developer_board_outlined,
+                        title: 'Код ${item.code.code}',
+                        subtitle: item.code.description,
+                        onTap: () => _openFerritCodeDetails(
+                          context: context,
+                          catalog: data.catalog,
+                          code: item.code,
+                        ),
+                      ),
+                    ),
+                    const SizedBox(height: 14),
                     _SearchSection<SearchSensorResult>(
                       title: 'Датчики',
                       results: sensorResults,
@@ -135,7 +158,8 @@ class _GlobalSearchScreenState extends State<GlobalSearchScreen> {
                       itemBuilder: (item) => _ResultTile(
                         icon: Icons.thermostat_outlined,
                         title: item.item.title,
-                        subtitle: '${item.category.title} · ${item.category.subtitle}',
+                        subtitle:
+                            '${item.category.title} · ${item.category.subtitle}',
                         onTap: () {
                           Navigator.push(
                             context,
@@ -163,7 +187,13 @@ class _GlobalSearchScreenState extends State<GlobalSearchScreen> {
     final catalog = await TroubleshootingRepository.instance.loadCatalog();
     final sensors = await SensorCatalogRepository.instance.loadCatalog();
     final codes = await CumminsCodesRepository.instance.loadCatalog();
-    return _SearchData(catalog: catalog, sensors: sensors, codes: codes);
+    final ferritCodes = await FerritCodesRepository.instance.loadCatalog();
+    return _SearchData(
+      catalog: catalog,
+      sensors: sensors,
+      codes: codes,
+      ferritCodes: ferritCodes,
+    );
   }
 
   List<SearchSymptomResult> _buildSymptomResults(
@@ -198,7 +228,8 @@ class _GlobalSearchScreenState extends State<GlobalSearchScreen> {
     final results = <SearchSensorResult>[];
     for (final category in catalog.categories) {
       for (final item in category.items) {
-        final haystack = '${category.title} ${category.subtitle} ${item.title}'.toLowerCase();
+        final haystack = '${category.title} ${category.subtitle} ${item.title}'
+            .toLowerCase();
         if (normalized.isEmpty || haystack.contains(normalized)) {
           results.add(SearchSensorResult(category: category, item: item));
         }
@@ -217,6 +248,148 @@ class _GlobalSearchScreenState extends State<GlobalSearchScreen> {
         .map((code) => SearchCodeResult(code: code))
         .toList(growable: false);
   }
+
+  List<SearchFerritCodeResult> _buildFerritCodeResults(
+    FerritCodesCatalog catalog,
+    String query,
+  ) {
+    return catalog.items
+        .where((item) => item.matches(query))
+        .take(24)
+        .map((item) => SearchFerritCodeResult(code: item))
+        .toList(growable: false);
+  }
+
+  void _openFerritCodeDetails({
+    required BuildContext context,
+    required TroubleshootingCatalog catalog,
+    required FerritCode code,
+  }) {
+    showModalBottomSheet<void>(
+      context: context,
+      isScrollControlled: true,
+      builder: (sheetContext) {
+        final targets = _buildElectricalTargets(catalog);
+        return SafeArea(
+          child: Padding(
+            padding: const EdgeInsets.fromLTRB(16, 16, 16, 20),
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  'Код Ferrit ${code.code}',
+                  style: Theme.of(sheetContext).textTheme.titleLarge,
+                ),
+                const SizedBox(height: 8),
+                Text(
+                  code.description,
+                  style: Theme.of(sheetContext).textTheme.bodyMedium,
+                ),
+                if (code.activationConditions.trim().isNotEmpty) ...[
+                  const SizedBox(height: 10),
+                  Text(
+                    'Условие: ${code.activationConditions}',
+                    style: Theme.of(sheetContext).textTheme.bodySmall,
+                  ),
+                ],
+                const SizedBox(height: 14),
+                SizedBox(
+                  width: double.infinity,
+                  child: ElevatedButton.icon(
+                    onPressed: () {
+                      Navigator.pop(sheetContext);
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (_) => const FerritCodesScreen(),
+                        ),
+                      );
+                    },
+                    icon: const Icon(Icons.list_alt_outlined),
+                    label: const Text('Открыть полный список кодов Ferrit'),
+                  ),
+                ),
+                const SizedBox(height: 10),
+                Text(
+                  'Быстро открыть электросхему:',
+                  style: Theme.of(sheetContext).textTheme.bodyMedium,
+                ),
+                const SizedBox(height: 8),
+                Wrap(
+                  spacing: 8,
+                  runSpacing: 8,
+                  children: targets
+                      .map(
+                        (target) => ActionChip(
+                          label: Text(target.modelName),
+                          onPressed: () {
+                            Navigator.pop(sheetContext);
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (_) => PdfViewerScreen(
+                                  title:
+                                      'Схема: ${target.modelName} · Электрика',
+                                  assetPath: target.step.pdfAsset,
+                                  initialPage: target.step.pages.isNotEmpty
+                                      ? target.step.pages.first
+                                      : 1,
+                                  quickPages: target.step.pages,
+                                ),
+                              ),
+                            );
+                          },
+                        ),
+                      )
+                      .toList(growable: false),
+                ),
+              ],
+            ),
+          ),
+        );
+      },
+    );
+  }
+
+  List<_ElectricalSchemaTarget> _buildElectricalTargets(
+    TroubleshootingCatalog catalog,
+  ) {
+    final targets = <_ElectricalSchemaTarget>[];
+    for (final model in catalog.models) {
+      final candidate = model.steps.firstWhere(
+        (step) =>
+            step.node.toLowerCase().contains('электр') &&
+            step.pdfAsset.isNotEmpty,
+        orElse: () => const TroubleshootingStep(
+          id: '',
+          title: '',
+          node: '',
+          symptom: '',
+          checklist: [],
+          possibleCauses: [],
+          firstChecks: [],
+          diagnosticMistakes: [],
+          realCases: [],
+          measurements: [],
+          recommendations: [],
+          notes: [],
+          pdfAsset: '',
+          pages: [],
+          todo: '',
+        ),
+      );
+      if (candidate.pdfAsset.isNotEmpty) {
+        targets.add(
+          _ElectricalSchemaTarget(
+            modelName: model.displayName,
+            step: candidate,
+          ),
+        );
+      }
+    }
+    return targets;
+  }
 }
 
 class _SearchData {
@@ -224,11 +397,13 @@ class _SearchData {
     required this.catalog,
     required this.sensors,
     required this.codes,
+    required this.ferritCodes,
   });
 
   final TroubleshootingCatalog catalog;
   final SensorCatalog sensors;
   final CumminsCodesCatalog codes;
+  final FerritCodesCatalog ferritCodes;
 }
 
 class SearchSymptomResult {
@@ -255,6 +430,22 @@ class SearchCodeResult {
   const SearchCodeResult({required this.code});
 
   final CumminsCode code;
+}
+
+class SearchFerritCodeResult {
+  const SearchFerritCodeResult({required this.code});
+
+  final FerritCode code;
+}
+
+class _ElectricalSchemaTarget {
+  const _ElectricalSchemaTarget({
+    required this.modelName,
+    required this.step,
+  });
+
+  final String modelName;
+  final TroubleshootingStep step;
 }
 
 class _SearchSection<T> extends StatelessWidget {

@@ -38,12 +38,17 @@ class _PdfViewerScreenState extends State<PdfViewerScreen> {
 
   PdfTextSearchResult? _searchResult;
   Timer? _saveDebounce;
+  Timer? _hudAutoHideTimer;
   bool _isSearchOpen = false;
   int _pagesCount = 0;
   int _currentPage = 1;
   double _currentZoom = _minZoom;
   bool _noMatchesToastShown = false;
   bool _restoredZoomApplied = false;
+  bool _isPageHudVisible = true;
+  bool _isTopOverlaysVisible = true;
+  int _rotationQuarterTurns = 0;
+  late final List<_BlockJump> _blockJumps;
 
   @override
   void initState() {
@@ -51,11 +56,13 @@ class _PdfViewerScreenState extends State<PdfViewerScreen> {
     _controller = PdfViewerController();
     _searchTextController = TextEditingController();
     _bootFuture = _prepareBoot();
+    _blockJumps = _resolveBlockJumps(widget.assetPath);
   }
 
   @override
   void dispose() {
     _saveDebounce?.cancel();
+    _hudAutoHideTimer?.cancel();
     unawaited(_persistViewState());
     unawaited(WakelockPlus.disable());
     _detachSearchListener();
@@ -97,6 +104,11 @@ class _PdfViewerScreenState extends State<PdfViewerScreen> {
             icon: const Icon(Icons.find_in_page_outlined),
             onPressed: _pagesCount <= 1 ? null : () => _openPageNavigator(context),
           ),
+          IconButton(
+            tooltip: 'Повернуть схему',
+            icon: const Icon(Icons.screen_rotation_alt_outlined),
+            onPressed: _rotateViewer,
+          ),
         ],
       ),
       body: FutureBuilder<_PdfViewerBoot>(
@@ -133,88 +145,105 @@ class _PdfViewerScreenState extends State<PdfViewerScreen> {
                     onClear: _clearSearch,
                     onPrevious: () => _searchResult?.previousInstance(),
                     onNext: () => _searchResult?.nextInstance(),
+                    blockJumps: _blockJumps,
+                    onJump: (jump) => _goToPage(jump.pages.first),
                   ),
                 ),
               Expanded(
                 child: Stack(
                   children: [
                     Positioned.fill(
-                      child: SfPdfViewer.memory(
-                        boot.bytes,
-                        controller: _controller,
-                        pageSpacing: _pageSpacing,
-                        pageLayoutMode: PdfPageLayoutMode.single,
-                        scrollDirection: PdfScrollDirection.horizontal,
-                        interactionMode: PdfInteractionMode.pan,
-                        initialPageNumber: boot.initialPage,
-                        initialZoomLevel: 1.0,
-                        maxZoomLevel: _maxZoom,
-                        enableDoubleTapZooming: true,
-                        enableTextSelection: false,
-                        enableDocumentLinkAnnotation: false,
-                        canShowPaginationDialog: false,
-                        canShowScrollHead: false,
-                        canShowScrollStatus: false,
-                        canShowHyperlinkDialog: false,
-                        enableHyperlinkNavigation: false,
-                        currentSearchTextHighlightColor:
-                            const Color(0xFFFF5A1F),
-                        otherSearchTextHighlightColor:
-                            const Color(0xFFFFF176),
-                        onDocumentLoaded: (details) {
-                          if (!mounted) {
-                            return;
-                          }
-                          if (!_restoredZoomApplied && boot.initialZoom > 1.0) {
-                            _restoredZoomApplied = true;
-                            WidgetsBinding.instance.addPostFrameCallback((_) {
-                              if (!mounted) {
-                                return;
-                              }
-                              _controller.zoomLevel = boot.initialZoom.clamp(
-                                _minZoom,
-                                _maxZoom,
-                              );
-                            });
-                          }
-                          setState(() {
-                            _pagesCount = details.document.pages.count;
-                            _currentPage = _controller.pageNumber;
-                            _currentZoom = boot.initialZoom.clamp(
-                              _minZoom,
-                              _maxZoom,
-                            );
-                          });
-                        },
-                        onDocumentLoadFailed: (details) {
-                          _showDocumentError(
-                            '${details.error}: ${details.description}',
-                          );
-                        },
-                        onPageChanged: (details) {
-                          if (!mounted) {
-                            return;
-                          }
-                          setState(() {
-                            _currentPage = details.newPageNumber;
-                          });
-                          _schedulePersistViewState();
-                        },
-                        onZoomLevelChanged: (details) {
-                          if (!mounted) {
-                            return;
-                          }
-                          setState(() {
-                            _currentZoom = details.newZoomLevel.clamp(
-                              _minZoom,
-                              _maxZoom,
-                            );
-                          });
-                          _schedulePersistViewState();
-                        },
+                      child: GestureDetector(
+                        behavior: HitTestBehavior.translucent,
+                        onTap: _togglePageHud,
+                        child: Listener(
+                          onPointerDown: (_) => _hidePageHud(),
+                          onPointerMove: (_) => _hidePageHud(),
+                          onPointerSignal: (_) => _hidePageHud(),
+                          child: RotatedBox(
+                            quarterTurns: _rotationQuarterTurns,
+                            child: SfPdfViewer.memory(
+                              boot.bytes,
+                              controller: _controller,
+                              pageSpacing: _pageSpacing,
+                              pageLayoutMode: PdfPageLayoutMode.single,
+                              scrollDirection: PdfScrollDirection.horizontal,
+                              interactionMode: PdfInteractionMode.pan,
+                              initialPageNumber: boot.initialPage,
+                              initialZoomLevel: 1.0,
+                              maxZoomLevel: _maxZoom,
+                              enableDoubleTapZooming: true,
+                              enableTextSelection: false,
+                              enableDocumentLinkAnnotation: false,
+                              canShowPaginationDialog: false,
+                              canShowScrollHead: false,
+                              canShowScrollStatus: false,
+                              canShowHyperlinkDialog: false,
+                              enableHyperlinkNavigation: false,
+                              currentSearchTextHighlightColor:
+                                  const Color(0xFFFF5A1F),
+                              otherSearchTextHighlightColor:
+                                  const Color(0xFFFFF176),
+                              onDocumentLoaded: (details) {
+                                if (!mounted) {
+                                  return;
+                                }
+                                if (!_restoredZoomApplied && boot.initialZoom > 1.0) {
+                                  _restoredZoomApplied = true;
+                                  WidgetsBinding.instance.addPostFrameCallback((_) {
+                                    if (!mounted) {
+                                      return;
+                                    }
+                                    _controller.zoomLevel = boot.initialZoom.clamp(
+                                      _minZoom,
+                                      _maxZoom,
+                                    );
+                                  });
+                                }
+                                setState(() {
+                                  _pagesCount = details.document.pages.count;
+                                  _currentPage = _controller.pageNumber;
+                                  _currentZoom = boot.initialZoom.clamp(
+                                    _minZoom,
+                                    _maxZoom,
+                                  );
+                                });
+                                _showPageHudTemporarily();
+                              },
+                              onDocumentLoadFailed: (details) {
+                                _showDocumentError(
+                                  '${details.error}: ${details.description}',
+                                );
+                              },
+                              onPageChanged: (details) {
+                                if (!mounted) {
+                                  return;
+                                }
+                                setState(() {
+                                  _currentPage = details.newPageNumber;
+                                });
+                                _hidePageHud();
+                                _schedulePersistViewState();
+                              },
+                              onZoomLevelChanged: (details) {
+                                if (!mounted) {
+                                  return;
+                                }
+                                setState(() {
+                                  _currentZoom = details.newZoomLevel.clamp(
+                                    _minZoom,
+                                    _maxZoom,
+                                  );
+                                });
+                                _hidePageHud();
+                                _schedulePersistViewState();
+                              },
+                            ),
+                          ),
+                        ),
                       ),
                     ),
-                    if (widget.quickPages.isNotEmpty)
+                    if (widget.quickPages.isNotEmpty && _isTopOverlaysVisible)
                       Positioned(
                         left: 12,
                         top: 12,
@@ -238,14 +267,18 @@ class _PdfViewerScreenState extends State<PdfViewerScreen> {
                       )
                     else
                       Positioned(
-                        top: 12,
+                        top: (_isTopOverlaysVisible &&
+                                (widget.quickPages.isNotEmpty ||
+                                    _blockJumps.isNotEmpty))
+                            ? 108
+                            : 12,
                         right: 12,
                         child: _ModeBadge(
                           label:
                               'Стр. $_currentPage · ${(_currentZoom * 100).round()}%',
                         ),
                       ),
-                    if (_pagesCount > 1)
+                    if (_pagesCount > 1 && _isPageHudVisible)
                       Positioned(
                         left: 12,
                         right: 12,
@@ -366,6 +399,47 @@ class _PdfViewerScreenState extends State<PdfViewerScreen> {
     ).showSnackBar(SnackBar(content: Text('PDF ошибка: $error')));
   }
 
+  void _rotateViewer() {
+    setState(() {
+      _rotationQuarterTurns = (_rotationQuarterTurns + 1) % 4;
+    });
+    _showPageHudTemporarily();
+  }
+
+  void _togglePageHud() {
+    if (_isPageHudVisible) {
+      _hidePageHud();
+      return;
+    }
+    _showPageHudTemporarily();
+  }
+
+  void _showPageHudTemporarily() {
+    if (!mounted || _pagesCount <= 1) {
+      return;
+    }
+    setState(() {
+      _isPageHudVisible = true;
+      _isTopOverlaysVisible = true;
+    });
+    _hudAutoHideTimer?.cancel();
+    _hudAutoHideTimer = Timer(
+      const Duration(milliseconds: 1800),
+      _hidePageHud,
+    );
+  }
+
+  void _hidePageHud() {
+    _hudAutoHideTimer?.cancel();
+    if (!mounted || (!_isPageHudVisible && !_isTopOverlaysVisible)) {
+      return;
+    }
+    setState(() {
+      _isPageHudVisible = false;
+      _isTopOverlaysVisible = false;
+    });
+  }
+
   void _changeZoom(double factor) {
     final nextZoom = (_controller.zoomLevel * factor).clamp(_minZoom, _maxZoom);
     _controller.zoomLevel = nextZoom;
@@ -380,6 +454,7 @@ class _PdfViewerScreenState extends State<PdfViewerScreen> {
       return;
     }
     _controller.jumpToPage(page);
+    _showPageHudTemporarily();
   }
 
   void _openPageNavigator(BuildContext context) {
@@ -412,6 +487,37 @@ class _PdfViewerScreenState extends State<PdfViewerScreen> {
       zoom: _currentZoom,
     );
   }
+
+  List<_BlockJump> _resolveBlockJumps(String assetPath) {
+    switch (assetPath) {
+      case 'assets/pdfs/dnk10_schema.pdf':
+        return const [
+          _BlockJump(label: 'R1', pages: [5]),
+          _BlockJump(label: 'R2', pages: [6, 7]),
+          _BlockJump(label: 'R3', pages: [8, 9]),
+          _BlockJump(label: 'R4', pages: [10, 11]),
+          _BlockJump(label: 'R5', pages: [14]),
+        ];
+      case 'assets/pdfs/dnk14_schema.pdf':
+        return const [
+          _BlockJump(label: 'R1', pages: [3]),
+          _BlockJump(label: 'R2', pages: [4]),
+          _BlockJump(label: 'R3', pages: [5]),
+          _BlockJump(label: 'R4', pages: [6]),
+          _BlockJump(label: 'R5', pages: [7]),
+        ];
+      case 'assets/pdfs/dnk17_schema.pdf':
+        return const [
+          _BlockJump(label: 'R1', pages: [4]),
+          _BlockJump(label: 'R2', pages: [5]),
+          _BlockJump(label: 'R3', pages: [6]),
+          _BlockJump(label: 'R4', pages: [7]),
+          _BlockJump(label: 'R5', pages: [8]),
+        ];
+      default:
+        return const [];
+    }
+  }
 }
 
 class _PdfViewerBoot {
@@ -436,6 +542,8 @@ class _SearchToolbar extends StatelessWidget {
   final VoidCallback onClear;
   final VoidCallback onPrevious;
   final VoidCallback onNext;
+  final List<_BlockJump> blockJumps;
+  final ValueChanged<_BlockJump> onJump;
 
   const _SearchToolbar({
     required this.controller,
@@ -447,6 +555,8 @@ class _SearchToolbar extends StatelessWidget {
     required this.onClear,
     required this.onPrevious,
     required this.onNext,
+    this.blockJumps = const [],
+    required this.onJump,
   });
 
   @override
@@ -459,56 +569,80 @@ class _SearchToolbar extends StatelessWidget {
         color: Theme.of(context).cardColor,
         borderRadius: BorderRadius.circular(14),
       ),
-      child: Row(
+      child: Column(
+        mainAxisSize: MainAxisSize.min,
         children: [
-          Expanded(
-            child: TextField(
-              controller: controller,
-              textInputAction: TextInputAction.search,
-              decoration: const InputDecoration(
-                hintText: 'Искать текст в PDF',
-                prefixIcon: Icon(Icons.manage_search),
-                border: OutlineInputBorder(),
-                isDense: true,
+          Row(
+            children: [
+              Expanded(
+                child: TextField(
+                  controller: controller,
+                  textInputAction: TextInputAction.search,
+                  decoration: const InputDecoration(
+                    hintText: 'Искать текст в PDF',
+                    prefixIcon: Icon(Icons.manage_search),
+                    border: OutlineInputBorder(),
+                    isDense: true,
+                  ),
+                  onSubmitted: onSubmitted,
+                ),
               ),
-              onSubmitted: onSubmitted,
+              const SizedBox(width: 8),
+              IconButton(
+                tooltip: 'Искать',
+                icon: const Icon(Icons.search),
+                onPressed: () => onSubmitted(controller.text),
+              ),
+              IconButton(
+                tooltip: 'Очистить',
+                icon: const Icon(Icons.clear),
+                onPressed: hasQuery ? onClear : null,
+              ),
+              IconButton(
+                tooltip: 'Предыдущее совпадение',
+                icon: const Icon(Icons.navigate_before),
+                onPressed: hasMatches ? onPrevious : null,
+              ),
+              IconButton(
+                tooltip: 'Следующее совпадение',
+                icon: const Icon(Icons.navigate_next),
+                onPressed: hasMatches ? onNext : null,
+              ),
+              SizedBox(
+                width: 84,
+                child: Text(
+                  isBusy
+                      ? 'Поиск...'
+                      : hasMatches
+                          ? '$currentIndex / $totalCount'
+                          : hasQuery
+                              ? '0 / 0'
+                              : '',
+                  textAlign: TextAlign.center,
+                  style: Theme.of(context).textTheme.bodyMedium,
+                ),
+              ),
+            ],
+          ),
+          if (blockJumps.isNotEmpty) ...[
+            const SizedBox(height: 8),
+            Align(
+              alignment: Alignment.centerLeft,
+              child: Wrap(
+                spacing: 6,
+                runSpacing: 6,
+                children: blockJumps
+                    .map(
+                      (jump) => ActionChip(
+                        avatar: const Icon(Icons.account_tree_outlined, size: 16),
+                        label: Text('${jump.label} · ${jump.pagesLabel}'),
+                        onPressed: () => onJump(jump),
+                      ),
+                    )
+                    .toList(growable: false),
+              ),
             ),
-          ),
-          const SizedBox(width: 8),
-          IconButton(
-            tooltip: 'Искать',
-            icon: const Icon(Icons.search),
-            onPressed: () => onSubmitted(controller.text),
-          ),
-          IconButton(
-            tooltip: 'Очистить',
-            icon: const Icon(Icons.clear),
-            onPressed: hasQuery ? onClear : null,
-          ),
-          IconButton(
-            tooltip: 'Предыдущее совпадение',
-            icon: const Icon(Icons.navigate_before),
-            onPressed: hasMatches ? onPrevious : null,
-          ),
-          IconButton(
-            tooltip: 'Следующее совпадение',
-            icon: const Icon(Icons.navigate_next),
-            onPressed: hasMatches ? onNext : null,
-          ),
-          SizedBox(
-            width: 84,
-            child: Text(
-              isBusy
-                  ? 'Поиск...'
-                  : hasMatches
-                      ? '$currentIndex / $totalCount'
-                      : hasQuery
-                          ? '0 / 0'
-                          : '',
-              textAlign: TextAlign.center,
-              style: Theme.of(context).textTheme.bodyMedium,
-            ),
-          ),
+          ],
         ],
       ),
     );
@@ -616,6 +750,26 @@ class _QuickPagesBar extends StatelessWidget {
             .toList(growable: false),
       ),
     );
+  }
+}
+
+class _BlockJump {
+  final String label;
+  final List<int> pages;
+
+  const _BlockJump({
+    required this.label,
+    required this.pages,
+  });
+
+  String get pagesLabel {
+    if (pages.isEmpty) {
+      return '';
+    }
+    if (pages.length == 1) {
+      return pages.first.toString();
+    }
+    return '${pages.first}-${pages.last}';
   }
 }
 
