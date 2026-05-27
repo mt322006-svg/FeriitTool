@@ -52,3 +52,17 @@ app.*.map.json
 /_base_jadx/
 /_pre_apk_sync_backup/
 /_tools/
+
+# Local verification screenshots and ad-hoc captures
+/*_check.png
+/appbar_*.png
+/clock_*.png
+/home_latest_review.png
+/live_now_screen.png
+/no_left_icon_check.png
+/post_reinstall_check.png
+/tetris_*.png
+/ferrit_screen*.png
+
+# Local packaged release binaries
+/release/*.apk
