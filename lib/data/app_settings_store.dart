@@ -24,6 +24,8 @@ class AppSettingsStore extends ChangeNotifier {
   static const _keepScreenAwakeKey = 'keep_screen_awake_in_pdf';
   static const _largeTextKey = 'large_text_enabled';
   static const _showQuickToolsKey = 'show_quick_tools';
+  static const _showSectionHeadersKey = 'show_section_headers';
+  static const _showSegmentClockKey = 'show_segment_clock';
   static const _themeKey = 'theme_preference';
   static const _pdfPagePrefix = 'pdf_page::';
   static const _pdfZoomPrefix = 'pdf_zoom::';
@@ -32,6 +34,8 @@ class AppSettingsStore extends ChangeNotifier {
   bool _keepScreenAwakeInPdf = true;
   bool _largeTextEnabled = false;
   bool _showQuickTools = true;
+  bool _showSectionHeaders = true;
+  bool _showSegmentClock = true;
   AppThemePreference _themePreference = AppThemePreference.dark;
   SharedPreferences? _prefs;
 
@@ -39,6 +43,8 @@ class AppSettingsStore extends ChangeNotifier {
   bool get keepScreenAwakeInPdf => _keepScreenAwakeInPdf;
   bool get largeTextEnabled => _largeTextEnabled;
   bool get showQuickTools => _showQuickTools;
+  bool get showSectionHeaders => _showSectionHeaders;
+  bool get showSegmentClock => _showSegmentClock;
   AppThemePreference get themePreference => _themePreference;
 
   Future<void> ensureLoaded() async {
@@ -50,6 +56,8 @@ class AppSettingsStore extends ChangeNotifier {
     _keepScreenAwakeInPdf = prefs.getBool(_keepScreenAwakeKey) ?? true;
     _largeTextEnabled = prefs.getBool(_largeTextKey) ?? false;
     _showQuickTools = prefs.getBool(_showQuickToolsKey) ?? true;
+    _showSectionHeaders = prefs.getBool(_showSectionHeadersKey) ?? true;
+    _showSegmentClock = prefs.getBool(_showSegmentClockKey) ?? true;
     _themePreference = _readThemePreference(
       prefs.getString(_themeKey),
     );
@@ -85,6 +93,26 @@ class AppSettingsStore extends ChangeNotifier {
     _showQuickTools = value;
     notifyListeners();
     await _prefs!.setBool(_showQuickToolsKey, value);
+  }
+
+  Future<void> setShowSectionHeaders(bool value) async {
+    await ensureLoaded();
+    if (_showSectionHeaders == value) {
+      return;
+    }
+    _showSectionHeaders = value;
+    notifyListeners();
+    await _prefs!.setBool(_showSectionHeadersKey, value);
+  }
+
+  Future<void> setShowSegmentClock(bool value) async {
+    await ensureLoaded();
+    if (_showSegmentClock == value) {
+      return;
+    }
+    _showSegmentClock = value;
+    notifyListeners();
+    await _prefs!.setBool(_showSegmentClockKey, value);
   }
 
   Future<void> setThemePreference(AppThemePreference value) async {

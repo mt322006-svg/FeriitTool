@@ -1,7 +1,9 @@
 import 'dart:async';
+import 'dart:math' as math;
 
 import 'package:flutter/material.dart';
 
+import '../data/app_settings_store.dart';
 import '../data/app_session_store.dart';
 import '../data/sensor_catalog_repository.dart';
 import '../data/troubleshooting_repository.dart';
@@ -52,24 +54,32 @@ class _HomeScreenState extends State<HomeScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        leadingWidth: 46,
-        leading: Padding(
-          padding: const EdgeInsets.only(left: 4),
-          child: _AnimatedFerritEmblem(
-            onTap: _onEmblemTap,
+        automaticallyImplyLeading: false,
+        leading: const SizedBox.shrink(),
+        leadingWidth: 0,
+        centerTitle: false,
+        title: GestureDetector(
+          behavior: HitTestBehavior.opaque,
+          onTap: _onTitleTap,
+          child: Row(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              Text(
+                'Твой Ferrrit',
+                maxLines: 1,
+                overflow: TextOverflow.ellipsis,
+                style: TextStyle(
+                  color: Theme.of(context).colorScheme.primary,
+                  fontWeight: FontWeight.w900,
+                  letterSpacing: 0.4,
+                ),
+              ),
+              const SizedBox(width: 6),
+              const _SegmentClock(),
+            ],
           ),
         ),
-        title: Text(
-          'Твой Ferrrit',
-          maxLines: 1,
-          overflow: TextOverflow.ellipsis,
-          style: TextStyle(
-            color: Theme.of(context).colorScheme.primary,
-            fontWeight: FontWeight.w900,
-            letterSpacing: 0.6,
-          ),
-        ),
-        titleSpacing: 8,
+        titleSpacing: 14,
         actions: [
           IconButton(
             tooltip: 'Настройки',
@@ -102,111 +112,144 @@ class _HomeScreenState extends State<HomeScreen> {
           final catalog = homeData.troubleshooting;
 
           return AnimatedBuilder(
-            animation: AppSessionStore.instance,
+            animation: Listenable.merge([
+              AppSessionStore.instance,
+              AppSettingsStore.instance,
+            ]),
             builder: (context, _) {
               final recentRefs = AppSessionStore.instance.recentSymptoms;
+              final brightness = Theme.of(context).brightness;
+              final showHeaders = AppSettingsStore.instance.showSectionHeaders;
 
-              return ListView(
-                controller: _scrollController,
-                padding: const EdgeInsets.fromLTRB(16, 12, 16, 20),
+              return Stack(
                 children: [
-                  _ActionCard(
-                    icon: Icons.manage_search,
-                    title: 'Поиск',
-                    subtitle: 'Симптомы, коды, датчики',
-                    onTap: () => Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                        builder: (_) => const GlobalSearchScreen(),
+                  Positioned.fill(
+                    child: IgnorePointer(
+                      child: CustomPaint(
+                        painter: _CircuitBoardBackgroundPainter(
+                          isDark: brightness == Brightness.dark,
+                        ),
                       ),
                     ),
                   ),
-                  const SizedBox(height: 16),
-                  const _SectionTitle(
-                    title: 'Серии техники',
-                    subtitle: 'Выбери машину и переходи к симптомам и схемам.',
-                  ),
-                  const SizedBox(height: 10),
-                  ...catalog.models.map(
-                    (model) => Padding(
-                      padding: const EdgeInsets.only(bottom: 12),
-                      child: _ModelCard(
-                        model: model,
-                        subtitle: _modelSubtitle(model.id),
+                  ListView(
+                    controller: _scrollController,
+                    padding: const EdgeInsets.fromLTRB(16, 12, 16, 20),
+                    children: [
+                      _ActionCard(
+                        icon: Icons.manage_search,
+                        title: 'Поиск',
+                        subtitle: 'Симптомы, коды, датчики',
                         onTap: () => Navigator.push(
                           context,
                           MaterialPageRoute(
-                            builder: (_) => ModelScreen(model: model),
+                            builder: (_) => const GlobalSearchScreen(),
                           ),
                         ),
                       ),
-                    ),
-                  ),
-                  const SizedBox(height: 4),
-                  const _SectionTitle(
-                    title: 'Датчики и калькуляторы',
-                    subtitle: 'Быстрый вход в базу датчиков, RTD/NTC и расчёты.',
-                  ),
-                  const SizedBox(height: 10),
-                  _ActionCard(
-                    icon: Icons.thermostat_outlined,
-                    title: 'Открыть датчики и калькуляторы',
-                    subtitle: 'Справочник датчиков, калькуляция сопротивления и температуры.',
-                    onTap: () => Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                        builder: (_) => const SensorsScreen(),
-                      ),
-                    ),
-                  ),
-                  const SizedBox(height: 12),
-                  const _SectionTitle(
-                    title: 'Коды Ferrit',
-                    subtitle: 'Общий справочник кодов ошибок Ferrit по номеру.',
-                  ),
-                  const SizedBox(height: 10),
-                  _ActionCard(
-                    icon: Icons.confirmation_number_outlined,
-                    title: 'Открыть коды Ferrit',
-                    subtitle: 'Вводи номер (например 21) или листай весь список.',
-                    onTap: () => Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                        builder: (_) => const FerritCodesScreen(),
-                      ),
-                    ),
-                  ),
-                  const SizedBox(height: 12),
-                  const _SectionTitle(
-                    title: 'Коды двигателя',
-                    subtitle: 'Cummins для ПДМ-14/17 и электронной серии.',
-                  ),
-                  const SizedBox(height: 10),
-                  _ActionCard(
-                    icon: Icons.memory_outlined,
-                    title: 'Открыть коды двигателя',
-                    subtitle: 'Поиск по Fault, SPN, FMI и русскому описанию.',
-                    onTap: () => Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                        builder: (_) => const EngineCodesScreen(
-                          modelName: 'ПДМ-14 / ПДМ-17',
+                      const SizedBox(height: 16),
+                      if (showHeaders) ...[
+                        const _SectionTitle(
+                          title: 'Серии техники',
+                          subtitle:
+                              'Выбери машину и переходи к симптомам и схемам.',
+                        ),
+                        const SizedBox(height: 10),
+                      ],
+                      ...catalog.models.map(
+                        (model) => Padding(
+                          padding: const EdgeInsets.only(bottom: 12),
+                          child: _ModelCard(
+                            model: model,
+                            subtitle: _modelSubtitle(model.id),
+                            onTap: () => Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (_) => ModelScreen(model: model),
+                              ),
+                            ),
+                          ),
                         ),
                       ),
-                    ),
-                  ),
-                  const SizedBox(height: 8),
-                  _CompactSymptomSection(
-                    title: 'Последние открытия',
-                    emptyText:
-                        'Здесь появятся последние открытые симптомы и проверки.',
-                    items: recentRefs
-                        .map((ref) => _resolveSymptomCard(catalog, ref))
-                        .whereType<_ResolvedSymptomCard>()
-                        .toList(growable: false),
-                    onClear: recentRefs.isEmpty
-                        ? null
-                        : AppSessionStore.instance.clearRecentSymptoms,
+                      const SizedBox(height: 4),
+                      if (showHeaders) ...[
+                        const _SectionTitle(
+                          title: 'Датчики и калькуляторы',
+                          subtitle:
+                              'Быстрый вход в базу датчиков, RTD/NTC и расчёты.',
+                        ),
+                        const SizedBox(height: 10),
+                      ],
+                      _ActionCard(
+                        icon: Icons.thermostat_outlined,
+                        title: 'Открыть датчики и калькуляторы',
+                        subtitle:
+                            'Справочник датчиков, калькуляция сопротивления и температуры.',
+                        onTap: () => Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (_) => const SensorsScreen(),
+                          ),
+                        ),
+                      ),
+                      const SizedBox(height: 12),
+                      if (showHeaders) ...[
+                        const _SectionTitle(
+                          title: 'Коды Ferrit',
+                          subtitle:
+                              'Общий справочник кодов ошибок Ferrit по номеру.',
+                        ),
+                        const SizedBox(height: 10),
+                      ],
+                      _ActionCard(
+                        icon: Icons.confirmation_number_outlined,
+                        title: 'Открыть коды Ferrit',
+                        subtitle:
+                            'Вводи номер (например 21) или листай весь список.',
+                        onTap: () => Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (_) => const FerritCodesScreen(),
+                          ),
+                        ),
+                      ),
+                      const SizedBox(height: 12),
+                      if (showHeaders) ...[
+                        const _SectionTitle(
+                          title: 'Коды двигателя',
+                          subtitle:
+                              'Cummins для ПДМ-14/17 и электронной серии.',
+                        ),
+                        const SizedBox(height: 10),
+                      ],
+                      _ActionCard(
+                        icon: Icons.memory_outlined,
+                        title: 'Открыть коды двигателя',
+                        subtitle:
+                            'Поиск по Fault, SPN, FMI и русскому описанию.',
+                        onTap: () => Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (_) => const EngineCodesScreen(
+                              modelName: 'ПДМ-14 / ПДМ-17',
+                            ),
+                          ),
+                        ),
+                      ),
+                      const SizedBox(height: 8),
+                      _CompactSymptomSection(
+                        title: 'Последние открытия',
+                        emptyText:
+                            'Здесь появятся последние открытые симптомы и проверки.',
+                        items: recentRefs
+                            .map((ref) => _resolveSymptomCard(catalog, ref))
+                            .whereType<_ResolvedSymptomCard>()
+                            .toList(growable: false),
+                        onClear: recentRefs.isEmpty
+                            ? null
+                            : AppSessionStore.instance.clearRecentSymptoms,
+                      ),
+                    ],
                   ),
                 ],
               );
@@ -217,7 +260,7 @@ class _HomeScreenState extends State<HomeScreen> {
     );
   }
 
-  void _onEmblemTap() {
+  void _onTitleTap() {
     _easterTapCount++;
     _easterTapTimer?.cancel();
     _easterTapTimer = Timer(const Duration(milliseconds: 900), () {
@@ -273,7 +316,6 @@ class _HomeScreenState extends State<HomeScreen> {
       },
     );
   }
-
 }
 
 class _SectionTitle extends StatelessWidget {
@@ -580,92 +622,6 @@ class _ErrorState extends StatelessWidget {
   }
 }
 
-class _AnimatedFerritEmblem extends StatefulWidget {
-  final VoidCallback onTap;
-
-  const _AnimatedFerritEmblem({required this.onTap});
-
-  @override
-  State<_AnimatedFerritEmblem> createState() => _AnimatedFerritEmblemState();
-}
-
-class _AnimatedFerritEmblemState extends State<_AnimatedFerritEmblem>
-    with SingleTickerProviderStateMixin {
-  late final AnimationController _controller;
-
-  @override
-  void initState() {
-    super.initState();
-    _controller = AnimationController(
-      vsync: this,
-      duration: const Duration(milliseconds: 1200),
-    )..repeat(reverse: true);
-  }
-
-  @override
-  void dispose() {
-    _controller.dispose();
-    super.dispose();
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    return GestureDetector(
-      onTap: widget.onTap,
-      child: AnimatedBuilder(
-        animation: _controller,
-        builder: (context, _) {
-          final t = Curves.easeInOut.transform(_controller.value);
-          final bucketAngle = (-0.95 + t * 1.55);
-          final bucketDy = -4.0 + t * 7.0;
-          final bodyDy = (t - 0.5) * 1.6;
-          return SizedBox(
-            width: 38,
-            height: 38,
-            child: Stack(
-              alignment: Alignment.center,
-              children: [
-                Transform.translate(
-                  offset: Offset(0, bodyDy),
-                  child: Icon(
-                    Icons.construction_outlined,
-                    size: 22,
-                    color: Theme.of(context).colorScheme.primary,
-                  ),
-                ),
-                Positioned(
-                  left: 8,
-                  bottom: 10 + bodyDy,
-                  child: Container(
-                    width: 14,
-                    height: 2,
-                    color: Theme.of(context).colorScheme.primary.withValues(alpha: 0.85),
-                  ),
-                ),
-                Positioned(
-                  right: 4,
-                  bottom: 8 + bucketDy + bodyDy,
-                  child: Transform.rotate(
-                    angle: bucketAngle,
-                    child: Container(
-                      width: 12,
-                      height: 7,
-                      decoration: BoxDecoration(
-                        color: Theme.of(context).colorScheme.primary,
-                        borderRadius: BorderRadius.circular(2),
-                      ),
-                    ),
-                  ),
-                ),
-              ],
-            ),
-          );
-        },
-      ),
-    );
-  }
-}
-
 class _HomeData {
   const _HomeData({
     required this.troubleshooting,
@@ -674,4 +630,216 @@ class _HomeData {
 
   final TroubleshootingCatalog troubleshooting;
   final SensorCatalog sensors;
+}
+
+class _SegmentClock extends StatefulWidget {
+  const _SegmentClock();
+
+  @override
+  State<_SegmentClock> createState() => _SegmentClockState();
+}
+
+class _SegmentClockState extends State<_SegmentClock> {
+  late DateTime _now;
+  Timer? _timer;
+
+  @override
+  void initState() {
+    super.initState();
+    _now = DateTime.now();
+    _timer = Timer.periodic(const Duration(seconds: 1), (_) {
+      if (mounted) {
+        setState(() => _now = DateTime.now());
+      }
+    });
+  }
+
+  @override
+  void dispose() {
+    _timer?.cancel();
+    super.dispose();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    final hh = _now.hour.toString().padLeft(2, '0');
+    final mm = _now.minute.toString().padLeft(2, '0');
+    final accent = Theme.of(context).colorScheme.primary;
+    return Container(
+      padding: const EdgeInsets.symmetric(horizontal: 4, vertical: 2),
+      decoration: BoxDecoration(
+        color: Colors.transparent,
+        borderRadius: BorderRadius.circular(10),
+      ),
+      child: Row(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          _SegDigit(value: hh[0], color: accent),
+          const SizedBox(width: 3),
+          _SegDigit(value: hh[1], color: accent),
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 2),
+            child: Text(
+              ':',
+              style: TextStyle(
+                color: accent.withValues(alpha: 0.95),
+                fontWeight: FontWeight.w800,
+                fontSize: 11,
+              ),
+            ),
+          ),
+          _SegDigit(value: mm[0], color: accent),
+          const SizedBox(width: 3),
+          _SegDigit(value: mm[1], color: accent),
+        ],
+      ),
+    );
+  }
+}
+
+class _SegDigit extends StatelessWidget {
+  const _SegDigit({required this.value, required this.color});
+
+  final String value;
+  final Color color;
+
+  @override
+  Widget build(BuildContext context) {
+    return SizedBox(
+      width: 8,
+      height: 13,
+      child: CustomPaint(
+        painter: _SegDigitPainter(value: value, color: color),
+      ),
+    );
+  }
+}
+
+class _SegDigitPainter extends CustomPainter {
+  const _SegDigitPainter({required this.value, required this.color});
+
+  final String value;
+  final Color color;
+
+  static const _map = <String, List<bool>>{
+    '0': [true, true, true, true, true, true, false],
+    '1': [false, true, true, false, false, false, false],
+    '2': [true, true, false, true, true, false, true],
+    '3': [true, true, true, true, false, false, true],
+    '4': [false, true, true, false, false, true, true],
+    '5': [true, false, true, true, false, true, true],
+    '6': [true, false, true, true, true, true, true],
+    '7': [true, true, true, false, false, false, false],
+    '8': [true, true, true, true, true, true, true],
+    '9': [true, true, true, true, false, true, true],
+  };
+
+  @override
+  void paint(Canvas canvas, Size size) {
+    final on = _map[value] ?? _map['0']!;
+    final onPaint = Paint()
+      ..color = color.withValues(alpha: 0.95)
+      ..style = PaintingStyle.fill;
+    final offPaint = Paint()
+      ..color = color.withValues(alpha: 0.14)
+      ..style = PaintingStyle.fill;
+
+    final w = size.width;
+    final h = size.height;
+    final t = math.max(1.6, w * 0.22);
+
+    final seg = <RRect>[
+      RRect.fromRectAndRadius(
+          Rect.fromLTWH(t, 0, w - 2 * t, t), const Radius.circular(1.2)),
+      RRect.fromRectAndRadius(
+          Rect.fromLTWH(w - t, t, t, h / 2 - t), const Radius.circular(1.2)),
+      RRect.fromRectAndRadius(Rect.fromLTWH(w - t, h / 2, t, h / 2 - t),
+          const Radius.circular(1.2)),
+      RRect.fromRectAndRadius(
+          Rect.fromLTWH(t, h - t, w - 2 * t, t), const Radius.circular(1.2)),
+      RRect.fromRectAndRadius(
+          Rect.fromLTWH(0, h / 2, t, h / 2 - t), const Radius.circular(1.2)),
+      RRect.fromRectAndRadius(
+          Rect.fromLTWH(0, t, t, h / 2 - t), const Radius.circular(1.2)),
+      RRect.fromRectAndRadius(
+        Rect.fromLTWH(t, h / 2 - t / 2, w - 2 * t, t),
+        const Radius.circular(1.2),
+      ),
+    ];
+
+    for (var i = 0; i < seg.length; i++) {
+      canvas.drawRRect(seg[i], on[i] ? onPaint : offPaint);
+    }
+  }
+
+  @override
+  bool shouldRepaint(covariant _SegDigitPainter oldDelegate) {
+    return oldDelegate.value != value || oldDelegate.color != color;
+  }
+}
+
+class _CircuitBoardBackgroundPainter extends CustomPainter {
+  const _CircuitBoardBackgroundPainter({required this.isDark});
+
+  final bool isDark;
+
+  @override
+  void paint(Canvas canvas, Size size) {
+    final linePaint = Paint()
+      ..color = (isDark ? const Color(0xFF6F7B89) : const Color(0xFF8B755F))
+          .withValues(alpha: isDark ? 0.12 : 0.1)
+      ..style = PaintingStyle.stroke
+      ..strokeWidth = 1.2;
+
+    final padPaint = Paint()
+      ..color = (isDark ? const Color(0xFFFF8A3D) : const Color(0xFFD46A1E))
+          .withValues(alpha: isDark ? 0.1 : 0.08)
+      ..style = PaintingStyle.fill;
+
+    final path1 = Path()
+      ..moveTo(size.width * 0.05, size.height * 0.18)
+      ..lineTo(size.width * 0.38, size.height * 0.18)
+      ..lineTo(size.width * 0.38, size.height * 0.12)
+      ..lineTo(size.width * 0.72, size.height * 0.12)
+      ..lineTo(size.width * 0.72, size.height * 0.28)
+      ..lineTo(size.width * 0.94, size.height * 0.28);
+    canvas.drawPath(path1, linePaint);
+
+    final path2 = Path()
+      ..moveTo(size.width * 0.08, size.height * 0.52)
+      ..lineTo(size.width * 0.3, size.height * 0.52)
+      ..lineTo(size.width * 0.3, size.height * 0.46)
+      ..lineTo(size.width * 0.55, size.height * 0.46)
+      ..lineTo(size.width * 0.55, size.height * 0.62)
+      ..lineTo(size.width * 0.88, size.height * 0.62);
+    canvas.drawPath(path2, linePaint);
+
+    final path3 = Path()
+      ..moveTo(size.width * 0.16, size.height * 0.84)
+      ..lineTo(size.width * 0.4, size.height * 0.84)
+      ..lineTo(size.width * 0.4, size.height * 0.76)
+      ..lineTo(size.width * 0.82, size.height * 0.76);
+    canvas.drawPath(path3, linePaint);
+
+    final points = <Offset>[
+      Offset(size.width * 0.38, size.height * 0.18),
+      Offset(size.width * 0.72, size.height * 0.12),
+      Offset(size.width * 0.72, size.height * 0.28),
+      Offset(size.width * 0.3, size.height * 0.52),
+      Offset(size.width * 0.55, size.height * 0.46),
+      Offset(size.width * 0.55, size.height * 0.62),
+      Offset(size.width * 0.4, size.height * 0.84),
+      Offset(size.width * 0.4, size.height * 0.76),
+    ];
+
+    for (final point in points) {
+      canvas.drawCircle(point, 4.2, padPaint);
+      canvas.drawCircle(point, 2.2, linePaint);
+    }
+  }
+
+  @override
+  bool shouldRepaint(covariant _CircuitBoardBackgroundPainter oldDelegate) {
+    return oldDelegate.isDark != isDark;
+  }
 }

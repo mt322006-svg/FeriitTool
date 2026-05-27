@@ -65,6 +65,31 @@ class _SettingsScreenState extends State<SettingsScreen> {
               ),
               const SizedBox(height: 12),
               _SettingsSection(
+                title: 'Главный экран',
+                subtitle: 'Управление плотностью интерфейса на старте.',
+                children: [
+                  SwitchListTile.adaptive(
+                    value: settings.showSectionHeaders,
+                    onChanged: settings.setShowSectionHeaders,
+                    contentPadding: EdgeInsets.zero,
+                    title: const Text('Показывать заголовки разделов'),
+                    subtitle: const Text(
+                      'Если выключить, на главной останутся только рабочие кнопки без заголовков-блоков.',
+                    ),
+                  ),
+                  SwitchListTile.adaptive(
+                    value: settings.showSegmentClock,
+                    onChanged: settings.setShowSegmentClock,
+                    contentPadding: EdgeInsets.zero,
+                    title: const Text('Показывать сегментные часы'),
+                    subtitle: const Text(
+                      'Небольшие HH:MM часы в стиле приборной панели в AppBar.',
+                    ),
+                  ),
+                ],
+              ),
+              const SizedBox(height: 12),
+              _SettingsSection(
                 title: 'Тема',
                 subtitle: 'Переключение внешнего вида приложения.',
                 children: [

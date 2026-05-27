@@ -1,7 +1,7 @@
 name: ferrit_tool
-description: Твой Ferrrit - offline troubleshooting + wiring diagrams
+description: Твой Ferrrit - premium offline toolkit for Ferrit service engineers
 publish_to: "none"
-version: 3.0.1+9
+version: 3.1.0+10
 
 environment:
   sdk: ">=3.3.0 <4.0.0"

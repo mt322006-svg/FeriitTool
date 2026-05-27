@@ -30,6 +30,7 @@ class FerritToolApp extends StatelessWidget {
           theme: buildLightAppTheme(),
           darkTheme: buildDarkAppTheme(),
           themeMode: themeMode,
+          scrollBehavior: const _PremiumScrollBehavior(),
           builder: (context, child) {
             final media = MediaQuery.of(context);
             return MediaQuery(
@@ -43,5 +44,14 @@ class FerritToolApp extends StatelessWidget {
         );
       },
     );
+  }
+}
+
+class _PremiumScrollBehavior extends MaterialScrollBehavior {
+  const _PremiumScrollBehavior();
+
+  @override
+  ScrollPhysics getScrollPhysics(BuildContext context) {
+    return const BouncingScrollPhysics(parent: AlwaysScrollableScrollPhysics());
   }
 }
